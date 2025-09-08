@@ -1,0 +1,2 @@
+console.log("bluehub theme loaded");document.documentElement.lang='fa';document.documentElement.dir='rtl';
+(()=>{const l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap';document.head.appendChild(l);document.documentElement.lang='fa';document.documentElement.dir='rtl';document.body.style.fontFamily='Vazirmatn,system-ui,-apple-system,Segoe UI,Roboto,Noto Sans Arabic,sans-serif';})();

@@ -1,0 +1,5 @@
+:root{--primary:#00C2FF;--bg:#0A0F14;--border:#1e2936}
+html[dir="rtl"] body{direction:rtl;text-align:right}
+.navbar,.page-head{background:rgba(12,17,24,.7)!important;border-bottom:1px solid var(--border)!important;backdrop-filter:blur(6px)}
+.btn-primary{background:var(--primary)!important;border-color:var(--primary)!important}
+body{background:linear-gradient(180deg,#0A0F14,#0c1219 30%,#0b1118 100%)!important;color:#e6f3ff!important}
