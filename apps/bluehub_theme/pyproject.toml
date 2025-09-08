@@ -1,0 +1,16 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "bluehub_theme"
+authors = [{name="BlueHub", email="sarmad.afzali@gmail.com"}]
+description = "Theme and console for BlueHub"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "license.txt"}
+dependencies = ["frappe~=15.0"]
+dynamic = ["version"]
+
+[tool.flit.module]
+name = "bluehub_theme"

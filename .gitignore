@@ -1,0 +1,11 @@
+env/
+*.pyc
+__pycache__/
+logs/
+*.log
+node_modules/
+sites/*/private/
+sites/*/backups/
+sites/*/locks/
+sites/*/site_config.json
+sites/assets/

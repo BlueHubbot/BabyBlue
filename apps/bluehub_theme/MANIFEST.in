@@ -1,0 +1,6 @@
+include MANIFEST.in
+include *.txt
+include *.md
+recursive-include bluehub_theme *.py
+recursive-include bluehub_theme *.json *.md *.txt *.css *.scss *.js *.html *.svg *.png *.jpg
+exclude *.pyc
