@@ -1,86 +1,50 @@
 #!/usr/bin/env bash
 set -euo pipefail
-[ "$(id -u)" -eq 0 ] || { echo "Run as root"; exit 1; }
-
-DOMAIN="${DOMAIN:?set DOMAIN}"        # مثلا blue.nawpa.ir
-EMAIL="${EMAIL:-admin@${DOMAIN#*.}}"
-ADMIN_PW="${ADMIN_PW:-adminpass123}"
-DB_ROOT_PW="${DB_ROOT_PW:-root}"
-
-BENCH_HOME="/home/frappe/frappe-bench"
-B="/home/frappe/.local/bin/bench"
-
-export NODE_OPTIONS="--max-old-space-size=4096"
-
-# bench init (اگر نیست)
-if [ ! -d "$BENCH_HOME" ]; then
-  su - frappe -s /bin/bash -lc "mkdir -p ~/; $B init --skip-redis-config-generation frappe-bench"
+: "${DOMAIN:?}"; : "${EMAIL:?}"; : "${ADMIN_PW:?}"; : "${DB_ROOT_PW:?}"
+DOCS_DOMAIN="${DOCS_DOMAIN:-}"
+FRAPPE_BRANCH="${FRAPPE_BRANCH:-version-15}"
+ERPNEXT_BRANCH="${ERPNEXT_BRANCH:-version-15}"
+HRMS_BRANCH="${HRMS_BRANCH:-version-15}"
+INSTALL_HRMS="${INSTALL_HRMS:-0}"
+as_frappe(){ su - frappe -c "$*"; }
+if [ ! -d /home/frappe/frappe-bench ]; then
+  as_frappe "bench init --frappe-branch ${FRAPPE_BRANCH} frappe-bench"
 fi
-
-cd "$BENCH_HOME"
-
-# اپ‌ها
-su - frappe -s /bin/bash -lc "cd $BENCH_HOME && $B get-app --branch version-15 erpnext https://github.com/frappe/erpnext.git || true"
-su - frappe -s /bin/bash -lc "cd $BENCH_HOME && $B get-app --branch version-15 hrms https://github.com/frappe/hrms || true"
-
-# سایت
-if [ ! -d "$BENCH_HOME/sites/$DOMAIN" ]; then
-  su - frappe -s /bin/bash -lc "cd $BENCH_HOME && $B new-site $DOMAIN --mariadb-root-username root --mariadb-root-password '$DB_ROOT_PW' --admin-password '$ADMIN_PW' --no-migrate"
+as_frappe "cd ~/frappe-bench && (bench ls-apps | grep -qi erpnext || bench get-app --branch ${ERPNEXT_BRANCH} erpnext)"
+if [ "$INSTALL_HRMS" = "1" ]; then
+  as_frappe "cd ~/frappe-bench && (bench ls-apps | grep -qi hrms || bench get-app --branch ${HRMS_BRANCH} hrms)"
 fi
-
-# نصب اپ‌ها روی سایت
-su - frappe -s /bin/bash -lc "cd $BENCH_HOME && $B --site '$DOMAIN' install-app erpnext || true"
-su - frappe -s /bin/bash -lc "cd $BENCH_HOME && $B --site '$DOMAIN' install-app hrms || true"
-
-# ریکاوری (اختیاری)
-RESTORE_DIR="/home/frappe/restore"
-DB_URL="${DB_URL:-}"; PUB_URL="${PUB_URL:-}"; PRIV_URL="${PRIV_URL:-}"; BACKUP_PASS="${BACKUP_PASS:-}"
-if [ -n "$DB_URL" ]; then
-  install -d -o frappe -g frappe "$RESTORE_DIR"
-  su - frappe -s /bin/bash -lc "cd $RESTORE_DIR && curl -fsSL '$DB_URL' -o db.enc && openssl enc -d -aes-256-cbc -pbkdf2 -in db.enc -out db.sql.gz -pass env:BACKUP_PASS"
-  [ -n "$PUB_URL" ]  && su - frappe -s /bin/bash -lc "cd $RESTORE_DIR && curl -fsSL '$PUB_URL'  -o files.enc && openssl enc -d -aes-256-cbc -pbkdf2 -in files.enc -out files.tar -pass env:BACKUP_PASS" || true
-  [ -n "$PRIV_URL" ] && su - frappe -s /bin/bash -lc "cd $RESTORE_DIR && curl -fsSL '$PRIV_URL' -o pfiles.enc && openssl enc -d -aes-256-cbc -pbkdf2 -in pfiles.enc -out pfiles.tar -pass env:BACKUP_PASS" || true
-  su - frappe -s /bin/bash -lc "cd $BENCH_HOME && BACKUP_PASS='$BACKUP_PASS' $B --site '$DOMAIN' restore $RESTORE_DIR/db.sql.gz --force"
+if ! as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} version" >/dev/null 2>&1; then
+  as_frappe "cd ~/frappe-bench && bench new-site ${DOMAIN} --admin-password '${ADMIN_PW}' --mariadb-root-password '${DB_ROOT_PW}' --no-mariadb-socket"
 fi
-
-# build و migrate
-su - frappe -s /bin/bash -lc "cd $BENCH_HOME && $B build --apps erpnext hrms"
-su - frappe -s /bin/bash -lc "cd $BENCH_HOME && $B --site '$DOMAIN' migrate"
-
-# کانفیگ سایت
-su - frappe -s /bin/bash -lc "cd $BENCH_HOME && $B --site '$DOMAIN' set-config host_name https://$DOMAIN && $B --site '$DOMAIN' enable-scheduler && $B --site '$DOMAIN' clear-cache && $B --site '$DOMAIN' clear-website-cache"
-
-# Nginx + Supervisor (بدون فرمت لاگ main)
-su - frappe -s /bin/bash -lc "cd $BENCH_HOME && $B setup supervisor"
-install -m 0644 "$BENCH_HOME/config/supervisor.conf" /etc/supervisor/conf.d/frappe-bench.conf
-supervisorctl reread; supervisorctl update || true
-
-su - frappe -s /bin/bash -lc "cd $BENCH_HOME && $B setup nginx"
-sed -i 's/ access_log \([^;]*\) main;/ access_log \1;/' "$BENCH_HOME/config/nginx.conf" || true
-install -m 0644 "$BENCH_HOME/config/nginx.conf" /etc/nginx/conf.d/frappe-bench.conf
+as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} list-apps | grep -qi erpnext || bench --site ${DOMAIN} install-app erpnext"
+if [ "$INSTALL_HRMS" = "1" ]; then
+  as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} list-apps | grep -qi hrms || bench --site ${DOMAIN} install-app hrms"
+fi
+as_frappe "cd ~/frappe-bench && bench build"
+as_frappe "cd ~/frappe-bench && bench setup production frappe"
+systemctl enable --now supervisor nginx
+certbot --nginx -d "${DOMAIN}" -m "${EMAIL}" --agree-tos --redirect -n || true
+if [ -n "${DOCS_DOMAIN}" ]; then
+  certbot --nginx -d "${DOCS_DOMAIN}" -m "${EMAIL}" --agree-tos --redirect -n || true
+  sed -i '/server_name .*'"${DOCS_DOMAIN}"'.*/a \\tadd_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;' \
+    "/etc/nginx/sites-available/docs-${DOCS_DOMAIN}.conf" || true
+fi
 nginx -t && systemctl reload nginx
-
-# HTTPS
-if command -v certbot >/dev/null 2>&1; then
-  certbot --nginx -d "$DOMAIN" -m "$EMAIL" -n --agree-tos --redirect || true
-  nginx -t && systemctl reload nginx || true
+if [ -n "${DB_URL:-}" ] || [ -n "${PUB_URL:-}" ] || [ -n "${PRIV_URL:-}" ]; then
+  install -d -o frappe -g frappe /home/frappe/restore
+  [ -n "${DB_URL:-}"  ] && curl -fsSL "$DB_URL"  -o /home/frappe/restore/db.sql.gz
+  [ -n "${PUB_URL:-}" ] && curl -fsSL "$PUB_URL" -o /home/frappe/restore/public_files.tar.gz
+  [ -n "${PRIV_URL:-}" ] && curl -fsSL "$PRIV_URL" -o /home/frappe/restore/private_files.tar.gz
+  chown -R frappe:frappe /home/frappe/restore
+  if [ -n "${BACKUP_PASS:-}" ]; then
+    for f in /home/frappe/restore/*.enc 2>/dev/null; do [ -e "$f" ] || break
+      openssl enc -d -aes-256-cbc -pbkdf2 -in "$f" -out "${f%.enc}" -pass pass:"$BACKUP_PASS"; rm -f "$f"
+    done
+  fi
+  as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} restore /home/frappe/restore/db.sql.gz --mariadb-root-password '${DB_ROOT_PW}' --force" || true
+  as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} migrate" || true
+  [ -f /home/frappe/restore/public_files.tar.gz ]  && as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} import-files /home/frappe/restore/public_files.tar.gz"
+  [ -f /home/frappe/restore/private_files.tar.gz ] && as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} import-files /home/frappe/restore/private_files.tar.gz --private"
 fi
-
-# logrotate
-cat >/etc/logrotate.d/frappe-bench <<'LR'
-/home/frappe/frappe-bench/logs/*.log {
-  daily
-  rotate 14
-  missingok
-  notifempty
-  compress
-  delaycompress
-  copytruncate
-}
-LR
-chmod 0644 /etc/logrotate.d/frappe-bench
-
-# ری‌استارت سرویس‌های بنچ
-supervisorctl restart all || true
-
-echo "OK: ERPNext at https://${DOMAIN}"
+echo "[✓] erpnext OK"

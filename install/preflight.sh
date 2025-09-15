@@ -1,35 +1,43 @@
 #!/usr/bin/env bash
 set -euo pipefail
-[ "$(id -u)" -eq 0 ] || exec sudo -E bash "$0" "$@"
-
-# Swap (۲ گیگ) برای جلوگیری از OOM در build
-if ! grep -q "swapfile" /etc/fstab; then
+: "${DOMAIN:?}"; : "${EMAIL:?}"; : "${DB_ROOT_PW:?}"
+apt(){ DEBIAN_FRONTEND=noninteractive apt-get -y "$@"; }
+apt update
+apt install curl wget ca-certificates gnupg lsb-release software-properties-common sudo unzip tar jq \
+  git locales tzdata build-essential python3 python3-venv python3-pip pipx python3-dev gettext-base \
+  libffi-dev libssl-dev libjpeg62-turbo-dev zlib1g-dev libfreetype6-dev liblcms2-dev libwebp-dev \
+  libpq-dev libmariadb-dev mariadb-server redis-server nginx certbot python3-certbot-nginx wkhtmltopdf
+if ! swapon --show | grep -q '^'; then
   fallocate -l 2G /swapfile || dd if=/dev/zero of=/swapfile bs=1M count=2048
-  chmod 600 /swapfile; mkswap /swapfile; swapon /swapfile
-  echo "/swapfile swap swap defaults 0 0" >> /etc/fstab
+  chmod 600 /swapfile; mkswap /swapfile >/dev/null; swapon /swapfile
+  grep -q '/swapfile' /etc/fstab || echo '/swapfile none swap sw 0 0' >> /etc/fstab
 fi
-
-apt-get update -y
-DEBIAN_FRONTEND=noninteractive apt-get install -y \
-  sudo curl git ca-certificates lsb-release tzdata locales \
-  supervisor redis-server mariadb-server mariadb-client libmariadb-dev pkg-config \
-  python3-venv python3-dev pipx \
-  nodejs npm yarnpkg \
-  nginx certbot python3-certbot-nginx wkhtmltopdf xz-utils
-
-# اطمینان از وجود yarn
-ln -sf /usr/bin/yarnpkg /usr/local/bin/yarn
-
-systemctl enable --now supervisor redis-server mariadb nginx
-
-# کاربر frappe
-if ! id -u frappe >/dev/null 2>&1; then
-  adduser --disabled-password --gecos "" frappe
+if ! command -v node >/dev/null || ! node -v | grep -q '^v18'; then
+  curl -fsSL https://deb.nodesource.com/setup_18.x | bash - >/dev/null
+  apt install nodejs
 fi
-
-# bench via pipx (برای کاربر frappe)
-su - frappe -s /bin/bash -lc 'pipx ensurepath >/dev/null 2>&1 || true; pipx install --force frappe-bench'
-
-# تنظیم MariaDB root password (برای دسترسی بنچ از یوزر frappe)
-DB_ROOT_PW="${DB_ROOT_PW:-root}"
+npm -g ls yarn >/dev/null 2>&1 || npm i -g yarn >/dev/null
+id -u frappe >/dev/null 2>&1 || useradd -m -s /bin/bash frappe
+usermod -aG sudo frappe || true
+echo 'frappe ALL=(ALL) NOPASSWD:ALL' >/etc/sudoers.d/frappe
+install -d -o frappe -g frappe /home/frappe/.local/bin
+grep -q '.local/bin' /home/frappe/.profile || echo 'export PATH="$HOME/.local/bin:$PATH"' >> /home/frappe/.profile
+grep -q '.local/bin' /home/frappe/.bashrc   || echo 'export PATH="$HOME/.local/bin:$PATH"' >> /home/frappe/.bashrc
+su - frappe -c 'pipx ensurepath >/dev/null 2>&1 || true'
+su - frappe -c 'pipx list | grep -q frappe-bench || pipx install frappe-bench >/dev/null'
+cat >/etc/mysql/mariadb.conf.d/99-erpnext.cnf <<'CNF'
+[mysqld]
+character-set-server = utf8mb4
+collation-server     = utf8mb4_unicode_ci
+innodb-file-per-table = 1
+max_allowed_packet = 64M
+sql-mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+CNF
+systemctl restart mariadb
+mysql -uroot -e "SELECT 1" >/dev/null 2>&1 && \
 mysql -uroot -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PW}'; FLUSH PRIVILEGES;" || true
+sed -i 's/^\s*log_format\smain/# &/g' /etc/nginx/nginx.conf || true
+rm -f /etc/nginx/sites-enabled/default || true
+nginx -t >/dev/null && systemctl enable --now nginx
+systemctl enable --now redis-server
+echo "[✓] preflight OK"
