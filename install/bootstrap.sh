@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
-set -Eeuo pipefail
-BRANCH="${BRANCH:-clean}"
-RAW="https://raw.githubusercontent.com/BlueHubbot/BabyBlue/${BRANCH}/install/full.sh"
-if [[ -f "$(dirname "$0")/full.sh" ]]; then
-  exec bash "$(dirname "$0")/full.sh" "$@"
+set -euo pipefail
+[ "$(id -u)" -eq 0 ] || exec sudo -E bash "$0" "$@"
+
+# 1) الزامات سیستم (Supervisor/Redis/Nginx/bench/pipx/…)
+bash "$(dirname "$0")/preflight.sh"
+
+# 2) مستندات: اگر DOCS_DOMAIN ست شده باشد، بساز/تنظیم کن
+if [ -n "${DOCS_DOMAIN:-}" ]; then
+  bash "$(dirname "$0")/docs.sh"
 else
-  curl -fsSL "$RAW" | bash -s -- "$@"
+  echo "SKIP docs (set DOCS_DOMAIN to enable)"
 fi
+
+echo "Preflight + Docs done. Next step: add full ERPNext install/restore steps here."
