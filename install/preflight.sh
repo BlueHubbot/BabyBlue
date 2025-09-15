@@ -21,6 +21,7 @@ id -u frappe >/dev/null 2>&1 || useradd -m -s /bin/bash frappe
 usermod -aG sudo frappe || true
 echo 'frappe ALL=(ALL) NOPASSWD:ALL' >/etc/sudoers.d/frappe
 install -d -o frappe -g frappe /home/frappe/.local/bin
+install -d -o frappe -g frappe /home/frappe/.local/pipx
 grep -q '.local/bin' /home/frappe/.profile || echo 'export PATH="$HOME/.local/bin:$PATH"' >> /home/frappe/.profile
 grep -q '.local/bin' /home/frappe/.bashrc   || echo 'export PATH="$HOME/.local/bin:$PATH"' >> /home/frappe/.bashrc
 su - frappe -c 'pipx ensurepath >/dev/null 2>&1 || true'
