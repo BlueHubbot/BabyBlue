@@ -28,7 +28,7 @@ if ! id -u frappe >/dev/null 2>&1; then
 fi
 
 # bench via pipx (برای کاربر frappe)
-su - frappe -s /bin/bash -lc 'pipx ensurepath >/dev/null 2>&1 || true; pipx install -q --force frappe-bench'
+su - frappe -s /bin/bash -lc 'pipx ensurepath >/dev/null 2>&1 || true; pipx install --force frappe-bench'
 
 # تنظیم MariaDB root password (برای دسترسی بنچ از یوزر frappe)
 DB_ROOT_PW="${DB_ROOT_PW:-root}"
