@@ -22,7 +22,7 @@ if [ "$INSTALL_HRMS" = "1" ]; then
   as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} list-apps | grep -qi hrms || bench --site ${DOMAIN} install-app hrms"
 fi
 as_frappe "cd ~/frappe-bench && bench build"
-as_frappe "cd ~/frappe-bench && bench setup production frappe"
+sudo -H bash -lc 'export PATH=/home/frappe/.local/bin:$PATH; cd /home/frappe/frappe-bench; bench setup production frappe'
 systemctl enable --now supervisor nginx
 certbot --nginx -d "${DOMAIN}" -m "${EMAIL}" --agree-tos --redirect -n || true
 if [ -n "${DOCS_DOMAIN}" ]; then
