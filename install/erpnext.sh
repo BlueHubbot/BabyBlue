@@ -47,4 +47,6 @@ if [ -n "${DB_URL:-}" ] || [ -n "${PUB_URL:-}" ] || [ -n "${PRIV_URL:-}" ]; then
   [ -f /home/frappe/restore/public_files.tar.gz ]  && as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} import-files /home/frappe/restore/public_files.tar.gz"
   [ -f /home/frappe/restore/private_files.tar.gz ] && as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} import-files /home/frappe/restore/private_files.tar.gz --private"
 fi
+as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} enable-scheduler" || true
+as_frappe "cd ~/frappe-bench && bench restart"
 echo "[✓] erpnext OK"
