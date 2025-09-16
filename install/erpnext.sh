@@ -43,3 +43,4 @@ sudo nginx -t && sudo systemctl reload nginx || true
 as_f "cd ~/frappe-bench && bench --site ${DOMAIN} enable-scheduler" || true
 as_f "cd ~/frappe-bench && bench restart"
 echo "[✓] erpnext OK"
+cat "$ROOT/install/nginx/upstreams.tpl" > /etc/nginx/conf.d/frappe-bench-upstreams.conf || true
