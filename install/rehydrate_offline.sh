@@ -64,12 +64,14 @@ else
   su - frappe -c "cd ~/frappe-bench; yes | bench setup nginx"
 fi
 nginx -t && systemctl reload nginx
+bash "$ROOT/install/ssl_auto.sh" || true
 
 # TLS fallback (pure repo path = snakeoil; real cert = جداگانه)
 apt-get install -y ssl-cert
 sed -i "s|ssl_certificate .*|ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;|g" /etc/nginx/conf.d/frappe-bench.conf || true
 sed -i "s|ssl_certificate_key .*|ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;|g" /etc/nginx/conf.d/frappe-bench.conf || true
 nginx -t && systemctl reload nginx
+bash "$ROOT/install/ssl_auto.sh" || true
 
 # finalize
 su - frappe -c "cd ~/frappe-bench; bench build --force || true; bench restart; bench --site ${DOMAIN} enable-scheduler || true"
