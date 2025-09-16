@@ -6,7 +6,7 @@ apt update
 apt install curl wget ca-certificates gnupg lsb-release software-properties-common sudo unzip tar jq \
   git locales tzdata build-essential python3 python3-venv python3-pip pipx python3-dev gettext-base \
   libffi-dev libssl-dev libjpeg62-turbo-dev zlib1g-dev libfreetype6-dev liblcms2-dev libwebp-dev \
-  libpq-dev libmariadb-dev mariadb-server redis-server nginx certbot python3-certbot-nginx wkhtmltopdf
+  libpq-dev libmariadb-dev mariadb-server redis-server nginx certbot python3-certbot-nginx wkhtmltopdf ansible ansible-core
 
 # swap 2G
 if ! swapon --show | grep -q '^'; then
