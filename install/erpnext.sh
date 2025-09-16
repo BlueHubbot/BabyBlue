@@ -16,6 +16,7 @@ as_f "cd ~/frappe-bench && [ ! -d apps/erpnext ] && bench get-app --branch ${ERP
 as_f "cd ~/frappe-bench && bench --site ${DOMAIN} version" >/dev/null 2>&1 \
 || as_f "cd ~/frappe-bench && bench new-site ${DOMAIN} --admin-password '${ADMIN_PW}' --mariadb-root-password '${DB_ROOT_PW}' --no-mariadb-socket"
 as_f "cd ~/frappe-bench && bench use ${DOMAIN}"
+as_f "cd ~/frappe-bench && bench set-config -g default_site ${DOMAIN}"
 
 # install apps
 as_f "cd ~/frappe-bench && bench --site ${DOMAIN} list-apps | grep -qi erpnext || bench --site ${DOMAIN} install-app erpnext"
