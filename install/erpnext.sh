@@ -1,75 +1,45 @@
 #!/usr/bin/env bash
 set -euo pipefail
 : "${DOMAIN:?}"; : "${EMAIL:?}"; : "${ADMIN_PW:?}"; : "${DB_ROOT_PW:?}"
-DOCS_DOMAIN="${DOCS_DOMAIN:-}"
-FRAPPE_BRANCH="${FRAPPE_BRANCH:-version-15}"
-ERPNEXT_BRANCH="${ERPNEXT_BRANCH:-version-15}"
-HRMS_BRANCH="${HRMS_BRANCH:-version-15}"
-INSTALL_HRMS="${INSTALL_HRMS:-0}"
-as_frappe(){ su - frappe -c "$*"; }
+DOCS_DOMAIN="${DOCS_DOMAIN:-}"; FRAPPE_BRANCH="${FRAPPE_BRANCH:-version-15}"; ERPNEXT_BRANCH="${ERPNEXT_BRANCH:-version-15}"
+HRMS_BRANCH="${HRMS_BRANCH:-version-15}"; INSTALL_HRMS="${INSTALL_HRMS:-0}"
+as_f(){ su - frappe -c "$*"; }
 
 # bench init
-[ -d /home/frappe/frappe-bench ] || as_frappe "bench init --frappe-branch ${FRAPPE_BRANCH} frappe-bench"
+[ -d /home/frappe/frappe-bench ] || as_f "bench init --frappe-branch ${FRAPPE_BRANCH} frappe-bench"
 
-# apps
-as_frappe "cd ~/frappe-bench && [ ! -d apps/erpnext ] && bench get-app --branch ${ERPNEXT_BRANCH} erpnext"
-if [ "$INSTALL_HRMS" = "1" ]; then
-  as_frappe "cd ~/frappe-bench && [ ! -d apps/hrms ] && bench get-app --branch ${HRMS_BRANCH} hrms"
-fi
+# get-apps (skip if dir exists)
+as_f "cd ~/frappe-bench && [ ! -d apps/erpnext ] && bench get-app --branch ${ERPNEXT_BRANCH} erpnext || true"
+[ "$INSTALL_HRMS" = "1" ] && as_f "cd ~/frappe-bench && [ ! -d apps/hrms ] && bench get-app --branch ${HRMS_BRANCH} hrms || true"
 
-# site ensure + set current
-as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} version" >/dev/null 2>&1 \
-|| as_frappe "cd ~/frappe-bench && bench new-site ${DOMAIN} --admin-password '${ADMIN_PW}' --mariadb-root-password '${DB_ROOT_PW}' --no-mariadb-socket"
-as_frappe "cd ~/frappe-bench && printf '%s\n' ${DOMAIN} > sites/currentsite.txt"
+# site ensure + current
+as_f "cd ~/frappe-bench && bench --site ${DOMAIN} version" >/dev/null 2>&1 \
+|| as_f "cd ~/frappe-bench && bench new-site ${DOMAIN} --admin-password '${ADMIN_PW}' --mariadb-root-password '${DB_ROOT_PW}' --no-mariadb-socket"
+as_f "cd ~/frappe-bench && printf '%s\n' ${DOMAIN} > sites/currentsite.txt"
 
 # install apps
-as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} list-apps | grep -qi erpnext || bench --site ${DOMAIN} install-app erpnext"
-if [ "$INSTALL_HRMS" = "1" ]; then
-  as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} list-apps | grep -qi hrms || bench --site ${DOMAIN} install-app hrms"
-fi
+as_f "cd ~/frappe-bench && bench --site ${DOMAIN} list-apps | grep -qi erpnext || bench --site ${DOMAIN} install-app erpnext"
+[ "$INSTALL_HRMS" = "1" ] && as_f "cd ~/frappe-bench && bench --site ${DOMAIN} list-apps | grep -qi hrms || bench --site ${DOMAIN} install-app hrms"
 
-# build + production
-as_frappe "cd ~/frappe-bench && bench build"
-sudo -H bash -lc 'export PATH=/home/frappe/.local/bin:$PATH; cd /home/frappe/frappe-bench; bench setup production frappe'
-systemctl enable --now supervisor nginx
+# build
+as_f "cd ~/frappe-bench && bench build"
 
-# SSL + HSTS
-certbot --nginx -d "${DOMAIN}" -m "${EMAIL}" --agree-tos --redirect -n || true
+# production (non-interactive) + fallbacks
+su - frappe -c 'pipx runpip frappe-bench install -U "ansible==12.*"' || true
+sudo -H bash -lc 'export PATH=/home/frappe/.local/bin:$PATH; cd /home/frappe/frappe-bench; yes | bench setup production frappe || true; bench setup supervisor || true; bench setup nginx || true'
+ln -sf /home/frappe/frappe-bench/config/supervisor.conf /etc/supervisor/conf.d/frappe-bench.conf || true
+systemctl enable --now supervisor nginx || true
+supervisorctl reread || true && supervisorctl update || true
+
+# host_name + SSL
+as_f "cd ~/frappe-bench && bench --site ${DOMAIN} set-config host_name https://${DOMAIN}"
+sudo certbot --nginx -d "${DOMAIN}" -m "${EMAIL}" --agree-tos --redirect -n || true
 if [ -n "${DOCS_DOMAIN}" ]; then
-  certbot --nginx -d "${DOCS_DOMAIN}" -m "${EMAIL}" --agree-tos --redirect -n || true
-  sed -i '/server_name .*'"${DOCS_DOMAIN}"'.*/a \\tadd_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;' \
-    "/etc/nginx/sites-available/docs-${DOCS_DOMAIN}.conf" || true
+  sudo certbot --nginx -d "${DOCS_DOMAIN}" -m "${EMAIL}" --agree-tos --redirect -n || true
 fi
-nginx -t && systemctl reload nginx
-
-# optional restore
-if [ -n "${DB_URL:-}" ] || [ -n "${PUB_URL:-}" ] || [ -n "${PRIV_URL:-}" ]; then
-  install -d -o frappe -g frappe /home/frappe/restore
-  [ -n "${DB_URL:-}"  ] && curl -fsSL "$DB_URL"  -o /home/frappe/restore/db.sql.gz
-  [ -n "${PUB_URL:-}" ] && curl -fsSL "$PUB_URL" -o /home/frappe/restore/public_files.tar.gz
-  [ -n "${PRIV_URL:-}" ] && curl -fsSL "$PRIV_URL" -o /home/frappe/restore/private_files.tar.gz
-  chown -R frappe:frappe /home/frappe/restore
-  if [ -n "${BACKUP_PASS:-}" ]; then
-    for f in /home/frappe/restore/*.enc 2>/dev/null; do [ -e "$f" ] || break
-      openssl enc -d -aes-256-cbc -pbkdf2 -in "$f" -out "${f%.enc}" -pass pass:"$BACKUP_PASS"; rm -f "$f"
-    done
-  fi
-  as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} restore /home/frappe/restore/db.sql.gz --mariadb-root-password '${DB_ROOT_PW}' --force" || true
-  as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} migrate" || true
-  [ -f /home/frappe/restore/public_files.tar.gz  ] && as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} import-files /home/frappe/restore/public_files.tar.gz"
-  [ -f /home/frappe/restore/private_files.tar.gz ] && as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} import-files /home/frappe/restore/private_files.tar.gz --private"
-fi
+sudo nginx -t && sudo systemctl reload nginx || true
 
 # finalize
-as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} enable-scheduler" || true
-as_frappe "cd ~/frappe-bench && bench restart"
+as_f "cd ~/frappe-bench && bench --site ${DOMAIN} enable-scheduler" || true
+as_f "cd ~/frappe-bench && bench restart"
 echo "[✓] erpnext OK"
-
-# Fallback: ensure supervisor+nginx if production failed earlier
-if [ ! -f /home/frappe/frappe-bench/config/supervisor.conf ]; then
-  sudo -H bash -lc 'export PATH=/home/frappe/.local/bin:$PATH; cd /home/frappe/frappe-bench; /home/frappe/.local/pipx/venvs/frappe-bench/bin/pip install -U "ansible==12.*"; bench setup supervisor'
-  ln -sf /home/frappe/frappe-bench/config/supervisor.conf /etc/supervisor/conf.d/frappe-bench.conf || true
-  supervisorctl reread || true; supervisorctl update || true
-fi
-sudo -H bash -lc 'export PATH=/home/frappe/.local/bin:$PATH; cd /home/frappe/frappe-bench; bench setup nginx || true'
-nginx -t && systemctl reload nginx || true
