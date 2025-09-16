@@ -42,4 +42,5 @@ sudo nginx -t && sudo systemctl reload nginx || true
 # finalize
 as_f "cd ~/frappe-bench && bench --site ${DOMAIN} enable-scheduler" || true
 as_f "cd ~/frappe-bench && bench restart"
+as_f "cd ~/frappe-bench && bench setup assets && bench build --force && bench clear-cache && bench clear-website-cache && bench restart"
 echo "[✓] erpnext OK"
