@@ -12,9 +12,9 @@ as_frappe(){ su - frappe -c "$*"; }
 [ -d /home/frappe/frappe-bench ] || as_frappe "bench init --frappe-branch ${FRAPPE_BRANCH} frappe-bench"
 
 # apps
-as_frappe "cd ~/frappe-bench && (bench ls-apps | grep -qi erpnext || bench get-app --branch ${ERPNEXT_BRANCH} erpnext)"
+as_frappe "cd ~/frappe-bench && [ ! -d apps/erpnext ] && bench get-app --branch ${ERPNEXT_BRANCH} erpnext"
 if [ "$INSTALL_HRMS" = "1" ]; then
-  as_frappe "cd ~/frappe-bench && (bench ls-apps | grep -qi hrms || bench get-app --branch ${HRMS_BRANCH} hrms)"
+  as_frappe "cd ~/frappe-bench && [ ! -d apps/hrms ] && bench get-app --branch ${HRMS_BRANCH} hrms"
 fi
 
 # site ensure + set current
