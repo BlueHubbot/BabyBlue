@@ -7,23 +7,33 @@ ERPNEXT_BRANCH="${ERPNEXT_BRANCH:-version-15}"
 HRMS_BRANCH="${HRMS_BRANCH:-version-15}"
 INSTALL_HRMS="${INSTALL_HRMS:-0}"
 as_frappe(){ su - frappe -c "$*"; }
-if [ ! -d /home/frappe/frappe-bench ]; then
-  as_frappe "bench init --frappe-branch ${FRAPPE_BRANCH} frappe-bench"
-fi
+
+# bench init
+[ -d /home/frappe/frappe-bench ] || as_frappe "bench init --frappe-branch ${FRAPPE_BRANCH} frappe-bench"
+
+# apps
 as_frappe "cd ~/frappe-bench && (bench ls-apps | grep -qi erpnext || bench get-app --branch ${ERPNEXT_BRANCH} erpnext)"
 if [ "$INSTALL_HRMS" = "1" ]; then
   as_frappe "cd ~/frappe-bench && (bench ls-apps | grep -qi hrms || bench get-app --branch ${HRMS_BRANCH} hrms)"
 fi
-if ! as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} version" >/dev/null 2>&1; then
-  as_frappe "cd ~/frappe-bench && bench new-site ${DOMAIN} --admin-password '${ADMIN_PW}' --mariadb-root-password '${DB_ROOT_PW}' --no-mariadb-socket"
-fi
+
+# site ensure + set current
+as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} version" >/dev/null 2>&1 \
+|| as_frappe "cd ~/frappe-bench && bench new-site ${DOMAIN} --admin-password '${ADMIN_PW}' --mariadb-root-password '${DB_ROOT_PW}' --no-mariadb-socket"
+as_frappe "cd ~/frappe-bench && printf '%s\n' ${DOMAIN} > sites/currentsite.txt"
+
+# install apps
 as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} list-apps | grep -qi erpnext || bench --site ${DOMAIN} install-app erpnext"
 if [ "$INSTALL_HRMS" = "1" ]; then
   as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} list-apps | grep -qi hrms || bench --site ${DOMAIN} install-app hrms"
 fi
+
+# build + production
 as_frappe "cd ~/frappe-bench && bench build"
 sudo -H bash -lc 'export PATH=/home/frappe/.local/bin:$PATH; cd /home/frappe/frappe-bench; bench setup production frappe'
 systemctl enable --now supervisor nginx
+
+# SSL + HSTS
 certbot --nginx -d "${DOMAIN}" -m "${EMAIL}" --agree-tos --redirect -n || true
 if [ -n "${DOCS_DOMAIN}" ]; then
   certbot --nginx -d "${DOCS_DOMAIN}" -m "${EMAIL}" --agree-tos --redirect -n || true
@@ -31,6 +41,8 @@ if [ -n "${DOCS_DOMAIN}" ]; then
     "/etc/nginx/sites-available/docs-${DOCS_DOMAIN}.conf" || true
 fi
 nginx -t && systemctl reload nginx
+
+# optional restore
 if [ -n "${DB_URL:-}" ] || [ -n "${PUB_URL:-}" ] || [ -n "${PRIV_URL:-}" ]; then
   install -d -o frappe -g frappe /home/frappe/restore
   [ -n "${DB_URL:-}"  ] && curl -fsSL "$DB_URL"  -o /home/frappe/restore/db.sql.gz
@@ -44,9 +56,11 @@ if [ -n "${DB_URL:-}" ] || [ -n "${PUB_URL:-}" ] || [ -n "${PRIV_URL:-}" ]; then
   fi
   as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} restore /home/frappe/restore/db.sql.gz --mariadb-root-password '${DB_ROOT_PW}' --force" || true
   as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} migrate" || true
-  [ -f /home/frappe/restore/public_files.tar.gz ]  && as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} import-files /home/frappe/restore/public_files.tar.gz"
+  [ -f /home/frappe/restore/public_files.tar.gz  ] && as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} import-files /home/frappe/restore/public_files.tar.gz"
   [ -f /home/frappe/restore/private_files.tar.gz ] && as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} import-files /home/frappe/restore/private_files.tar.gz --private"
 fi
+
+# finalize
 as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} enable-scheduler" || true
 as_frappe "cd ~/frappe-bench && bench restart"
 echo "[✓] erpnext OK"
