@@ -64,3 +64,12 @@ fi
 as_frappe "cd ~/frappe-bench && bench --site ${DOMAIN} enable-scheduler" || true
 as_frappe "cd ~/frappe-bench && bench restart"
 echo "[✓] erpnext OK"
+
+# Fallback: ensure supervisor+nginx if production failed earlier
+if [ ! -f /home/frappe/frappe-bench/config/supervisor.conf ]; then
+  sudo -H bash -lc 'export PATH=/home/frappe/.local/bin:$PATH; cd /home/frappe/frappe-bench; /home/frappe/.local/pipx/venvs/frappe-bench/bin/pip install -U "ansible==12.*"; bench setup supervisor'
+  ln -sf /home/frappe/frappe-bench/config/supervisor.conf /etc/supervisor/conf.d/frappe-bench.conf || true
+  supervisorctl reread || true; supervisorctl update || true
+fi
+sudo -H bash -lc 'export PATH=/home/frappe/.local/bin:$PATH; cd /home/frappe/frappe-bench; bench setup nginx || true'
+nginx -t && systemctl reload nginx || true
