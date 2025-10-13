@@ -1,0 +1,3 @@
+# keep only installer bits
+*.log
+__pycache__/
