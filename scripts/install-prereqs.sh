@@ -13,7 +13,8 @@ apt-get install -y \
   mariadb-server mariadb-client \
   redis-server \
   nginx \
-  supervisor
+  supervisor \
+  certbot python3-certbot-nginx
 
 if ! id -u frappe >/dev/null 2>&1; then
   adduser --disabled-password --gecos "" frappe
