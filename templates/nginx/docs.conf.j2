@@ -1,0 +1,7 @@
+server {
+  listen 80;
+  server_name {{ docs_domain }};
+  root {{ docs_root }};
+  location /.well-known/acme-challenge/ { root {{ docs_root }}; }
+  location / { try_files $uri $uri/ =404; }
+}

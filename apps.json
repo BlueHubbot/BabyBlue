@@ -1,0 +1,22 @@
+[
+  {
+    "name": "frappe",
+    "url": "https://github.com/frappe/frappe.git",
+    "branch": "version-15"
+  },
+  {
+    "name": "erpnext",
+    "url": "https://github.com/frappe/erpnext.git",
+    "branch": "version-15"
+  },
+  {
+    "name": "hrms",
+    "url": "https://github.com/frappe/hrms.git",
+    "branch": "version-15"
+  },
+  {
+    "name": "cal_boot",
+    "url": "https://github.com/BlueHubbot/cal_boot.git",
+    "branch": "main"
+  }
+]
