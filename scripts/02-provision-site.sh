@@ -53,8 +53,24 @@ with open(path, "w") as f:
 PY
 
   # ریستور DB اسنپ‌شات
-  DB_DUMP = f"{REPO_DIR_ENV}/artifacts/data/site-database.sql.gz"
+  DB_DUMP = os.path.join(REPO_DIR_ENV, "artifacts", "data", "site-database.sql.gz")
 PY
+'
+# اصلاح بخش بالا: پایتون تمام شد، ادامه در bash root برای restore واقعی:
+
+sudo -u "$FRAPPE_USER" -H bash -lc '
+  set -euo pipefail
+  export PATH="$HOME/.local/bin:$PATH"
+
+  BENCH_HOME_ENV="'"$BENCH_HOME"'"
+  SITE_ENV="'"$SITE"'"
+  DB_ROOT_USER_ENV="'"$DB_ROOT_USER"'"
+  DB_ROOT_PASS_ENV="'"$DB_ROOT_PASS"'"
+  ADMIN_PASS_ENV="'"$ADMIN_PASS"'"
+  REPO_DIR_ENV="'"$REPO_DIR"'"
+
+  cd "$BENCH_HOME_ENV"
+
   DB_DUMP="$REPO_DIR_ENV/artifacts/data/site-database.sql.gz"
   if [ -f "$DB_DUMP" ]; then
     bench --site "$SITE_ENV" restore "$DB_DUMP" \

@@ -26,6 +26,7 @@ fi
 
 # init bench اگر BENCH_HOME وجود ندارد
 sudo -u "$FRAPPE_USER" -H bash -lc '
+  set -euo pipefail
   export PATH="$HOME/.local/bin:$PATH"
   BENCH_HOME_ENV="'"$BENCH_HOME"'"
   PARENT_DIR="$(dirname "$BENCH_HOME_ENV")"
@@ -42,13 +43,16 @@ sudo -u "$FRAPPE_USER" -H bash -lc '
   mkdir -p apps
 '
 
-# استخراج سورس اپ‌ها از artifacts/data روی سرور مقصد
+# استخراج سورس اپ‌ها از artifacts/data روی سرور مقصد + ساخت apps.txt
 sudo -u "$FRAPPE_USER" -H bash -lc '
+  set -euo pipefail
+  export PATH="$HOME/.local/bin:$PATH"
+
   BENCH_HOME_ENV="'"$BENCH_HOME"'"
+  REPO_DIR_ENV="'"$REPO_DIR"'"
+
   cd "$BENCH_HOME_ENV"
   mkdir -p apps
-
-  REPO_DIR_ENV="'"$REPO_DIR"'"
 
   for app in frappe erpnext hrms cal_boot; do
     TAR="$REPO_DIR_ENV/artifacts/data/app-$app.tar.gz"
@@ -56,6 +60,15 @@ sudo -u "$FRAPPE_USER" -H bash -lc '
       tar xzf "$TAR" -C apps
     fi
   done
+
+  # apps.txt مطابق سرور مبدا
+  APPS_TXT="$BENCH_HOME_ENV/sites/apps.txt"
+  cat > "$APPS_TXT" <<EOT
+frappe
+erpnext
+hrms
+cal_boot
+EOT
 
   bench setup requirements
 '
