@@ -63,9 +63,12 @@ if [[ -e /etc/nginx/sites-enabled/default ]]; then
   rm -f /etc/nginx/sites-enabled/default
 fi
 
-nginx -t
-systemctl reload nginx
 
+
+# --- fix permissions for nginx to read assets ---
 chmod 755 /home/frappe
 chmod -R o+rX /home/frappe/frappe-bench/sites/assets
+
+# --- test and reload nginx ---
 nginx -t && systemctl reload nginx
+

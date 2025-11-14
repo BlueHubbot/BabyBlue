@@ -7,10 +7,6 @@ if [ -f .env ]; then
   set +o allexport
 fi
 
-chmod 755 /home/frappe
-chmod -R o+rX /home/frappe/frappe-bench/sites/assets
-nginx -t && systemctl reload nginx
-
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_DIR"
 
