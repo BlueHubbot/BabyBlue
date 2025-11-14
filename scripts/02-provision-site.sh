@@ -14,11 +14,40 @@ set -o allexport
 source .env
 set +o allexport
 
-# این اسکریپت روی سرور مقصد اجرا می‌شود
-
+########################################
+# 1) common_site_config.json (db_host + redis روی 6379)
+########################################
+echo ">>> creating / updating common_site_config.json (db_host + redis)..."
 sudo -u "$FRAPPE_USER" -H bash -lc '
   set -euo pipefail
-  export PATH="$HOME/.local/bin:$PATH"
+  BENCH_HOME_ENV="'"$BENCH_HOME"'"
+  cd "$BENCH_HOME_ENV"
+
+  python3 - <<PY
+import json, os
+bench = os.getcwd()
+path = os.path.join(bench, "sites", "common_site_config.json")
+os.makedirs(os.path.dirname(path), exist_ok=True)
+data = {}
+if os.path.exists(path):
+    with open(path) as f:
+        data = json.load(f)
+data.setdefault("db_host", "127.0.0.1")
+data["redis_cache"]    = "redis://127.0.0.1:6379"
+data["redis_queue"]    = "redis://127.0.0.1:6379"
+data["redis_socketio"] = "redis://127.0.0.1:6379"
+with open(path, "w") as f:
+    json.dump(data, f, indent=2)
+PY
+'
+
+########################################
+# 2) ساخت سایت (اگر وجود ندارد) + encryption_key
+########################################
+echo ">>> creating site (if missing)..."
+sudo -u "$FRAPPE_USER" -H bash -lc '
+  set -euo pipefail
+  export PATH="$HOME/bench-venv/bin:$HOME/.local/bin:$PATH"
 
   BENCH_HOME_ENV="'"$BENCH_HOME"'"
   SITE_ENV="'"$SITE"'"
@@ -28,22 +57,22 @@ sudo -u "$FRAPPE_USER" -H bash -lc '
   DB_ROOT_PASS_ENV="'"$DB_ROOT_PASS"'"
   ADMIN_PASS_ENV="'"$ADMIN_PASS"'"
   ENC_KEY_ENV="'"$ENCRYPTION_KEY"'"
-  REPO_DIR_ENV="'"$REPO_DIR"'"
 
   cd "$BENCH_HOME_ENV"
 
-  # ساخت سایت خالی اگر وجود ندارد
-  if [ ! -d "sites/$SITE_ENV" ]; then
+  if [[ ! -d "sites/$SITE_ENV" ]]; then
     bench new-site "$SITE_ENV" \
       --db-name "$DB_NAME_ENV" --db-password "$DB_PASS_ENV" \
       --mariadb-root-username "$DB_ROOT_USER_ENV" --mariadb-root-password "$DB_ROOT_PASS_ENV" \
       --admin-password "$ADMIN_PASS_ENV" --no-mariadb-socket
   fi
 
-  # اعمال encryption_key در site_config
-  python3 - "$BENCH_HOME_ENV" "$SITE_ENV" "$ENC_KEY_ENV" <<PY
-import json, sys, os
-bench, site, enc = sys.argv[1], sys.argv[2], sys.argv[3]
+  # اعمال encryption_key
+  python3 - <<PY
+import json, os
+bench = r"'"$BENCH_HOME"'"
+site  = r"'"$SITE"'"
+enc   = r"'"$ENCRYPTION_KEY"'"
 path = os.path.join(bench, "sites", site, "site_config.json")
 with open(path) as f:
     data = json.load(f)
@@ -51,16 +80,15 @@ data["encryption_key"] = enc
 with open(path, "w") as f:
     json.dump(data, f, indent=2)
 PY
-
-  # ریستور DB اسنپ‌شات
-  DB_DUMP = os.path.join(REPO_DIR_ENV, "artifacts", "data", "site-database.sql.gz")
-PY
 '
-# اصلاح بخش بالا: پایتون تمام شد، ادامه در bash root برای restore واقعی:
 
+########################################
+# 3) ریستور DB + فایل‌ها + migrate/build/cache
+########################################
+echo ">>> restoring DB + files (if artifacts present) ..."
 sudo -u "$FRAPPE_USER" -H bash -lc '
   set -euo pipefail
-  export PATH="$HOME/.local/bin:$PATH"
+  export PATH="$HOME/bench-venv/bin:$HOME/.local/bin:$PATH"
 
   BENCH_HOME_ENV="'"$BENCH_HOME"'"
   SITE_ENV="'"$SITE"'"
@@ -72,25 +100,53 @@ sudo -u "$FRAPPE_USER" -H bash -lc '
   cd "$BENCH_HOME_ENV"
 
   DB_DUMP="$REPO_DIR_ENV/artifacts/data/site-database.sql.gz"
-  if [ -f "$DB_DUMP" ]; then
+  if [[ -f "$DB_DUMP" ]]; then
+    echo ">>> restoring database from $DB_DUMP ..."
     bench --site "$SITE_ENV" restore "$DB_DUMP" \
       --db-root-username "$DB_ROOT_USER_ENV" --db-root-password "$DB_ROOT_PASS_ENV" \
       --force --admin-password "$ADMIN_PASS_ENV"
   fi
 
-  # ریستور فایل‌ها (public/private)
   PUB_TAR="$REPO_DIR_ENV/artifacts/data/site-public-files.tar"
   PRIV_TAR="$REPO_DIR_ENV/artifacts/data/site-private-files.tar"
 
-  if [ -f "$PUB_TAR" ]; then
+  if [[ -f "$PUB_TAR" ]]; then
+    echo ">>> restoring public files ..."
     tar xf "$PUB_TAR" -C "$BENCH_HOME_ENV/sites"
   fi
-  if [ -f "$PRIV_TAR" ]; then
+  if [[ -f "$PRIV_TAR" ]]; then
+    echo ">>> restoring private files ..."
     tar xf "$PRIV_TAR" -C "$BENCH_HOME_ENV/sites"
   fi
 
+  echo ">>> migrate + build + clear cache ..."
   bench --site "$SITE_ENV" migrate
   bench build
   bench clear-cache
   bench clear-website-cache
+
+  echo ">>> enable scheduler ..."
+  bench --site "$SITE_ENV" set-config enable_scheduler 1
+  bench --site "$SITE_ENV" enable-scheduler
 '
+
+########################################
+# 4) supervisor برای bench
+########################################
+echo ">>> setting up supervisor for bench ..."
+sudo -u "$FRAPPE_USER" -H bash -lc '
+  set -euo pipefail
+  export PATH="$HOME/bench-venv/bin:$HOME/.local/bin:$PATH"
+  cd "'"$BENCH_HOME"'"
+  bench setup supervisor --yes
+'
+
+ln -sfn "$BENCH_HOME/config/supervisor.conf" /etc/supervisor/conf.d/frappe-bench.conf
+supervisorctl reread
+supervisorctl update
+
+########################################
+# 5) دسترسی nginx به assets
+########################################
+chmod 755 "/home/$FRAPPE_USER"
+chmod -R o+rX "$BENCH_HOME/sites/assets"

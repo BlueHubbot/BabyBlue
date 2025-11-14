@@ -21,20 +21,20 @@ echo "=== nginx test ==="
 nginx -t || true
 
 echo "=== HTTP(S) checks ==="
-curl -kIs "http://$SITE"       | head -1 || true
-curl -kIs "https://$SITE"      | head -1 || true
-curl -kIs "https://$SITE/assets/js/frappe.min.js" | head -1 || true
-
+if [[ -n "${SITE:-}" ]]; then
+  curl -kI "https://$SITE" | head -20 || true
+fi
 if [[ -n "${DOCS_SITE:-}" ]]; then
-  curl -kIs "https://$DOCS_SITE" | head -1 || true
+  curl -kI "https://$DOCS_SITE" | head -20 || true
 fi
 
 echo "=== bench list-apps ==="
-sudo -u "$FRAPPE_USER" -H bash -lc "
-  export PATH=\"\$HOME/.local/bin:\$PATH\"
-  cd \"$BENCH_HOME\"
-  bench --site \"$SITE\" list-apps
-" || true
+sudo -u "$FRAPPE_USER" -H bash -lc '
+  set -euo pipefail
+  export PATH="$HOME/bench-venv/bin:$HOME/.local/bin:$PATH"
+  cd "'"$BENCH_HOME"'"
+  bench --site "'"$SITE"'" list-apps
+' || true
 
 echo "=== ownership check (frappe:frappe) ==="
-find "$BENCH_HOME" -maxdepth 2 -type d -printf '%u:%g %p\n' | head -20
+find "$BENCH_HOME" -maxdepth 2 -type d -printf "%u:%g %p\n" | head -20
