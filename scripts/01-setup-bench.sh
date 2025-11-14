@@ -75,6 +75,13 @@ sudo -u "$FRAPPE_USER" -H bash -lc '
   cd "$BENCH_HOME_ENV"
   mkdir -p apps
 
+
+  # --- configure git identity for frappe user (needed for git init + commit) ---
+  sudo -u "$FRAPPE_USER" -H git config --global user.name "frappe"
+  sudo -u "$FRAPPE_USER" -H git config --global user.email "frappe@localhost"
+  # ------------------------------------------------------------------------------
+
+
   for app in frappe erpnext hrms cal_boot; do
     TAR="$REPO_DIR_ENV/artifacts/data/app-$app.tar.gz"
     if [[ -f "$TAR" ]]; then
