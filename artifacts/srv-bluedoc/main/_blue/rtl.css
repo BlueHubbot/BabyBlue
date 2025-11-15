@@ -1,0 +1,212 @@
+/*!
+ * BlueAPi Overlay (rtl.css)
+ * - فونت، RTL، مخفی کردن سورس گیت‌هاب، لوگو و ریزتنظیمات
+ */
+
+/* ============================
+ *  Font (Vazirmatn Variable)
+ * ============================ */
+@font-face{
+  font-family:"Vazirmatn";
+  src:url("/_blue/fonts/vazirmatn/Vazirmatn%5Bwght%5D.woff2") format("woff2");
+  font-weight:100 900; font-style:normal; font-display:swap;
+}
+:root{
+  --md-text-font:"Vazirmatn", system-ui, -apple-system, "Segoe UI", Roboto,
+                  "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans",
+                  "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol",
+                  "Noto Color Emoji", sans-serif;
+}
+
+/* ============================
+ *  Global RTL
+ * ============================ */
+html[lang="fa"], html[dir="rtl"] body {
+  direction: rtl;
+  text-align: start;
+}
+
+/* Header micro-fixes in RTL */
+[dir="rtl"] .md-header__title { margin-inline-start:.5rem; }
+[dir="rtl"] .md-tabs__list { flex-direction: row-reverse; }
+
+/* ============================
+ *  Hide GitHub/source badges in header
+ * ============================ */
+.md-header__source,
+.md-header-nav__source,
+.md-source,
+[data-md-component="source"],
+.md-header a[href*="github.com/"] {
+  display: none !important;
+}
+
+/* ============================
+ *  Logo: use our PNG (hide theme's SVG)
+ * ============================ */
+.md-header__button.md-logo svg,
+.md-nav__title .md-logo svg { display:none !important; }
+.md-header__button.md-logo,
+.md-nav__title .md-logo {
+  width:24px; height:24px;
+  background-image:url("/_blue/brand/logo.png");
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-position:center;
+}
+
+/* ============================
+ *  Force LTR for code/URLs
+ * ============================ */
+.md-typeset pre,
+.md-typeset code,
+.md-typeset kbd,
+.md-typeset samp,
+.md-typeset .highlight,
+.md-typeset .highlight pre {
+  direction: ltr;
+  unicode-bidi: plaintext;
+  text-align: left;
+}
+
+/* ============================
+ *  Hero RTL ensure
+ * ============================ */
+[dir="rtl"] .mdx-hero * { direction: rtl; }
+
+/* Tabs (primary nav) align right in RTL */
+[dir="rtl"] .md-tabs { direction: rtl; }
+[dir="rtl"] .md-tabs__list {
+  flex-direction: row-reverse;
+  justify-content: flex-end;   /* چسبیدن به سمت راست */
+}
+[dir="rtl"] .md-tabs__item { text-align: right; }
+
+/* هر تیتر/هدر پیش‌فرض سکشن شرکاء/تریستد را مخفی کن */
+.mdx-partners > h1,
+.mdx-partners > h2,
+.mdx-partners > h3,
+.mdx-partners > header,
+.mdx-partners > .mdx-spotlight__title,
+.mdx-trust > h1,
+.mdx-trust > h2,
+.mdx-trust > h3,
+.mdx-trust > header,
+.mdx-trust > .mdx-spotlight__title {
+  display: none !important;
+}
+
+/* بلوک ساده‌ی ما */
+.blue-devdocs{
+  text-align: center;
+  margin-inline: auto;
+  max-width: 900px;
+  padding: 0 1rem;
+}
+.blue-devdocs__title{ margin: 0 0 1rem !important; }
+
+/* سه ردیف زیر هم، بدون باکس/سایه/کاشی و بدون بولت */
+.blue-item{ margin: 1.25rem auto; padding: 0; max-width: 720px; }
+.blue-item h3{ margin: 0 0 .35rem; }
+.blue-item p{ margin: .35rem 0; }
+.blue-item .md-button{ margin-top: .35rem; }
+
+/* اگر جایی لیست پیش‌فرض تولید شد، بولت‌ها را قطعاً حذف کن */
+.blue-devdocs ul, .blue-devdocs ol{
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.blue-devdocs li::marker{ content: "" !important; }
+
+/* ===== Reference architectures ===== */
+.ref-arch{
+  max-width: 1150px;
+  margin: 0 auto 2rem;
+  padding: 0 1rem;
+  text-align: start;
+}
+.ref-arch__title{ font-size: 2rem; line-height: 1.25; margin: 0 0 .5rem; }
+.ref-arch__lead{  margin: 0 0 1.25rem; opacity: .85; }
+
+.ref-arch__row{
+  display: grid !important;              /* تضمین فعال شدن گرید */
+  grid-gap: 18px !important;
+  margin-bottom: 18px !important;
+}
+.ref-arch__row--top{
+  grid-template-columns: repeat(4, minmax(200px, 1fr)) !important;
+}
+.ref-arch__row--bottom{
+  grid-template-columns: repeat(3, minmax(260px, 1fr)) !important;
+}
+
+.ref-card{
+  position: relative; display:block; text-decoration:none!important; color:inherit!important;
+  background: rgba(128,90,213,.12); border-radius:12px; padding:22px 22px 26px;
+  transition: box-shadow .15s ease, transform .15s ease, background .15s ease;
+}
+.ref-card:hover{ transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,.12); }
+.ref-card__num{ display:block; font-size:2.3rem; font-weight:700; letter-spacing:.5px; }
+.ref-card__label{ display:block; font-size:1.1rem; margin-top:4px; opacity:.9; }
+.ref-card__chev{ position:absolute; top:18px; right:18px; font-size:1rem; opacity:.8; }
+
+/* ریسپانسیو */
+@media (max-width: 1100px){
+  .ref-arch__row--top{ grid-template-columns: repeat(3, minmax(180px, 1fr)) !important; }
+  .ref-arch__row--bottom{ grid-template-columns: repeat(2, minmax(220px, 1fr)) !important; }
+}
+@media (max-width: 720px){
+  .ref-arch__row--top,
+  .ref-arch__row--bottom{ grid-template-columns: 1fr !important; }
+}
+
+/* ===== Footer (تماس و اسپانسر) ===== */
+.blue-footer-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+}
+.blue-footer-col *{ direction: rtl; text-align: start; }
+.mdx-connect__list{ margin:.5rem 0 0; }
+.mdx-connect__list li{ margin:.35rem 0; }
+
+/* حذف prev/next فوتر */
+.md-footer-nav,
+.md-footer__link--next,
+.md-footer__link--prev { display:none !important; }
+
+/* کپی‌رایت */
+.blue-copyright{
+  width:100%;
+  text-align:center;
+  opacity:.85;
+  font-size:.95rem; /* کمی بزرگ‌تر شد */
+  margin:.75rem 0 .25rem;
+}
+.md-footer-meta .md-typeset{ direction:rtl; text-align:center; }
+
+/* فوتر مشکی + متن سفید (طبق خواسته) */
+.md-footer{ background:#000 !important; }
+.md-footer, .md-footer *{ color:#fff !important; }
+/* BDM: sidebar collapsed by default; open only when toggle is checked */
+.md-sidebar--primary .md-nav__item--nested > .md-nav,
+.md-sidebar--primary .md-nav__item--nested > .md-nav__list{display:none!important;}
+.md-sidebar--primary .md-nav__item--nested > input:checked ~ .md-nav,
+.md-sidebar--primary .md-nav__item--nested > input:checked ~ .md-nav__list{display:block!important;}
+/* BDM: sidebar arrows + allow multiple open */
+.md-sidebar--primary .md-nav__item--nested > label.md-nav__link{cursor:pointer}
+.md-sidebar--primary .md-nav__item--nested > label.md-nav__link::after,
+.md-sidebar--primary .md-nav__item--nested > .md-nav__link::after{
+  content:"▸"; font-size:.8rem; opacity:.8; margin-inline-start:.4rem; transition:transform .15s ease
+}
+.md-sidebar--primary .md-nav__item--nested > input:checked + label.md-nav__link::after,
+.md-sidebar--primary .md-nav__item--nested > input:checked + .md-nav__link::after{
+  transform:rotate(90deg)
+}
+
+/* collapsed-by-default; open when checked (multi-open allowed) */
+.md-sidebar--primary .md-nav__item--nested > .md-nav,
+.md-sidebar--primary .md-nav__item--nested > .md-nav__list{display:none!important}
+.md-sidebar--primary .md-nav__item--nested > input:checked ~ .md-nav,
+.md-sidebar--primary .md-nav__item--nested > input:checked ~ .md-nav__list{display:block!important}

@@ -1,0 +1,28 @@
+<!-- BlueAPI: load help menu from Frappe assets -->
+<script>
+(function (w, d) {
+  // avoid double-load
+  if (w.__BLUEAPI_HELP_LOADING__) return;
+  w.__BLUEAPI_HELP_LOADING__ = true;
+
+  // build cache-busting version
+  var v;
+  if (w.crypto && w.crypto.getRandomValues) {
+    var a = new Uint32Array(1);
+    w.crypto.getRandomValues(a);
+    v = a[0].toString(36);
+  } else {
+    v = Date.now();
+  }
+
+  var s = d.createElement('script');
+  s.src = '/assets/blueapi_help.js?v=' + v;  // یا دامنه کامل
+  s.async = true;
+  s.crossOrigin = 'anonymous';
+  s.onerror = function () {
+    console.warn('[BlueAPI] failed to load /assets/blueapi_help.js');
+  };
+
+  (d.head || d.documentElement).appendChild(s);
+})(window, document);
+</script>
