@@ -1,0 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap");
+html{direction:rtl} body{direction:rtl;text-align:right;font-family:"Vazirmatn","IRANSans","Segoe UI",Tahoma,Arial,sans-serif;line-height:1.8}
+h1,h2,h3,h4,h5,h6,p,li,a,td,th{text-align:right}
+ul,ol{padding-right:2rem;padding-left:0}
+.nav,.navbar,.sidebar,.toc,.breadcrumbs{direction:rtl}
+code,pre{direction:ltr;text-align:left}
+code, pre, kbd, samp { direction:ltr; unicode-bidi:plaintext; text-align:left }
+.ltr { direction:ltr; unicode-bidi:plaintext; text-align:left }
+/* Global RTL */
+html{direction:rtl} body{direction:rtl;text-align:right}
+/* Robust bidi */
+:dir(ltr), :lang(en), .ltr { direction:ltr; unicode-bidi:plaintext; text-align:left }
+code, pre, kbd, samp { direction:ltr; unicode-bidi:plaintext; text-align:left }
+/* Tables & forms */
+table, th, td { text-align:right }
+input, textarea { text-align:right }
+input[type="number"], input[type="email"], input[type="url"] { direction:ltr; text-align:left }
+/* Nav & breadcrumbs (کلاس‌های رایج) */
+.nav, .navbar, .breadcrumbs, .toc, .sidebar { direction:rtl; text-align:right }
+ul,ol{padding-right:2rem;padding-left:0}
+@supports not (unicode-bidi: plaintext){ code, pre, kbd, samp, .ltr { unicode-bidi:isolate } }
+/* سخت‌گیری RTL برای صفحات فارسی */
+html[lang="fa"], html[dir="rtl"] { direction: rtl; }
+html[lang="fa"] body { direction: rtl; text-align: right; }
+
+/* ناوبار و آیتم‌ها */
+html[lang="fa"] nav, html[lang="fa"] .navbar { direction: rtl; text-align: right; }
+html[lang="fa"] .navbar .navbar-nav { flex-direction: row-reverse; }
+html[lang="fa"] .navbar .navbar-nav > li { float: right; }
+
+/* چیدمان‌های رایج */
+html[lang="fa"] .container, html[lang="fa"] .row, html[lang="fa"] .col,
+html[lang="fa"] .card, html[lang="fa"] .media, html[lang="fa"] .breadcrumbs,
+html[lang="fa"] .toc, html[lang="fa"] .sidebar { direction: rtl; }
+
+/* هم‌راستاسازی متن‌ها */
+html[lang="fa"] .text-start { text-align: right !important; }
+html[lang="fa"] .text-end   { text-align: left  !important; }
+html[lang="fa"] table, html[lang="fa"] th, html[lang="fa"] td { text-align: right; }
+html[lang="fa"] ul, html[lang="fa"] ol { padding-right: 2rem; padding-left: 0; }
+
+/* کد و چیزهای انگلیسی */
+html[lang="fa"] code, html[lang="fa"] pre, html[lang="fa"] kbd, html[lang="fa"] samp, 
+html[lang="fa"] .ltr { direction: ltr; unicode-bidi: plaintext; text-align: left; }

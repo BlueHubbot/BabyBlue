@@ -1,0 +1,935 @@
+#/srv/bluedoc/app/mkdocs.yml
+site_name: اسناد BlueAPi — BlueDoc
+site_url: https://docs.bluehesab.ir/blueapi/
+docs_dir: docs
+site_dir: /srv/bluedoc/main/blueapi
+theme:
+  name: material
+  language: fa
+  direction: rtl
+  features:
+  - content.code.copy
+  - navigation.indexes
+  - navigation.sections
+  - navigation.tabs
+  - search.highlight
+  - search.suggest
+  palette:
+  - scheme: default
+    primary: indigo
+    accent: cyan
+    toggle:
+      icon: material/weather-night
+      name: حالت تیره
+  - scheme: slate
+    primary: indigo
+    accent: cyan
+    toggle:
+      icon: material/weather-sunny
+      name: حالت روشن
+  custom_dir: /srv/bluedoc/app/overrides
+extra_css:
+  - /_blue/rtl.css?v=3
+  # - /_blue/rtl.css?v=2  # حذف دوتایی‌ها
+extra_javascript:
+  - /_blue/rtl.js?v=3
+  # - /_blue/rtl.js?v=2
+  # - /_blue/rtl.js?v=5
+  # - /_blue/sidebar-multi.js?v=1   # موقتاً خاموش
+plugins:
+- search
+nav:
+- خانه: https://docs.bluehesab.ir/
+- بلوحساب:
+  - نمای کلی: bluehesab/index.md
+  - مقدمه:
+    - نمای کلی: bluehesab/g01/index.md
+    - مقدمه: bluehesab/g01/p001.md
+    - چرا کسب‌وکارها باید از سامانه مدیریت کسب‌وکار استفاده کنند؟: bluehesab/g01/p002.md
+    - آیا به BlueHesab نیاز دارم؟: bluehesab/g01/p003.md
+    - متن‌باز: bluehesab/g01/p004.md
+    - حامی پروژه: bluehesab/g01/p005.md
+    - مفاهیم و اصطلاحات: bluehesab/g01/p006.md
+    - استراتژی پیاده‌سازی: bluehesab/g01/p007.md
+    - شروع با BlueHesab: bluehesab/g01/p008.md
+  - تنظیمات:
+    - نمای کلی: bluehesab/g02/index.md
+    - تنظیمات اصلی: bluehesab/g02/p001.md
+    - تنظیمات ماژول‌ها: bluehesab/g02/p002.md
+    - تنظیمات ایمیل: bluehesab/g02/p003.md
+    - قاعدهٔ نام‌گذاری اسناد: bluehesab/g02/p004.md
+    - جریان‌کار: bluehesab/g02/p005.md
+    - چاپ: bluehesab/g02/p006.md
+    - اتوماسیون: bluehesab/g02/p007.md
+    - وظایف انتقال جریان‌کار: bluehesab/g02/p008.md
+  - کاربران و مجوزها:
+    - نمای کلی: bluehesab/g03/index.md
+    - کاربران: bluehesab/g03/p001.md
+    - مجوزها: bluehesab/g03/p002.md
+  - مدیریت داده:
+    - نمای کلی: bluehesab/g04/index.md
+    - درون‌ریزی داده: bluehesab/g04/p001.md
+    - برون‌بری داده: bluehesab/g04/p002.md
+    - درون‌ریز نمودار حساب‌ها: bluehesab/g04/p003.md
+    - دانلود پشتیبان‌ها: bluehesab/g04/p004.md
+    - تغییر نام انبوه رکوردها: bluehesab/g04/p005.md
+    - به‌روزرسانی انبوه: bluehesab/g04/p006.md
+    - دانلود داده‌های شخصی: bluehesab/g04/p007.md
+    - حذف داده‌های شخصی: bluehesab/g04/p008.md
+    - حذف تراکنش‌های شرکت: bluehesab/g04/p009.md
+  - مدیریت ارتباط:
+    - نمای کلی: bluehesab/g05/index.md
+    - مقدمهٔ مدیریت ارتباط: bluehesab/g05/p001.md
+    - اطلاعات پایه مدیریت ارتباط: bluehesab/g05/p002.md
+    - مدیریت کمپین‌ها: bluehesab/g05/p003.md
+    - کانال فروش: bluehesab/g05/p004.md
+    - گزارش‌های مدیریت ارتباط: bluehesab/g05/p005.md
+    - تنظیمات مدیریت ارتباط: bluehesab/g05/p006.md
+    - تنظیمات شبکه‌های اجتماعی: bluehesab/g05/p007.md
+    - تحلیل‌های مدیریت ارتباط: bluehesab/g05/p008.md
+  - خرید:
+    - نمای کلی: bluehesab/g06/index.md
+    - مقدمهٔ ماژول خرید: bluehesab/g06/p001.md
+    - ملزومات تأمین‌کننده: bluehesab/g06/p002.md
+    - تراکنش‌های خرید: bluehesab/g06/p003.md
+    - کارت امتیاز تأمین‌کننده: bluehesab/g06/p004.md
+    - گزارش‌های خرید: bluehesab/g06/p005.md
+    - تنظیمات خرید: bluehesab/g06/p006.md
+  - فروش:
+    - نمای کلی: bluehesab/g07/index.md
+    - مقدمهٔ ماژول فروش: bluehesab/g07/p001.md
+    - ملزومات فروش: bluehesab/g07/p002.md
+    - تراکنش‌های فروش: bluehesab/g07/p003.md
+    - نقطهٔ فروش (POS): bluehesab/g07/p004.md
+    - تنظیمات فروش: bluehesab/g07/p005.md
+    - گزارش‌های فروش: bluehesab/g07/p006.md
+    - حوالهٔ تحویل: bluehesab/g07/p007.md
+  - وام‌ها:
+    - نمای کلی: bluehesab/g08/index.md
+    - مدیریت وام: bluehesab/g08/p001.md
+    - درخواست وام: bluehesab/g08/p002.md
+    - فرایند وام: bluehesab/g08/p003.md
+    - پرداخت و بازپرداخت وام: bluehesab/g08/p004.md
+    - وثایق وام: bluehesab/g08/p005.md
+  - حسابداری:
+    - نمای کلی: bluehesab/g09/index.md
+    - اطلاعات پایه حسابداری: bluehesab/g09/p001.md
+    - افتتاح و اختتام: bluehesab/g09/p002.md
+    - دفتر کل: bluehesab/g09/p003.md
+    - مالیات‌ها: bluehesab/g09/p004.md
+    - گزارش‌های حسابداری: bluehesab/g09/p005.md
+    - دریافتنی‌ها و پرداختنی‌ها: bluehesab/g09/p006.md
+    - مرکز هزینه و بودجه‌بندی: bluehesab/g09/p007.md
+    - راه‌اندازی چندارزی: bluehesab/g09/p008.md
+    - حسابداری مؤخر: bluehesab/g09/p009.md
+    - بانکداری: bluehesab/g09/p010.md
+    - مدیریت اشتراک: bluehesab/g09/p011.md
+    - مدیریت سهام‌داران: bluehesab/g09/p012.md
+  - انبار:
+    - نمای کلی: bluehesab/g10/index.md
+    - مقدمهٔ ماژول انبار: bluehesab/g10/p001.md
+    - اطلاعات پایه انبار: bluehesab/g10/p002.md
+    - انبارها: bluehesab/g10/p003.md
+    - قیمت‌گذاری: bluehesab/g10/p004.md
+    - قواعد: bluehesab/g10/p005.md
+    - تراکنش‌های انبار: bluehesab/g10/p006.md
+    - بازرسی موجودی: bluehesab/g10/p007.md
+    - سریال و بچ: bluehesab/g10/p008.md
+    - دستور جداسازی: bluehesab/g10/p009.md
+    - تنظیمات انبار: bluehesab/g10/p010.md
+    - تنظیمات بازمحاسبه موجودی: bluehesab/g10/p011.md
+    - گزارش‌های انبار: bluehesab/g10/p012.md
+    - تعدیل موجودی/بهای تمام‌شده با موجودی منفی: bluehesab/g10/p013.md
+    - سند بستن موجودی: bluehesab/g10/p014.md
+    - بازمحاسبه موجودی در BlueHesab: bluehesab/g10/p015.md
+    - تغییر روش ارزش‌گذاری: bluehesab/g10/p016.md
+    - انبارداری ادواری: bluehesab/g10/p017.md
+    - گزارش ردیابی سریال و بچ: bluehesab/g10/p018.md
+    - رهگیری خریدها در حسابداری: bluehesab/g10/p019.md
+  - تولید:
+    - نمای کلی: bluehesab/g11/index.md
+    - مبانی تولید: bluehesab/g11/p001.md
+    - مقدمهٔ تولید: bluehesab/g11/p002.md
+    - تنظیمات تولید: bluehesab/g11/p003.md
+    - داشبورد تولید: bluehesab/g11/p004.md
+    - گزارش‌های تولید: bluehesab/g11/p005.md
+    - برنامه‌ریزی تولید و مواد: bluehesab/g11/p006.md
+    - صورت‌مواد (BOM): bluehesab/g11/p007.md
+    - رهگیری نیمه‌ساخته‌ها: bluehesab/g11/p008.md
+    - برون‌سپاری در BlueHesab: bluehesab/g11/p009.md
+    - ورود برون‌سپاری: bluehesab/g11/p010.md
+    - رزرو موجودی برای دستور کار: bluehesab/g11/p011.md
+    - رزرو موجودی برای برنامه تولید: bluehesab/g11/p012.md
+    - MRP (برنامه‌ریزی نیازمندی مواد): bluehesab/g11/p013.md
+  - پروژه:
+    - نمای کلی: bluehesab/g12/index.md
+    - پرداخت مبتنی بر زمان: bluehesab/g12/p001.md
+    - تنظیمات مدیریت ارتباط: bluehesab/g12/p002.md
+    - ملزومات پروژه: bluehesab/g12/p003.md
+    - رهگیری زمان: bluehesab/g12/p004.md
+  - پشتیبانی:
+    - نمای کلی: bluehesab/g13/index.md
+    - مسائل پشتیبانی: bluehesab/g13/p001.md
+    - تنظیمات پشتیبانی: bluehesab/g13/p002.md
+    - توافق‌نامه سطح خدمت (SLA): bluehesab/g13/p003.md
+    - گزارش‌های پشتیبانی: bluehesab/g13/p004.md
+    - نگهداری: bluehesab/g13/p005.md
+    - گارانتی: bluehesab/g13/p006.md
+  - دارایی‌ها:
+    - نمای کلی: bluehesab/g14/index.md
+    - دارایی: bluehesab/g14/p001.md
+    - گزارش‌های دارایی: bluehesab/g14/p002.md
+    - نگهداری دارایی‌ها: bluehesab/g14/p003.md
+  - کیفیت:
+    - نمای کلی: bluehesab/g15/index.md
+    - سیستم مدیریت کیفیت: bluehesab/g15/p001.md
+    - جلسهٔ کیفیت: bluehesab/g15/p002.md
+    - بازبینی و اقدام: bluehesab/g15/p003.md
+    - بازخورد کیفیت: bluehesab/g15/p004.md
+  - وب‌سایت:
+    - نمای کلی: bluehesab/g16/index.md
+    - راه‌اندازی وب‌سایت: bluehesab/g16/p001.md
+    - اجزای وب‌سایت: bluehesab/g16/p002.md
+    - بلاگ‌ها: bluehesab/g16/p003.md
+    - تنظیمات وب‌سایت: bluehesab/g16/p004.md
+  - ابزارها:
+    - نمای کلی: bluehesab/g17/index.md
+    - کارها (To-Do): bluehesab/g17/p001.md
+    - یادداشت‌ها: bluehesab/g17/p002.md
+    - ویدیو: bluehesab/g17/p003.md
+    - تقویم: bluehesab/g17/p004.md
+    - داشبورد: bluehesab/g17/p005.md
+    - جست‌وجوی سراسری: bluehesab/g17/p006.md
+    - میزکار: bluehesab/g17/p007.md
+    - واگذاری: bluehesab/g17/p008.md
+    - برچسب‌ها: bluehesab/g17/p009.md
+    - تابلوی کانبان: bluehesab/g17/p010.md
+    - همکاری حول فرم‌ها: bluehesab/g17/p011.md
+  - یکپارچه‌سازی BlueHesab:
+    - نمای کلی: bluehesab/g18/index.md
+    - دسته‌بندی‌های یکپارچه‌سازی: bluehesab/g18/p001.md
+  - بومی‌سازی:
+    - نمای کلی: bluehesab/g19/index.md
+    - بومی‌سازی: bluehesab/g19/p001.md
+    - ترجمه‌ها: bluehesab/g19/p002.md
+  - غیرانتفاعی:
+    - نمای کلی: bluehesab/g20/index.md
+    - مقدمه: bluehesab/g20/p001.md
+  - متفرقه:
+    - نمای کلی: bluehesab/g21/index.md
+    - مقالات راهنما: bluehesab/g21/p001.md
+- دیتابیس:
+  - نمای کلی: database/index.md
+  - شروع سریع:
+    - نمای کلی: database/g01/index.md
+    - مقدمه: database/g01/p001.md
+    - نصب: database/g01/p002.md
+    - راه‌اندازی کامل: database/g01/p003.md
+    - ساخت اولین داشبورد: database/g01/p004.md
+  - ورک‌بوک‌ها:
+    - نمای کلی: database/g02/index.md
+    - نمای کلی: database/g02/p001.md
+    - کوئری‌ها: database/g02/p002.md
+    - نمودارها: database/g02/p003.md
+    - داشبوردها: database/g02/p004.md
+  - منابع داده:
+    - نمای کلی: database/g03/index.md
+    - نمای کلی: database/g03/p001.md
+    - انبارهٔ داده: database/g03/p002.md
+- مدیریت ارتباط:
+  - نمای کلی: crm/index.md
+  - مقدمه:
+    - نمای کلی: crm/g01/index.md
+    - مقدمه: crm/g01/p001.md
+    - راه‌اندازی: crm/g01/p002.md
+  - تنظیمات:
+    - نمای کلی: crm/g02/index.md
+    - پروفایل: crm/g02/p001.md
+    - برندسازی سفارشی: crm/g02/p002.md
+    - اقدام‌های خانه: crm/g02/p003.md
+    - دعوت کاربران: crm/g02/p004.md
+  - اطلاعات پایه:
+    - نمای کلی: crm/g03/index.md
+    - سرنخ: crm/g03/p001.md
+    - معامله: crm/g03/p002.md
+    - مخاطب: crm/g03/p003.md
+    - سازمان: crm/g03/p004.md
+    - یادداشت: crm/g03/p005.md
+    - وظیفه: crm/g03/p006.md
+    - گزارش تماس: crm/g03/p007.md
+    - قالب ایمیل: crm/g03/p008.md
+  - جذب سرنخ:
+    - نمای کلی: crm/g04/index.md
+    - فرم وب: crm/g04/p001.md
+    - اسکریپت سفارشی: crm/g04/p002.md
+  - نماها:
+    - نمای کلی: crm/g05/index.md
+    - نمای ذخیره‌شده: crm/g05/p001.md
+    - نمای عمومی: crm/g05/p002.md
+    - نمای سنجاق‌شده: crm/g05/p003.md
+  - سایر امکانات:
+    - نمای کلی: crm/g06/index.md
+    - مکاتبات ایمیلی: crm/g06/p001.md
+    - نظر: crm/g06/p002.md
+    - داده: crm/g06/p003.md
+    - SLA: crm/g06/p004.md
+    - قاعدهٔ واگذاری: crm/g06/p005.md
+    - اعلان: crm/g06/p006.md
+  - سفارشی‌سازی:
+    - نمای کلی: crm/g07/index.md
+    - فیلدهای سفارشی: crm/g07/p001.md
+    - اقدام‌های سفارشی: crm/g07/p002.md
+    - وضعیت‌های سفارشی: crm/g07/p003.md
+    - اقدام‌های سفارشی فهرست: crm/g07/p004.md
+    - چیدمان ورود سریع: crm/g07/p005.md
+  - یکپارچه‌سازی:
+    - نمای کلی: crm/g08/index.md
+    - Twilio: crm/g08/p001.md
+    - Exotel: crm/g08/p002.md
+    - WhatsApp: crm/g08/p003.md
+    - BlueHesab: crm/g08/p004.md
+  - BlueAPi CRM موبایل:
+    - نمای کلی: crm/g09/index.md
+    - نصب اپ موبایل: crm/g09/p001.md
+- منابع انسانی:
+  - نمای کلی: hr/index.md
+  - مقدمه:
+    - نمای کلی: hr/g01/index.md
+    - BlueHab: hr/g01/p001.md
+    - ویدیوها: hr/g01/p002.md
+  - BlueHab موبایل:
+    - نمای کلی: hr/g02/index.md
+    - BlueHab: hr/g02/p001.md
+    - اعلان پوش: hr/g02/p002.md
+  - مدیریت سازمان:
+    - نمای کلی: hr/g03/index.md
+    - کارمند: hr/g03/p001.md
+    - نوع استخدام: hr/g03/p002.md
+    - شعبه: hr/g03/p003.md
+    - دپارتمان: hr/g03/p004.md
+    - سمت: hr/g03/p005.md
+    - درجهٔ کارمند: hr/g03/p006.md
+    - گروه کارمندی: hr/g03/p007.md
+    - بیمهٔ سلامت کارمند: hr/g03/p008.md
+    - نمودار سازمانی: hr/g03/p009.md
+  - حضور و غیاب:
+    - نمای کلی: hr/g04/index.md
+    - حضور و غیاب: hr/g04/p001.md
+    - ابزار حضور کارمند: hr/g04/p002.md
+    - درخواست حضور: hr/g04/p003.md
+    - بارگذاری حضور: hr/g04/p004.md
+    - ثبت ورود/خروج کارمند: hr/g04/p005.md
+    - حضور خودکار: hr/g04/p006.md
+    - اتصال BlueHab به دستگاه حضور بیومتریک: hr/g04/p007.md
+  - مدیریت شیفت:
+    - نمای کلی: hr/g05/index.md
+    - مدیریت شیفت: hr/g05/p001.md
+    - نوع شیفت: hr/g05/p002.md
+    - مکان شیفت: hr/g05/p003.md
+    - درخواست شیفت: hr/g05/p004.md
+    - واگذاری شیفت: hr/g05/p005.md
+    - برنامهٔ شیفت: hr/g05/p006.md
+    - واگذاری برنامهٔ شیفت: hr/g05/p007.md
+    - ابزار واگذاری شیفت: hr/g05/p008.md
+    - روستر: hr/g05/p009.md
+  - مدیریت مرخصی:
+    - نمای کلی: hr/g06/index.md
+    - مرخصی‌ها: hr/g06/p001.md
+    - فهرست تعطیلات: hr/g06/p002.md
+    - نوع مرخصی: hr/g06/p003.md
+    - دورهٔ مرخصی: hr/g06/p004.md
+    - سیاست مرخصی: hr/g06/p005.md
+    - واگذاری سیاست مرخصی: hr/g06/p006.md
+    - اختصاص مرخصی: hr/g06/p007.md
+    - پنل کنترل مرخصی: hr/g06/p008.md
+    - درخواست مرخصی: hr/g06/p009.md
+    - درخواست مرخصی جبرانی: hr/g06/p010.md
+    - تبدیل مرخصی به وجه: hr/g06/p011.md
+    - فهرست مسدودیت مرخصی: hr/g06/p012.md
+    - سند دفتر مرخصی: hr/g06/p013.md
+    - گزارش دفتر مرخصی: hr/g06/p014.md
+  - عملکرد:
+    - نمای کلی: hr/g07/index.md
+    - الگوی ارزیابی: hr/g07/p001.md
+    - چرخهٔ ارزیابی: hr/g07/p002.md
+    - ارزیابی: hr/g07/p003.md
+    - بازخورد عملکرد کارمند: hr/g07/p004.md
+    - هدف: hr/g07/p005.md
+    - گزارش مرور ارزیابی: hr/g07/p006.md
+  - سفر و هزینه:
+    - نمای کلی: hr/g08/index.md
+    - علی‌الحساب کارمند: hr/g08/p001.md
+    - ادعای هزینه: hr/g08/p002.md
+    - درخواست سفر: hr/g08/p003.md
+  - استخدام:
+    - نمای کلی: hr/g09/index.md
+    - استخدام: hr/g09/p001.md
+    - برنامهٔ تأمین نیرو: hr/g09/p002.md
+    - درخواست شغل: hr/g09/p003.md
+    - موقعیت شغلی: hr/g09/p004.md
+    - پورتال شغلی: hr/g09/p005.md
+    - متقاضی شغل: hr/g09/p006.md
+    - مدیریت مصاحبه: hr/g09/p007.md
+    - نوع مصاحبه: hr/g09/p008.md
+    - مرحلهٔ مصاحبه: hr/g09/p009.md
+    - مصاحبه: hr/g09/p010.md
+    - بازخورد مصاحبه: hr/g09/p011.md
+    - پیشنهاد شغلی: hr/g09/p012.md
+    - نامهٔ انتصاب: hr/g09/p013.md
+    - ارجاع کارمند: hr/g09/p014.md
+  - آموزش:
+    - نمای کلی: hr/g10/index.md
+    - برنامهٔ آموزشی: hr/g10/p001.md
+    - رویداد آموزشی: hr/g10/p002.md
+    - نتیجهٔ آموزش: hr/g10/p003.md
+    - بازخورد آموزشی: hr/g10/p004.md
+  - چرخهٔ عمر کارمند:
+    - نمای کلی: hr/g11/index.md
+    - مدیریت چرخهٔ عمر کارمند: hr/g11/p001.md
+    - ورود کارمند: hr/g11/p002.md
+    - ترفیع کارمند: hr/g11/p003.md
+    - قطع همکاری: hr/g11/p004.md
+    - انتقال کارمند: hr/g11/p005.md
+    - نقشهٔ مهارت کارمند: hr/g11/p006.md
+    - مصاحبهٔ خروج: hr/g11/p007.md
+    - تسویه‌حساب نهایی: hr/g11/p008.md
+  - مدیریت ناوگان:
+    - نمای کلی: hr/g12/index.md
+    - مدیریت ناوگان: hr/g12/p001.md
+    - وسیلهٔ نقلیه: hr/g12/p002.md
+    - لاگ وسیلهٔ نقلیه: hr/g12/p003.md
+  - پرداخت حقوق:
+    - نمای کلی: hr/g13/index.md
+    - راه‌اندازی حقوق و دستمزد: hr/g13/p001.md
+    - مدیریت حقوق و دستمزد: hr/g13/p002.md
+    - دورهٔ حقوق: hr/g13/p003.md
+    - پلکانی مالیات: hr/g13/p004.md
+    - مولفهٔ حقوق: hr/g13/p005.md
+    - ساختار حقوق: hr/g13/p006.md
+    - واگذاری ساختار حقوق: hr/g13/p007.md
+    - ابزار واگذاری ساختار حقوق: hr/g13/p008.md
+    - فیش حقوقی: hr/g13/p009.md
+    - سند حقوق: hr/g13/p010.md
+    - حقوق اضافی: hr/g13/p011.md
+    - پاداش نگهداشت: hr/g13/p012.md
+    - مشوق کارمند: hr/g13/p013.md
+  - مالیات و مزایا:
+    - نمای کلی: hr/g14/index.md
+    - تنظیم کسورات مالیات: hr/g14/p001.md
+    - اظهار معافیت مالیاتی کارمند: hr/g14/p002.md
+    - ارسال مدارک معافیت مالیاتی: hr/g14/p003.md
+    - سایر درآمدهای کارمند: hr/g14/p004.md
+    - درخواست مزایا: hr/g14/p005.md
+    - مطالبهٔ مزایا: hr/g14/p006.md
+  - پاداش پایان خدمت:
+    - نمای کلی: hr/g15/index.md
+    - پاداش پایان خدمت: hr/g15/p001.md
+    - قانون پاداش: hr/g15/p002.md
+  - وام‌ها:
+    - نمای کلی: hr/g16/index.md
+    - نوع وام: hr/g16/p001.md
+    - درخواست وام: hr/g16/p002.md
+    - وام: hr/g16/p003.md
+  - راه‌اندازی:
+    - نمای کلی: hr/g17/index.md
+    - راه‌اندازی منابع انسانی: hr/g17/p001.md
+    - تنظیمات منابع انسانی: hr/g17/p002.md
+    - تنظیمات حقوق: hr/g17/p003.md
+    - گروه خلاصه‌کار روزانه: hr/g17/p004.md
+  - گزارش‌ها:
+    - نمای کلی: hr/g18/index.md
+    - گزارش‌های منابع انسانی: hr/g18/p001.md
+  - مقالات منابع انسانی:
+    - نمای کلی: hr/g19/index.md
+    - مجوز بر اساس سلسله‌مراتب: hr/g19/p001.md
+    - تعیین تأییدکنندهٔ مرخصیِ هر کارمند: hr/g19/p002.md
+    - تأیید مرخصیِ دپارتمانی در BlueHesab: hr/g19/p003.md
+    - استفاده از حضور خودکار: hr/g19/p004.md
+    - پیکربندی مرخصی ذخیره‌شونده: hr/g19/p005.md
+    - محاسبهٔ مرخصی در فیش حقوقی: hr/g19/p006.md
+    - نحوهٔ تسویهٔ مرخصی‌های استفاده‌نشده: hr/g19/p007.md
+    - اختصاص مرخصی پس از مرخصی جبرانی: hr/g19/p008.md
+  - مقالات حقوق و دستمزد:
+    - نمای کلی: hr/g20/index.md
+    - نحوهٔ پردازش حقوق: hr/g20/p001.md
+    - ساختار حقوق و حقوق و دستمزد: hr/g20/p002.md
+    - محاسبهٔ مالیات بر درآمد در BlueHesab: hr/g20/p003.md
+    - ایجاد سند حقوق با تایم‌شیت: hr/g20/p004.md
+    - محاسبهٔ روزهای کاری در فیش حقوقی: hr/g20/p005.md
+    - تنظیم مزایای شناور: hr/g20/p006.md
+- بلو وایر:
+  - نمای کلی: bluewire/index.md
+  - شروع سریع:
+    - نمای کلی: bluewire/g01/index.md
+    - مقدمه: bluewire/g01/p001.md
+  - پرسش‌های متداول:
+    - نمای کلی: bluewire/g02/index.md
+    - عمومی: bluewire/g02/p001.md
+    - پرسش‌های متداول - سایت: bluewire/g02/p002.md
+    - اپ‌های سفارشی: bluewire/g02/p003.md
+    - صورتحساب: bluewire/g02/p004.md
+    - پشتیبانی: bluewire/g02/p005.md
+    - معماری زیرساخت BlueAPi Cloud: bluewire/g02/p006.md
+    - مشکل نصب اپ: bluewire/g02/p007.md
+    - نصب وابستگی‌های APT اپ: bluewire/g02/p008.md
+    - کندی پرس‌وجوهای MariaDB: bluewire/g02/p009.md
+    - پلن کوچک (۵ دلار/ماه): bluewire/g02/p010.md
+    - احراز هویت دومرحله‌ای (2FA): bluewire/g02/p011.md
+    - گزارش SOC 2: bluewire/g02/p012.md
+    - معماری و امنیت: bluewire/g02/p013.md
+    - مسائل اخیر: bluewire/g02/p014.md
+    - ورود ساده به داشبورد BlueAPi Cloud: bluewire/g02/p015.md
+    - فورک اختصاصی BlueAPi: bluewire/g02/p016.md
+    - اطلاعیه‌ها: bluewire/g02/p017.md
+  - سایت:
+    - نمای کلی: bluewire/g03/index.md
+    - ایجاد سایت جدید: bluewire/g03/p001.md
+    - مهاجرت سایت موجود: bluewire/g03/p002.md
+    - حذف سایت: bluewire/g03/p003.md
+    - دامنه‌های سفارشی: bluewire/g03/p004.md
+    - نصب اپ: bluewire/g03/p005.md
+    - پیکربندی سایت: bluewire/g03/p006.md
+    - Delete Site: bluewire/g03/p007.md
+    - پایش: bluewire/g03/p008.md
+    - کاربران پایگاه‌داده و مدیریت مجوز: bluewire/g03/p009.md
+    - پشتیبان‌ها: bluewire/g03/p010.md
+    - فعالیت: bluewire/g03/p011.md
+    - کارها: bluewire/g03/p012.md
+    - ارتقای نسخه: bluewire/g03/p013.md
+    - جابجایی سایت بین نواحی: bluewire/g03/p014.md
+    - انتقال به گروه بنچ خصوصی: bluewire/g03/p015.md
+    - انتقال بین سرورها: bluewire/g03/p016.md
+    - تغییر تیم سایت: bluewire/g03/p017.md
+    - به‌روزرسانی روی بنچ خصوصی: bluewire/g03/p018.md
+    - تغییر پلن سایت: bluewire/g03/p019.md
+    - بهینه‌سازی کارایی پایگاه‌داده: bluewire/g03/p020.md
+    - غیرفعال‌سازی به‌روزرسانی خودکار: bluewire/g03/p021.md
+    - فعال‌سازی اسکریپت سرور: bluewire/g03/p022.md
+    - حذف نصب اپ از سایت: bluewire/g03/p023.md
+    - دریافت IP ثابت: bluewire/g03/p024.md
+    - ارتقای سرویس ایمیل: bluewire/g03/p025.md
+    - زمان‌بندی به‌روزرسانی بنچ عمومی: bluewire/g03/p026.md
+    - پیکربندی اعلان: bluewire/g03/p027.md
+  - بنچ‌های خصوصی:
+    - نمای کلی: bluewire/g04/index.md
+    - بنچ و گروه بنچ چیست؟: bluewire/g04/p001.md
+    - گروه‌های بنچ خصوصی: bluewire/g04/p002.md
+    - ایجاد گروه بنچ: bluewire/g04/p003.md
+    - نصب اپ سفارشی: bluewire/g04/p004.md
+    - دسترسی SSH: bluewire/g04/p005.md
+    - به‌روزرسانی بنچ: bluewire/g04/p006.md
+    - اشکال‌زدایی: bluewire/g04/p007.md
+    - پیکربندی بنچ: bluewire/g04/p008.md
+    - وصله‌های اپ: bluewire/g04/p009.md
+    - وضعیت فرایند: bluewire/g04/p010.md
+    - ویرایش نسخهٔ وابستگی‌ها: bluewire/g04/p011.md
+    - لاگ‌ها: bluewire/g04/p012.md
+    - به‌روزرسانی درجا: bluewire/g04/p013.md
+    - تغییر تیم گروه بنچ: bluewire/g04/p014.md
+    - حذف گروه بنچ: bluewire/g04/p015.md
+  - سرورها:
+    - نمای کلی: bluewire/g05/index.md
+    - مقدمه: bluewire/g05/p001.md
+    - ایجاد سرور جدید: bluewire/g05/p002.md
+    - ایجاد بنچ جدید: bluewire/g05/p003.md
+    - تغییر پلن: bluewire/g05/p004.md
+    - حذف سرورها: bluewire/g05/p005.md
+    - BlueAPi Cloud Hybrid: bluewire/g05/p006.md
+    - راهنمای انتخاب پلن سرور: bluewire/g05/p007.md
+    - افزونه‌های ذخیره‌سازی: bluewire/g05/p008.md
+    - کنترل منابع سایت: bluewire/g05/p009.md
+    - اقدام‌های سرور پایگاه‌داده: bluewire/g05/p010.md
+    - جزئیات مصرف ذخیره‌سازی: bluewire/g05/p011.md
+    - تغییر مالکیت سرور: bluewire/g05/p012.md
+    - اسنپ‌شات سرور: bluewire/g05/p013.md
+    - تحلیل‌های بنچ: bluewire/g05/p014.md
+    - پیکربندی اعلان: bluewire/g05/p015.md
+  - ابر ترکیبی:
+    - نمای کلی: bluewire/g06/index.md
+    - مقدمه: bluewire/g06/p001.md
+    - معماری Self Hosted/Hybrid: bluewire/g06/p002.md
+    - ساختار پوشه‌ها: bluewire/g06/p003.md
+    - ایجاد سرورهای Self Hosted/Hybrid: bluewire/g06/p004.md
+  - صورتحساب:
+    - نمای کلی: bluewire/g07/index.md
+    - چرخهٔ صورتحساب: bluewire/g07/p001.md
+    - پرداخت قبض: bluewire/g07/p002.md
+    - غیرفعال‌سازی حساب/لغو اشتراک: bluewire/g07/p003.md
+    - پلن‌ها: bluewire/g07/p004.md
+    - گزینه‌های پرداخت: bluewire/g07/p005.md
+  - بازارچه:
+    - نمای کلی: bluewire/g08/index.md
+    - مرور بازارچه: bluewire/g08/p001.md
+    - انتشار اپ در بازارچه: bluewire/g08/p002.md
+    - راهنمای نگارش اپ: bluewire/g08/p003.md
+    - راهنمای انتشار اپ: bluewire/g08/p004.md
+    - تسویه‌حساب‌ها: bluewire/g08/p005.md
+    - راهنمای مشارکت محلی‌سازی: bluewire/g08/p006.md
+    - پلن‌های قیمت‌گذاری اپ: bluewire/g08/p007.md
+  - تیم:
+    - نمای کلی: bluewire/g09/index.md
+    - جابجایی بین تیم‌ها: bluewire/g09/p001.md
+    - مدیریت اعضای تیم: bluewire/g09/p002.md
+    - مجوز نقش‌ها: bluewire/g09/p003.md
+    - تغییر ایمیل اعلان تیم: bluewire/g09/p004.md
+    - پیکربندی اعلان: bluewire/g09/p005.md
+  - API:
+    - نمای کلی: bluewire/g10/index.md
+    - مقدمه: bluewire/g10/p001.md
+    - ساخت توکن دسترسی: bluewire/g10/p002.md
+    - احراز هویت: bluewire/g10/p003.md
+    - سایت‌ها: bluewire/g10/p004.md
+    - صورتحساب: bluewire/g10/p005.md
+  - وب‌هوک:
+    - نمای کلی: bluewire/g11/index.md
+    - مقدمه: bluewire/g11/p001.md
+    - پیاده‌سازی وب‌هوک: bluewire/g11/p002.md
+    - رویدادهای وب‌هوک: bluewire/g11/p003.md
+    - لاگ تلاش وب‌هوک: bluewire/g11/p004.md
+  - ابزارهای توسعه:
+    - نمای کلی: bluewire/g12/index.md
+    - مرورگر لاگ: bluewire/g12/p001.md
+    - تحلیل‌گر پایگاه‌داده: bluewire/g12/p002.md
+    - فهرست فرایندهای سایت: bluewire/g12/p003.md
+  - مشکلات رایج:
+    - نمای کلی: bluewire/g13/index.md
+    - pyproject.toml نامعتبر: bluewire/g13/p001.md
+    - نسخهٔ Node ناسازگار: bluewire/g13/p002.md
+    - نسخهٔ وابستگی ناسازگار: bluewire/g13/p003.md
+    - نسخهٔ اپ ناسازگار: bluewire/g13/p004.md
+    - اشکال‌زدایی نصب اپ محلی: bluewire/g13/p005.md
+    - اپ لازم یافت نشد: bluewire/g13/p006.md
+    - Vite پیدا نشد: bluewire/g13/p007.md
+    - ممکن است بیلد شکست بخورد: bluewire/g13/p008.md
+    - OOM: bluewire/g13/p009.md
+    - اتصال به MySQL ممکن نیست: bluewire/g13/p010.md
+    - فرمان ناشناخته -: bluewire/g13/p011.md
+  - اتصال ابزار خارجی:
+    - نمای کلی: bluewire/g14/index.md
+    - اتصال BlueAPi Insights: bluewire/g14/p001.md
+    - اتصال Metabase: bluewire/g14/p002.md
+    - اتصال Apache Superset: bluewire/g14/p003.md
+    - اتصال Looker Studio: bluewire/g14/p004.md
+    - اتصال Power BI Desktop: bluewire/g14/p005.md
+    - اتصال Zoho Analytics: bluewire/g14/p006.md
+  - راهنماها و مستندات:
+    - نمای کلی: bluewire/g15/index.md
+    - محیط توسعهٔ محلی: bluewire/g15/p001.md
+- بلو ای‌پی‌آی:
+  - نمای کلی: blueapi/index.md
+  - شروع سریع:
+    - نمای کلی: blueapi/g01/index.md
+    - مقدمه: blueapi/g01/p001.md
+    - پیش‌نیازها: blueapi/g01/p002.md
+    - نصب: blueapi/g01/p003.md
+  - آموزش:
+    - نمای کلی: blueapi/g02/index.md
+    - آموزش BlueAPi Framework: blueapi/g02/p001.md
+    - نصب و راه‌اندازی Bench: blueapi/g02/p002.md
+    - ساخت اپ: blueapi/g02/p003.md
+    - ساخت سایت: blueapi/g02/p004.md
+    - ساخت داک‌تایپ: blueapi/g02/p005.md
+    - ویژگی‌های داک‌تایپ: blueapi/g02/p006.md
+    - متدهای کنترلر: blueapi/g02/p007.md
+    - انواع داک‌تایپ: blueapi/g02/p008.md
+    - اسکریپت‌های فرم: blueapi/g02/p009.md
+    - صفحات نمای وب: blueapi/g02/p010.md
+    - گام بعدی چیست؟: blueapi/g02/p011.md
+  - مبانی:
+    - نمای کلی: blueapi/g03/index.md
+    - BlueAPi Framework چیست؟: blueapi/g03/p001.md
+    - چرا BlueAPi Framework؟: blueapi/g03/p002.md
+    - معماری: blueapi/g03/p003.md
+    - ساختار پوشه‌ها: blueapi/g03/p004.md
+    - اپ‌ها: blueapi/g03/p005.md
+    - سایت‌ها: blueapi/g03/p006.md
+    - درک داک‌تایپ‌ها: blueapi/g03/p007.md
+    - کاربران و مجوزها: blueapi/g03/p008.md
+    - باندل‌کردن دارایی‌ها: blueapi/g03/p009.md
+    - دارایی‌های استاتیک: blueapi/g03/p010.md
+    - پیکربندی: blueapi/g03/p011.md
+    - ردپای حسابرسی: blueapi/g03/p012.md
+  - داکتایپ‌ها:
+    - نمای کلی: blueapi/g04/index.md
+    - Docstatus: blueapi/g04/p001.md
+    - Module: blueapi/g04/p002.md
+    - Virtual DocField: blueapi/g04/p003.md
+    - Field Types: blueapi/g04/p004.md
+    - Naming: blueapi/g04/p005.md
+    - DocField: blueapi/g04/p006.md
+    - Controllers: blueapi/g04/p007.md
+    - Form & View Settings: blueapi/g04/p008.md
+    - Child / Table DocType: blueapi/g04/p009.md
+    - Single DocType: blueapi/g04/p010.md
+    - Virtual DocTypes: blueapi/g04/p011.md
+    - Actions and Links: blueapi/g04/p012.md
+    - Customizing DocTypes: blueapi/g04/p013.md
+    - Data Masking: blueapi/g04/p014.md
+  - API پایتون:
+    - نمای کلی: blueapi/g05/index.md
+    - برخط (socket.io): blueapi/g05/p001.md
+    - کارهای پس‌زمینه: blueapi/g05/p002.md
+    - API سند: blueapi/g05/p003.md
+    - API پایگاه‌داده: blueapi/g05/p004.md
+    - API جنجا: blueapi/g05/p005.md
+    - چرخهٔ درخواست: blueapi/g05/p006.md
+    - تعیین زبان: blueapi/g05/p007.md
+    - توابع کاربردی: blueapi/g05/p008.md
+    - پاسخ‌ها: blueapi/g05/p009.md
+    - جست‌وجو: blueapi/g05/p010.md
+    - هوک‌ها: blueapi/g05/p011.md
+    - REST API: blueapi/g05/p012.md
+    - API جست‌وجو تمام‌متن: blueapi/g05/p013.md
+    - API دیالوگ: blueapi/g05/p014.md
+    - سازندهٔ کوئری: blueapi/g05/p015.md
+    - blueapi.qb.get_query: blueapi/g05/p016.md
+    - جست‌وجوی SQLite: blueapi/g05/p017.md
+  - API جاوااسکریپت:
+    - نمای کلی: blueapi/g06/index.md
+    - API توسعه‌دهنده: blueapi/g06/p001.md
+    - اسکریپت‌های فرم: blueapi/g06/p002.md
+    - کنترل‌ها: blueapi/g06/p003.md
+    - لیست: blueapi/g06/p004.md
+    - API صفحه: blueapi/g06/p005.md
+    - درخت: blueapi/g06/p006.md
+    - API ابزارهای عمومی: blueapi/g06/p007.md
+    - API نمودار: blueapi/g06/p008.md
+    - API اسکنر: blueapi/g06/p009.md
+    - فراخوانی سرور (AJAX): blueapi/g06/p010.md
+    - لاگ‌گیری: blueapi/g06/p011.md
+    - تورهای فرم: blueapi/g06/p012.md
+  - میزکار:
+    - نمای کلی: blueapi/g07/index.md
+    - میزکار: blueapi/g07/p001.md
+    - گزارش‌ها: blueapi/g07/p002.md
+    - چاپ: blueapi/g07/p003.md
+    - پیوست‌ها: blueapi/g07/p004.md
+    - اسکریپت‌نویسی: blueapi/g07/p005.md
+  - راهنماها:
+    - نمای کلی: blueapi/g08/index.md
+    - راهنماها: blueapi/g08/p001.md
+  - راهنماها - مبانی:
+    - نمای کلی: blueapi/g09/index.md
+    - اپ‌های BlueAPi: blueapi/g09/p001.md
+    - فراخوانی Ajax در BlueAPi: blueapi/g09/p002.md
+    - فعال‌سازی رمزنگاری پشتیبان: blueapi/g09/p003.md
+    - سایت‌ها: blueapi/g09/p004.md
+    - ترجمه‌ها: blueapi/g09/p005.md
+    - گروه‌های ایمیل: blueapi/g09/p006.md
+    - سوالات امنیتی رایج: blueapi/g09/p007.md
+    - وظایف و واگذاری‌ها: blueapi/g09/p008.md
+    - اعلان‌ها: blueapi/g09/p009.md
+  - راهنماها - توسعهٔ اپ:
+    - نمای کلی: blueapi/g10/index.md
+    - عمل سفارشی در فیلد لینک: blueapi/g10/p001.md
+    - اجرای کد روی رویدادهای داک‌تایپ: blueapi/g10/p002.md
+    - بهبود کنترل استاندارد: blueapi/g10/p003.md
+    - اجرای کارهای پس‌زمینه: blueapi/g10/p004.md
+    - افزودن دکمهٔ سفارشی به فرم: blueapi/g10/p005.md
+    - رویداد حذف ردیف جدول: blueapi/g10/p006.md
+    - انواع دیالوگ: blueapi/g10/p007.md
+    - بازنویسی Link Query با اسکریپت سفارشی: blueapi/g10/p008.md
+    - راه‌اندازی Connected App جدید: blueapi/g10/p009.md
+    - آیکون ماژول سفارشی: blueapi/g10/p010.md
+    - درج سند از API: blueapi/g10/p011.md
+    - ساخت فیلدهای سفارشی هنگام نصب اپ: blueapi/g10/p012.md
+    - استفاده از الگوهای HTML در JS: blueapi/g10/p013.md
+    - فعال‌کردن حالت توسعه: blueapi/g10/p014.md
+    - Fetch مقدار فیلد به سند تراکنشی: blueapi/g10/p015.md
+    - افزودن آیکون ماژول روی دسکتاپ: blueapi/g10/p016.md
+    - داکتایپ Single Type: blueapi/g10/p017.md
+    - پیش‌نیازها: blueapi/g10/p018.md
+    - افزودن ارائه‌دهندهٔ ورود اجتماعی: blueapi/g10/p019.md
+    - برون‌بری سفارشی‌سازی به اپ: blueapi/g10/p020.md
+    - کش‌کردن: blueapi/g10/p021.md
+    - سفارشی‌سازی فیلد مکان‌نما/نقشه: blueapi/g10/p022.md
+  - راهنماها - استقرار:
+    - نمای کلی: blueapi/g11/index.md
+    - بسته‌ها: blueapi/g11/p001.md
+    - اعلان ایمیلی شکست کار پس‌زمینه: blueapi/g11/p002.md
+    - مهاجرت تغییرات داک‌تایپ به پروداکشن: blueapi/g11/p003.md
+    - مهاجرت‌ها: blueapi/g11/p004.md
+    - فعال‌سازی ورودهای اجتماعی: blueapi/g11/p005.md
+  - راهنماها - گزارش و چاپ:
+    - نمای کلی: blueapi/g12/index.md
+    - دریافت اطلاعات از سند دیگر در چاپ: blueapi/g12/p001.md
+    - کجاست فرمت‌های چاپ استاندارد؟: blueapi/g12/p002.md
+    - ساخت گزارش کوئری: blueapi/g12/p003.md
+    - فرمت‌های چاپ گزارش: blueapi/g12/p004.md
+    - گزارش اسکریپتی: blueapi/g12/p005.md
+  - راهنماها - توسعهٔ پورتال:
+    - نمای کلی: blueapi/g13/index.md
+    - صفحات: blueapi/g13/p001.md
+    - مرتب‌سازی: blueapi/g13/p002.md
+    - افزودن صفحات: blueapi/g13/p003.md
+    - فهرست مطالب: blueapi/g13/p004.md
+    - صفحات پویا: blueapi/g13/p005.md
+    - نقش‌های پورتال: blueapi/g13/p006.md
+    - سفارشی‌سازی فرم‌های وب: blueapi/g13/p007.md
+    - ژنراتورها: blueapi/g13/p008.md
+    - ریدایرکت‌ها: blueapi/g13/p009.md
+  - راهنماها - داده:
+    - نمای کلی: blueapi/g14/index.md
+    - ابزار مهاجرت داده: blueapi/g14/p001.md
+    - درون‌ریزی CSV حجیم: blueapi/g14/p002.md
+  - راهنماها - یکپارچه‌سازی:
+    - نمای کلی: blueapi/g15/index.md
+    - Google Workspace: blueapi/g15/p001.md
+    - احراز هویت مبتنی بر توکن: blueapi/g15/p002.md
+    - OpenID Connect و ورود اجتماعی BlueAPi: blueapi/g15/p003.md
+    - وب‌هوک‌ها: blueapi/g15/p004.md
+    - کلید ورود اجتماعی: blueapi/g15/p005.md
+    - یکپارچه‌سازی تقویم گوگل: blueapi/g15/p006.md
+    - راه‌اندازی OAuth 2: blueapi/g15/p007.md
+    - احراز هویت مبتنی بر توکن: blueapi/g15/p008.md
+    - استفاده از BlueAPi به‌عنوان سرویس OAuth: blueapi/g15/p009.md
+  - یکپارچه‌سازی - REST API:
+    - نمای کلی: blueapi/g16/index.md
+    - مقدمه: blueapi/g16/p001.md
+    - احراز هویت ساده: blueapi/g16/p002.md
+    - احراز هویت مبتنی بر توکن: blueapi/g16/p003.md
+    - OAuth 2: blueapi/g16/p004.md
+    - فهرست‌کردن اسناد: blueapi/g16/p005.md
+    - عملیات روی داک‌تایپ‌ها: blueapi/g16/p006.md
+  - راهنماها - تنظیمات پایگاه‌داده:
+    - نمای کلی: blueapi/g17/index.md
+    - خواندن از MySQL ثانویه: blueapi/g17/p001.md
+    - راه‌اندازی Postgres: blueapi/g17/p002.md
+  - راهنماها - تست خودکار:
+    - نمای کلی: blueapi/g18/index.md
+    - تست خودکار: blueapi/g18/p001.md
+    - تست واحد: blueapi/g18/p002.md
+    - تست یکپارچه‌سازی UI: blueapi/g18/p003.md
+    - تست UI با BlueAPi: blueapi/g18/p004.md
+  - میزکار - اسکریپت‌نویسی:
+    - نمای کلی: blueapi/g19/index.md
+    - اسکریپت سمت‌کاربر: blueapi/g19/p001.md
+    - کنسول سیستم: blueapi/g19/p002.md
+    - اسکریپت سمت‌سرور: blueapi/g19/p003.md
+    - API اسکریپت: blueapi/g19/p004.md
+  - راهنماها - میزکار:
+    - نمای کلی: blueapi/g20/index.md
+    - سفارشی‌سازی میزکار: blueapi/g20/p001.md
+    - Formatter فیلد لینک: blueapi/g20/p002.md
+    - ساخت نمودار: blueapi/g20/p003.md
+    - استفاده از Vue در صفحهٔ میزکار: blueapi/g20/p004.md
+  - میزکار - فضای‌کار:
+    - نمای کلی: blueapi/g21/index.md
+    - فضای‌کار: blueapi/g21/p001.md
+    - سفارشی‌سازی: blueapi/g21/p002.md
+    - بلوک‌ها: blueapi/g21/p003.md
+    - دسترسی: blueapi/g21/p004.md
+  - میزکار - گزارش‌ها:
+    - نمای کلی: blueapi/g22/index.md
+    - گزارش اسکریپتی: blueapi/g22/p001.md
+    - گزارش کوئری: blueapi/g22/p002.md
+    - سازندهٔ گزارش: blueapi/g22/p003.md
+  - پورتال:
+    - نمای کلی: blueapi/g23/index.md
+    - گفت‌وگوها: blueapi/g23/p001.md
+    - صفحات پورتال: blueapi/g23/p002.md
+    - نوشتهٔ بلاگ: blueapi/g23/p003.md
+    - صفحهٔ اپ‌ها: blueapi/g23/p004.md
+  - پورتال - فرم وب:
+    - نمای کلی: blueapi/g24/index.md
+    - فرم وب: blueapi/g24/p001.md
+    - تنظیمات: blueapi/g24/p002.md
+    - سفارشی‌سازی: blueapi/g24/p003.md
+  - یکپارچه‌سازی:
+    - نمای کلی: blueapi/g25/index.md
+    - RazorPay: blueapi/g25/p001.md
+    - Google Drive: blueapi/g25/p002.md
+    - راه‌اندازی LDAP: blueapi/g25/p003.md
+    - OAuth ایمیل Microsoft 365: blueapi/g25/p004.md
+    - OAuth2: blueapi/g25/p005.md
+  - ابزار خط فرمان BlueAPi:
+    - نمای کلی: blueapi/g26/index.md
+    - Bench: blueapi/g26/p001.md
+    - فرمان‌های Bench: blueapi/g26/p002.md
+    - فرمان‌های BlueAPi: blueapi/g26/p003.md
+    - گسترش CLI: blueapi/g26/p004.md
+  - مرجع Bench:
+    - نمای کلی: blueapi/g27/index.md
+    - مرجع فرمان‌ها: blueapi/g27/p001.md
+    - bench new-site: blueapi/g27/p002.md
+    - bench drop-site: blueapi/g27/p003.md
+    - bench migrate: blueapi/g27/p004.md
+    - bench backup: blueapi/g27/p005.md
+    - bench reinstall: blueapi/g27/p006.md
+    - bench list-apps: blueapi/g27/p007.md
+    - bench uninstall-app: blueapi/g27/p008.md
+    - bench show-config: blueapi/g27/p009.md
+    - bench set-config: blueapi/g27/p010.md
+    - bench restore: blueapi/g27/p011.md
+    - bench partial-restore: blueapi/g27/p012.md
+    - bench version: blueapi/g27/p013.md
+    - bench transform-database: blueapi/g27/p014.md
+    - bench trim-database: blueapi/g27/p015.md
+    - bench trim-tables: blueapi/g27/p016.md
+    - bench generate-pot-file: blueapi/g27/p017.md
+    - bench migrate-csv-to-po: blueapi/g27/p018.md
+    - bench update-po-files: blueapi/g27/p019.md
+    - bench compile-po-to-mo: blueapi/g27/p020.md
+  - راهنماهای Bench:
+    - نمای کلی: blueapi/g28/index.md
+    - افزودن دامنهٔ سفارشی: blueapi/g28/p001.md
+    - پیکربندی HTTPS: blueapi/g28/p002.md
+    - عیب‌یابی Scheduler: blueapi/g28/p003.md
+    - Let’s Encrypt برای HTTPS: blueapi/g28/p004.md
+    - تنظیم حدود سایت: blueapi/g28/p005.md
+    - چندمستاجری: blueapi/g28/p006.md
+    - پروداکشن: blueapi/g28/p007.md
+  - منابع Bench:
+    - نمای کلی: blueapi/g29/index.md
+    - سرویس‌های پس‌زمینه: blueapi/g29/p001.md
+    - چیت‌شیت فرمان‌های Bench: blueapi/g29/p002.md
+    - Procfile بنچ: blueapi/g29/p003.md
+  - استقرار:
+    - نمای کلی: blueapi/g30/index.md
+    - مهاجرت‌های پایگاه‌داده: blueapi/g30/p001.md
+    - راه‌اندازی پروداکشن: blueapi/g30/p002.md
+    - مهاجرت بدون وقفه: blueapi/g30/p003.md
+    - محدودسازی نرخ: blueapi/g30/p004.md
+  - ویدیوها:
+    - نمای کلی: blueapi/g31/index.md
+    - آموزش‌های ویدیویی BlueAPi Framework: blueapi/g31/p001.md
+  - نگارش تست‌ها:
+    - نمای کلی: blueapi/g32/index.md
+    - تست: blueapi/g32/p001.md
+    - تست UI: blueapi/g32/p002.md
+  - قابلیت‌های پنهان:
+    - نمای کلی: blueapi/g33/index.md
+    - میزکار: blueapi/g33/p001.md
+  - راهنما:
+    - نمای کلی: blueapi/g34/index.md
+    - اشکال‌زدایی: blueapi/g34/p001.md
+    - چگونه مشارکت کنیم: blueapi/g34/p002.md
+    - پروفایلینگ و پایش: blueapi/g34/p003.md
+    - ترجمه‌ها: blueapi/g34/p004.md
+    - لاگ‌گیری: blueapi/g34/p005.md
+  - راهنمای بهینه‌سازی کارایی:
+    - نمای کلی: blueapi/g35/index.md
+    - بهینه‌سازی پایگاه‌داده - H: blueapi/g35/p001.md
+- بلو‌داک:
+  - نمای کلی: bluedoc/index.md
+  - شروع:
+    - نمای کلی: bluedoc/g01/index.md
+    - مقدمه: bluedoc/g01/p001.md
+    - نصب محلی: bluedoc/g01/p002.md
+    - استفاده در BlueAPi Cloud: bluedoc/g01/p003.md
+  - یادگیری:
+    - نمای کلی: bluedoc/g02/index.md
+    - صفحهٔ جدید بلو‌داک: bluedoc/g02/p001.md
+    - فضای بلو‌داک: bluedoc/g02/p002.md
+    - گروه جدید بلو‌داک: bluedoc/g02/p003.md
+    - بررسی نسخه‌های صفحه: bluedoc/g02/p004.md
+    - تأیید تغییرات: bluedoc/g02/p005.md
+    - تنظیمات بلو‌داک: bluedoc/g02/p006.md
+  - راهنماها:
+    - نمای کلی: bluedoc/g03/index.md
+    - راهنمای مهاجرت بلو‌داک: bluedoc/g03/p001.md
+  - مشارکت:
+    - نمای کلی: bluedoc/g04/index.md
+    - نحوهٔ مشارکت: bluedoc/g04/p001.md
+extra:
+  generator: false

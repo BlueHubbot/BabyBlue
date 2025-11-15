@@ -1,0 +1,250 @@
+[آیتم] بلو ای‌پی‌آی / Bench - Guides / Adding Custom Domains to your Site
+[آیتم] بلو ای‌پی‌آی / Bench - Guides / Configuring HTTPS
+[آیتم] بلو ای‌پی‌آی / Bench - Guides / Diagnosing The Scheduler
+[آیتم] بلو ای‌پی‌آی / Bench - Guides / Setting Limits for your Site
+[آیتم] بلو ای‌پی‌آی / Bench - Guides / Setup Multitenancy
+[آیتم] بلو ای‌پی‌آی / Bench - Guides / Setup Production
+[آیتم] بلو ای‌پی‌آی / Bench - Guides / Using Let's Encrypt to setup HTTPS
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench backup
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench compile-po-to-mo
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench drop-site
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench generate-pot-file
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench list-apps
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench migrate
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench migrate-csv-to-po
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench new-site
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench partial-restore
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench reinstall
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench restore
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench set-config
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench show-config
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench transform-database
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench trim-database
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench trim-tables
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench uninstall-app
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench update-po-files
+[آیتم] بلو ای‌پی‌آی / Bench - Reference / bench version
+[آیتم] بلو ای‌پی‌آی / Desk / Desk
+[آیتم] بلو ای‌پی‌آی / Doctypes / Actions and Links
+[آیتم] بلو ای‌پی‌آی / Doctypes / Child / Table DocType
+[آیتم] بلو ای‌پی‌آی / Doctypes / Controllers
+[آیتم] بلو ای‌پی‌آی / Doctypes / Customizing DocTypes
+[آیتم] بلو ای‌پی‌آی / Doctypes / Data Masking
+[آیتم] بلو ای‌پی‌آی / Doctypes / DocField
+[آیتم] بلو ای‌پی‌آی / Doctypes / Docstatus
+[آیتم] بلو ای‌پی‌آی / Doctypes / Field Types
+[آیتم] بلو ای‌پی‌آی / Doctypes / Form & View Settings
+[آیتم] بلو ای‌پی‌آی / Doctypes / Module
+[آیتم] بلو ای‌پی‌آی / Doctypes / Naming
+[آیتم] بلو ای‌پی‌آی / Doctypes / Single DocType
+[آیتم] بلو ای‌پی‌آی / Doctypes / Virtual DocField
+[آیتم] بلو ای‌پی‌آی / Doctypes / Virtual DocTypes
+[آیتم] بلو ای‌پی‌آی / Getting Started / Prerequisites
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Adding Custom Button To Form
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Adding Module Icons On Desktop
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Adding Social Login Provider
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Caching
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Custom Action in Link Field
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Custom Module Icon
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Customize the Geolocation / Map field
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Dialogs Types
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Executing Code On Doctype Events
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Exporting Customizations to your App
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Fetch a Field Value from a Document into a Transaction
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / How To Create Custom Fields During App Installation
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / How To Improve A Standard Control
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / How to Enable Developer Mode in Frappe
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Insert A Document Via Api
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Overriding Link Query By Custom Script
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Prerequisites
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Running Background Jobs
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Set up a new Connected App
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Single Type Doctype
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Trigger Event On Deletion Of Grid Row
+[آیتم] بلو ای‌پی‌آی / Guides - App Development / Using Html Templates In Javascript
+[آیتم] بلو ای‌پی‌آی / Guides - Basics / Assignments and Todos
+[آیتم] بلو ای‌پی‌آی / Guides - Basics / Email Groups
+[آیتم] بلو ای‌پی‌آی / Guides - Basics / How to Enable Backup Encryption
+[آیتم] بلو ای‌پی‌آی / Guides - Basics / Notifications
+[آیتم] بلو ای‌پی‌آی / Guides - Basics / Security FAQs
+[آیتم] بلو ای‌پی‌آی / Guides / Guides
+[آیتم] بلو ای‌پی‌آی / Hidden Features / Desk
+[آیتم] بلو ای‌پی‌آی / Integration - REST API / OAuth 2
+[آیتم] بلو ای‌پی‌آی / Integration / Google Drive
+[آیتم] بلو ای‌پی‌آی / Integration / OAuth2
+[آیتم] بلو ای‌پی‌آی / Integration / RazorPay
+[آیتم] بلو ای‌پی‌آی / Python API / Background Jobs
+[آیتم] بلو ای‌پی‌آی / Python API / REST API
+[آیتم] بلو ای‌پی‌آی / Python API / Realtime (socket.io)
+[آیتم] بلو وایر / API / Authentication
+[آیتم] بلو وایر / API / Create an Access Token
+[آیتم] بلو وایر / Billing / Bill Payments
+[آیتم] بلو وایر / Billing / Billing Cycle
+[آیتم] بلو وایر / Billing / Disable Account / Cancel Subscription
+[آیتم] بلو وایر / Billing / Payment Options
+[آیتم] بلو وایر / Billing / Plans
+[آیتم] بلو وایر / Common Issues / Build might fail
+[آیتم] بلو وایر / Common Issues / Can't connect to MySQL server
+[آیتم] بلو وایر / Common Issues / Debugging app installs locally
+[آیتم] بلو وایر / Common Issues / Incompatible Node version
+[آیتم] بلو وایر / Common Issues / Incompatible app version
+[آیتم] بلو وایر / Common Issues / Incompatible dependency version
+[آیتم] بلو وایر / Common Issues / Invalid pyproject.toml file
+[آیتم] بلو وایر / Common Issues / OOM Issues
+[آیتم] بلو وایر / Common Issues / Required app not found
+[آیتم] بلو وایر / Common Issues / Unknown command -
+[آیتم] بلو وایر / Common Issues / Vite not found
+[آیتم] بلو وایر / Connect External Tool / Connect Apache Superset
+[آیتم] بلو وایر / Connect External Tool / Connect Frappe Insights
+[آیتم] بلو وایر / Connect External Tool / Connect Looker Studio
+[آیتم] بلو وایر / Connect External Tool / Connect Metabase
+[آیتم] بلو وایر / Connect External Tool / Connect Power BI Desktop
+[آیتم] بلو وایر / Connect External Tool / Connect Zoho Analytics
+[آیتم] بلو وایر / Dev Tools / Database Analyzer
+[آیتم] بلو وایر / Dev Tools / Log Browser
+[آیتم] بلو وایر / Dev Tools / Site Process List
+[آیتم] بلو وایر / FAQ / FAQ - Site
+[آیتم] بلو وایر / Guides and Manuals / Local Development Environ
+[آیتم] بلو وایر / Hybrid Cloud / Creating New Self Hosted Servers/Hybrid Cloud
+[آیتم] بلو وایر / Hybrid Cloud / Folder Structure
+[آیتم] بلو وایر / Hybrid Cloud / Self Hosted Server/Hybrid Cloud Architecture
+[آیتم] بلو وایر / Marketplace / App Pricing Plans
+[آیتم] بلو وایر / Marketplace / App authoring guidelines
+[آیتم] بلو وایر / Marketplace / Frappe Cloud Marketplace Overview
+[آیتم] بلو وایر / Marketplace / Guidelines for Contributing Regional Localisation
+[آیتم] بلو وایر / Marketplace / Guidelines for publishing an app
+[آیتم] بلو وایر / Marketplace / Payouts
+[آیتم] بلو وایر / Marketplace / Publishing an App to Marketplace
+[آیتم] بلو وایر / Team / Change notification email of Team
+[آیتم] بلو وایر / Team / Managing Team Members
+[آیتم] بلو وایر / Team / Role Permissions
+[آیتم] بلو وایر / Team / Switching between Teams
+[آیتم] بلو وایر / Webhook / Webhook Attempt Logs
+[آیتم] بلو وایر / Webhook / Webhook Events
+[آیتم] بلو وایر / Webhook / Webhook Implementation
+[آیتم] مدیریت ارتباط / Integrations / Exotel
+[آیتم] مدیریت ارتباط / Integrations / Twilio
+[آیتم] مدیریت ارتباط / Integrations / WhatsApp
+[آیتم] منابع انسانی / Attendance / Attendance
+[آیتم] منابع انسانی / Attendance / Attendance Request
+[آیتم] منابع انسانی / Attendance / Auto Attendance
+[آیتم] منابع انسانی / Attendance / Employee Attendance Tool
+[آیتم] منابع انسانی / Attendance / Employee Checkin
+[آیتم] منابع انسانی / Attendance / Integrating Frappe HR With Biometric Attendance Devices
+[آیتم] منابع انسانی / Attendance / Upload Attendance
+[آیتم] منابع انسانی / Employee Lifecycle / Employee Lifecycle Management
+[آیتم] منابع انسانی / Employee Lifecycle / Employee Onboarding
+[آیتم] منابع انسانی / Employee Lifecycle / Employee Promotion
+[آیتم] منابع انسانی / Employee Lifecycle / Employee Separation
+[آیتم] منابع انسانی / Employee Lifecycle / Employee Skill Map
+[آیتم] منابع انسانی / Employee Lifecycle / Employee Transfer
+[آیتم] منابع انسانی / Employee Lifecycle / Exit Interview
+[آیتم] منابع انسانی / Employee Lifecycle / Full and Final Statement
+[آیتم] منابع انسانی / Employee Tax and Benefits / Employee Benefit Application
+[آیتم] منابع انسانی / Employee Tax and Benefits / Employee Benefit Claim
+[آیتم] منابع انسانی / Employee Tax and Benefits / Employee Other Income
+[آیتم] منابع انسانی / Employee Tax and Benefits / Employee Tax Exemption Declaration
+[آیتم] منابع انسانی / Employee Tax and Benefits / Employee Tax Exemption Proof Submission
+[آیتم] منابع انسانی / Employee Tax and Benefits / Setting Up Income Tax Deduction
+[آیتم] منابع انسانی / Fleet Management / Fleet Management
+[آیتم] منابع انسانی / Fleet Management / Vehicle
+[آیتم] منابع انسانی / Fleet Management / Vehicle Log
+[آیتم] منابع انسانی / Gratuity / Gratuity
+[آیتم] منابع انسانی / Gratuity / Gratuity Rule
+[آیتم] منابع انسانی / HR Articles / Configuring Earned Leave
+[آیتم] منابع انسانی / HR Articles / Department-wise Leave Approval in ERPNext
+[آیتم] منابع انسانی / HR Articles / How to encash unused leaves using Salary Slips
+[آیتم] منابع انسانی / HR Articles / Leave Calculation In Salary Slip
+[آیتم] منابع انسانی / HR Articles / Leave allocation after Compensatory Leave Request
+[آیتم] منابع انسانی / HR Articles / Setting Employee-wise Leave Approver
+[آیتم] منابع انسانی / HR Articles / User Permission based on Hierarchy
+[آیتم] منابع انسانی / HR Articles / Using Auto Attendance
+[آیتم] منابع انسانی / Leave Management / Compensatory Leave Request
+[آیتم] منابع انسانی / Leave Management / Holiday List
+[آیتم] منابع انسانی / Leave Management / Leave Allocation
+[آیتم] منابع انسانی / Leave Management / Leave Application
+[آیتم] منابع انسانی / Leave Management / Leave Block List
+[آیتم] منابع انسانی / Leave Management / Leave Control Panel
+[آیتم] منابع انسانی / Leave Management / Leave Encashment
+[آیتم] منابع انسانی / Leave Management / Leave Ledger Entry
+[آیتم] منابع انسانی / Leave Management / Leave Ledger Report
+[آیتم] منابع انسانی / Leave Management / Leave Period
+[آیتم] منابع انسانی / Leave Management / Leave Policy
+[آیتم] منابع انسانی / Leave Management / Leave Policy Assignment
+[آیتم] منابع انسانی / Leave Management / Leave Type
+[آیتم] منابع انسانی / Leave Management / Leaves
+[آیتم] منابع انسانی / Loans / Loan
+[آیتم] منابع انسانی / Loans / Loan Application
+[آیتم] منابع انسانی / Loans / Loan Type
+[آیتم] منابع انسانی / Organization Management / Branch
+[آیتم] منابع انسانی / Organization Management / Department
+[آیتم] منابع انسانی / Organization Management / Designation
+[آیتم] منابع انسانی / Organization Management / Employee
+[آیتم] منابع انسانی / Organization Management / Employee Grade
+[آیتم] منابع انسانی / Organization Management / Employee Group
+[آیتم] منابع انسانی / Organization Management / Employee Health Insurance
+[آیتم] منابع انسانی / Organization Management / Employment Type
+[آیتم] منابع انسانی / Organization Management / Organizational Chart
+[آیتم] منابع انسانی / Payroll Articles / Create Payroll Entry with Timesheets
+[آیتم] منابع انسانی / Payroll Articles / How to process Payroll in ERPNext
+[آیتم] منابع انسانی / Payroll Articles / Income Tax Calculation in ERPNext
+[آیتم] منابع انسانی / Payroll Articles / Salary Structure and Payroll
+[آیتم] منابع انسانی / Payroll Articles / Setting Flexible Benefits ag
+[آیتم] منابع انسانی / Payroll Articles / Working Days Calculation in the Salary Slip
+[آیتم] منابع انسانی / Performance / Appraisal
+[آیتم] منابع انسانی / Performance / Appraisal Cycle
+[آیتم] منابع انسانی / Performance / Appraisal Overview Report
+[آیتم] منابع انسانی / Performance / Appraisal Template
+[آیتم] منابع انسانی / Performance / Employee Performance Feedback
+[آیتم] منابع انسانی / Performance / Goal
+[آیتم] منابع انسانی / Recruitment / Appointment Letter
+[آیتم] منابع انسانی / Recruitment / Employee Referral
+[آیتم] منابع انسانی / Recruitment / Interview
+[آیتم] منابع انسانی / Recruitment / Interview Feedback
+[آیتم] منابع انسانی / Recruitment / Interview Management
+[آیتم] منابع انسانی / Recruitment / Interview Round
+[آیتم] منابع انسانی / Recruitment / Interview Type
+[آیتم] منابع انسانی / Recruitment / Job Applicant
+[آیتم] منابع انسانی / Recruitment / Job Offer
+[آیتم] منابع انسانی / Recruitment / Job Opening
+[آیتم] منابع انسانی / Recruitment / Job Portal
+[آیتم] منابع انسانی / Recruitment / Job Requisition
+[آیتم] منابع انسانی / Recruitment / Recruitment
+[آیتم] منابع انسانی / Recruitment / Staffing Plan
+[آیتم] منابع انسانی / Salary Payouts / Additional Salary
+[آیتم] منابع انسانی / Salary Payouts / Employee Incentive
+[آیتم] منابع انسانی / Salary Payouts / Income Tax Slab
+[آیتم] منابع انسانی / Salary Payouts / Payroll Entry
+[آیتم] منابع انسانی / Salary Payouts / Payroll Management
+[آیتم] منابع انسانی / Salary Payouts / Payroll Period
+[آیتم] منابع انسانی / Salary Payouts / Payroll Setup
+[آیتم] منابع انسانی / Salary Payouts / Retention Bonus
+[آیتم] منابع انسانی / Salary Payouts / Salary Component
+[آیتم] منابع انسانی / Salary Payouts / Salary Slip
+[آیتم] منابع انسانی / Salary Payouts / Salary Structure
+[آیتم] منابع انسانی / Salary Payouts / Salary Structure Assignment
+[آیتم] منابع انسانی / Salary Payouts / Salary Structure Assignment Tool
+[آیتم] منابع انسانی / Shift Management / Roster
+[آیتم] منابع انسانی / Shift Management / Shift Assignment
+[آیتم] منابع انسانی / Shift Management / Shift Assignment Tool
+[آیتم] منابع انسانی / Shift Management / Shift Location
+[آیتم] منابع انسانی / Shift Management / Shift Management
+[آیتم] منابع انسانی / Shift Management / Shift Request
+[آیتم] منابع انسانی / Shift Management / Shift Schedule
+[آیتم] منابع انسانی / Shift Management / Shift Schedule Assignment
+[آیتم] منابع انسانی / Shift Management / Shift Type
+[آیتم] منابع انسانی / Training / Training Event
+[آیتم] منابع انسانی / Training / Training Feedback
+[آیتم] منابع انسانی / Training / Training Program
+[آیتم] منابع انسانی / Training / Training Result
+[آیتم] منابع انسانی / Travel and Expense Claim / Employee Advance
+[آیتم] منابع انسانی / Travel and Expense Claim / Expense Claim
+[آیتم] منابع انسانی / Travel and Expense Claim / Travel Request
+[گروه] بلو وایر / API
+[گروه] مدیریت ارتباط / Capturing Leads
+[گروه] مدیریت ارتباط / Customization
+[گروه] مدیریت ارتباط / Integrations
+[گروه] مدیریت ارتباط / Masters
+[گروه] مدیریت ارتباط / Other Features
+[گروه] مدیریت ارتباط / Views
+[گروه] منابع انسانی / Frappe HR Mobile
