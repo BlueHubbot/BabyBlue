@@ -1,0 +1,5 @@
+{
+  "cal_boot.bundle.js": [
+    "public/js/cal_boot.js"
+  ]
+}

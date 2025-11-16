@@ -1,0 +1,1624 @@
+doctype,fieldname,fieldtype,part,source
+Sales Invoice,customer_section,Section Break,option,fa fa-user
+Sales Invoice,title,Data,label,Title
+Sales Invoice,naming_series,Select,label,Series
+Sales Invoice,naming_series,Select,option,فاکتور-فروش-.YYYY.-#####
+Sales Invoice,naming_series,Select,option,ACC-SINV-.YYYY.-
+Sales Invoice,naming_series,Select,option,ACC-SINV-RET-.YYYY.-
+Sales Invoice,customer,Link,label,Customer
+Sales Invoice,customer_name,Small Text,label,Customer Name
+Sales Invoice,tax_id,Data,label,Tax Id
+Sales Invoice,company,Link,label,Company
+Sales Invoice,company_tax_id,Data,label,Company Tax ID
+Sales Invoice,posting_date,Date,label,Date
+Sales Invoice,posting_time,Time,label,Posting Time
+Sales Invoice,set_posting_time,Check,label,Edit Posting Date and Time
+Sales Invoice,due_date,Date,label,Payment Due Date
+Sales Invoice,is_pos,Check,label,Include Payment (POS)
+Sales Invoice,pos_profile,Link,label,POS Profile
+Sales Invoice,is_consolidated,Check,label,Is Consolidated
+Sales Invoice,is_return,Check,label,Is Return (Credit Note)
+Sales Invoice,return_against,Link,label,Return Against
+Sales Invoice,update_outstanding_for_self,Check,label,Update Outstanding for Self
+Sales Invoice,update_outstanding_for_self,Check,description,"Credit Note will update it's own outstanding amount, even if 'Return Against' is specified."
+Sales Invoice,update_billed_amount_in_sales_order,Check,label,Update Billed Amount in Sales Order
+Sales Invoice,update_billed_amount_in_delivery_note,Check,label,Update Billed Amount in Delivery Note
+Sales Invoice,is_debit_note,Check,label,Is Rate Adjustment Entry (Debit Note)
+Sales Invoice,is_debit_note,Check,description,Issue a debit note with 0 qty against an existing Sales Invoice
+Sales Invoice,amended_from,Link,label,Amended From
+Sales Invoice,accounting_dimensions_section,Section Break,label,Accounting Dimensions
+Sales Invoice,cost_center,Link,label,Cost Center
+Sales Invoice,project,Link,label,Project
+Sales Invoice,currency_and_price_list,Section Break,label,Currency and Price List
+Sales Invoice,currency,Link,label,Currency
+Sales Invoice,conversion_rate,Float,label,Exchange Rate
+Sales Invoice,conversion_rate,Float,description,Rate at which Customer Currency is converted to customer's base currency
+Sales Invoice,selling_price_list,Link,label,Price List
+Sales Invoice,price_list_currency,Link,label,Price List Currency
+Sales Invoice,plc_conversion_rate,Float,label,Price List Exchange Rate
+Sales Invoice,plc_conversion_rate,Float,description,Rate at which Price list currency is converted to customer's base currency
+Sales Invoice,ignore_pricing_rule,Check,label,Ignore Pricing Rule
+Sales Invoice,items_section,Section Break,label,Items
+Sales Invoice,items_section,Section Break,option,fa fa-shopping-cart
+Sales Invoice,scan_barcode,Data,label,Scan Barcode
+Sales Invoice,update_stock,Check,label,Update Stock
+Sales Invoice,last_scanned_warehouse,Data,label,Last Scanned Warehouse
+Sales Invoice,set_warehouse,Link,label,Source Warehouse
+Sales Invoice,set_target_warehouse,Link,label,Set Target Warehouse
+Sales Invoice,items,Table,label,Items
+Sales Invoice,total_qty,Float,label,Total Quantity
+Sales Invoice,total_net_weight,Float,label,Total Net Weight
+Sales Invoice,base_total,Currency,label,Total (Company Currency)
+Sales Invoice,base_net_total,Currency,label,Net Total (Company Currency)
+Sales Invoice,total,Currency,label,Total
+Sales Invoice,net_total,Currency,label,Net Total
+Sales Invoice,taxes_section,Section Break,label,Taxes and Charges
+Sales Invoice,taxes_section,Section Break,option,fa fa-money
+Sales Invoice,tax_category,Link,label,Tax Category
+Sales Invoice,taxes_and_charges,Link,label,Sales Taxes and Charges Template
+Sales Invoice,shipping_rule,Link,label,Shipping Rule
+Sales Invoice,incoterm,Link,label,Incoterm
+Sales Invoice,named_place,Data,label,Named Place
+Sales Invoice,taxes,Table,label,Sales Taxes and Charges
+Sales Invoice,base_total_taxes_and_charges,Currency,label,Total Taxes and Charges (Company Currency)
+Sales Invoice,total_taxes_and_charges,Currency,label,Total Taxes and Charges
+Sales Invoice,totals,Section Break,label,Totals
+Sales Invoice,totals,Section Break,option,fa fa-money
+Sales Invoice,base_grand_total,Currency,label,Grand Total (Company Currency)
+Sales Invoice,base_rounding_adjustment,Currency,label,Rounding Adjustment (Company Currency)
+Sales Invoice,base_rounded_total,Currency,label,Rounded Total (Company Currency)
+Sales Invoice,base_in_words,Small Text,label,In Words (Company Currency)
+Sales Invoice,base_in_words,Small Text,description,In Words will be visible once you save the Sales Invoice.
+Sales Invoice,grand_total,Currency,label,Grand Total
+Sales Invoice,rounding_adjustment,Currency,label,Rounding Adjustment
+Sales Invoice,use_company_roundoff_cost_center,Check,label,Use Company default Cost Center for Round off
+Sales Invoice,rounded_total,Currency,label,Rounded Total
+Sales Invoice,in_words,Small Text,label,In Words
+Sales Invoice,total_advance,Currency,label,Total Advance
+Sales Invoice,outstanding_amount,Currency,label,Outstanding Amount
+Sales Invoice,disable_rounded_total,Check,label,Disable Rounded Total
+Sales Invoice,section_break_49,Section Break,label,Additional Discount
+Sales Invoice,apply_discount_on,Select,label,Apply Additional Discount On
+Sales Invoice,apply_discount_on,Select,option,Grand Total
+Sales Invoice,apply_discount_on,Select,option,Net Total
+Sales Invoice,base_discount_amount,Currency,label,Additional Discount Amount (Company Currency)
+Sales Invoice,is_cash_or_non_trade_discount,Check,label,Is Cash or Non Trade Discount
+Sales Invoice,additional_discount_account,Link,label,Discount Account
+Sales Invoice,additional_discount_percentage,Float,label,Additional Discount Percentage
+Sales Invoice,discount_amount,Currency,label,Additional Discount Amount
+Sales Invoice,sec_tax_breakup,Section Break,label,Tax Breakup
+Sales Invoice,other_charges_calculation,Text Editor,label,Taxes and Charges Calculation
+Sales Invoice,pricing_rule_details,Section Break,label,Pricing Rules
+Sales Invoice,pricing_rules,Table,label,Pricing Rule Detail
+Sales Invoice,packing_list,Section Break,label,Packing List
+Sales Invoice,packing_list,Section Break,option,fa fa-suitcase
+Sales Invoice,packed_items,Table,label,Packed Items
+Sales Invoice,product_bundle_help,HTML,label,Product Bundle Help
+Sales Invoice,time_sheet_list,Section Break,label,Time Sheet List
+Sales Invoice,timesheets,Table,label,Time Sheets
+Sales Invoice,total_billing_hours,Float,label,Total Billing Hours
+Sales Invoice,total_billing_amount,Currency,label,Total Billing Amount
+Sales Invoice,payments_tab,Tab Break,label,Payments
+Sales Invoice,payments_section,Section Break,label,Payments
+Sales Invoice,payments_section,Section Break,option,fa fa-money
+Sales Invoice,cash_bank_account,Link,label,Cash/Bank Account
+Sales Invoice,payments,Table,label,Sales Invoice Payment
+Sales Invoice,base_paid_amount,Currency,label,Paid Amount (Company Currency)
+Sales Invoice,paid_amount,Currency,label,Paid Amount
+Sales Invoice,section_break_88,Section Break,label,Changes
+Sales Invoice,base_change_amount,Currency,label,Base Change Amount (Company Currency)
+Sales Invoice,change_amount,Currency,label,Change Amount
+Sales Invoice,account_for_change_amount,Link,label,Account for Change Amount
+Sales Invoice,advances_section,Section Break,label,Advance Payments
+Sales Invoice,advances_section,Section Break,option,fa fa-money
+Sales Invoice,allocate_advances_automatically,Check,label,Allocate Advances Automatically (FIFO)
+Sales Invoice,only_include_allocated_payments,Check,label,Only Include Allocated Payments
+Sales Invoice,only_include_allocated_payments,Check,description,Advance payments allocated against orders will only be fetched
+Sales Invoice,get_advances,Button,label,Get Advances Received
+Sales Invoice,advances,Table,label,Advances
+Sales Invoice,write_off_section,Section Break,label,Write Off
+Sales Invoice,write_off_amount,Currency,label,Write Off Amount
+Sales Invoice,base_write_off_amount,Currency,label,Write Off Amount (Company Currency)
+Sales Invoice,write_off_outstanding_amount_automatically,Check,label,Write Off Outstanding Amount
+Sales Invoice,write_off_account,Link,label,Write Off Account
+Sales Invoice,write_off_cost_center,Link,label,Write Off Cost Center
+Sales Invoice,loyalty_points_redemption,Section Break,label,Loyalty Points Redemption
+Sales Invoice,redeem_loyalty_points,Check,label,Redeem Loyalty Points
+Sales Invoice,loyalty_points,Int,label,Loyalty Points
+Sales Invoice,loyalty_amount,Currency,label,Loyalty Amount
+Sales Invoice,loyalty_program,Link,label,Loyalty Program
+Sales Invoice,loyalty_redemption_account,Link,label,Redemption Account
+Sales Invoice,loyalty_redemption_cost_center,Link,label,Redemption Cost Center
+Sales Invoice,contact_and_address_tab,Tab Break,label,Address & Contact
+Sales Invoice,address_and_contact,Section Break,label,Billing Address
+Sales Invoice,customer_address,Link,label,Customer Address
+Sales Invoice,address_display,Small Text,label,Address
+Sales Invoice,contact_person,Link,label,Contact Person
+Sales Invoice,contact_display,Small Text,label,Contact
+Sales Invoice,contact_mobile,Small Text,label,Mobile No
+Sales Invoice,contact_email,Data,label,Contact Email
+Sales Invoice,territory,Link,label,Territory
+Sales Invoice,shipping_address_section,Section Break,label,Shipping Address
+Sales Invoice,shipping_address_name,Link,label,Shipping Address Name
+Sales Invoice,shipping_address,Small Text,label,Shipping Address
+Sales Invoice,dispatch_address_name,Link,label,Dispatch Address Name
+Sales Invoice,dispatch_address,Small Text,label,Dispatch Address
+Sales Invoice,company_address_section,Section Break,label,Company Address
+Sales Invoice,company_address,Link,label,Company Address Name
+Sales Invoice,company_address_display,Small Text,label,Company Address
+Sales Invoice,company_contact_person,Link,label,Company Contact Person
+Sales Invoice,terms_tab,Tab Break,label,Terms
+Sales Invoice,payment_schedule_section,Section Break,label,Payment Terms
+Sales Invoice,ignore_default_payment_terms_template,Check,label,Ignore Default Payment Terms Template
+Sales Invoice,payment_terms_template,Link,label,Payment Terms Template
+Sales Invoice,payment_schedule,Table,label,Payment Schedule
+Sales Invoice,terms_section_break,Section Break,label,Terms and Conditions
+Sales Invoice,tc_name,Link,label,Terms
+Sales Invoice,terms,Text Editor,label,Terms and Conditions Details
+Sales Invoice,more_info_tab,Tab Break,label,More Info
+Sales Invoice,customer_po_details,Section Break,label,Customer PO Details
+Sales Invoice,po_no,Data,label,Customer's Purchase Order
+Sales Invoice,po_date,Date,label,Customer's Purchase Order Date
+Sales Invoice,more_info,Section Break,label,Accounting Details
+Sales Invoice,more_info,Section Break,option,fa fa-file-text
+Sales Invoice,debit_to,Link,label,Debit To
+Sales Invoice,party_account_currency,Link,label,Party Account Currency
+Sales Invoice,is_opening,Select,label,Is Opening Entry
+Sales Invoice,is_opening,Select,option,No
+Sales Invoice,is_opening,Select,option,Yes
+Sales Invoice,unrealized_profit_loss_account,Link,label,Unrealized Profit / Loss Account
+Sales Invoice,unrealized_profit_loss_account,Link,description,Unrealized Profit / Loss account for intra-company transfers
+Sales Invoice,against_income_account,Small Text,label,Against Income Account
+Sales Invoice,sales_team_section_break,Section Break,label,Commission
+Sales Invoice,sales_team_section_break,Section Break,option,fa fa-group
+Sales Invoice,sales_partner,Link,label,Sales Partner
+Sales Invoice,amount_eligible_for_commission,Currency,label,Amount Eligible for Commission
+Sales Invoice,commission_rate,Float,label,Commission Rate (%)
+Sales Invoice,total_commission,Currency,label,Total Commission
+Sales Invoice,section_break2,Section Break,label,Sales Team
+Sales Invoice,sales_team,Table,label,Sales Contributions and Incentives
+Sales Invoice,edit_printing_settings,Section Break,label,Print Settings
+Sales Invoice,letter_head,Link,label,Letter Head
+Sales Invoice,group_same_items,Check,label,Group same items
+Sales Invoice,select_print_heading,Link,label,Print Heading
+Sales Invoice,language,Data,label,Print Language
+Sales Invoice,subscription_section,Section Break,label,Subscription
+Sales Invoice,subscription,Link,label,Subscription
+Sales Invoice,from_date,Date,label,From Date
+Sales Invoice,auto_repeat,Link,label,Auto Repeat
+Sales Invoice,to_date,Date,label,To Date
+Sales Invoice,update_auto_repeat_reference,Button,label,Update Auto Repeat Reference
+Sales Invoice,more_information,Section Break,label,Additional Info
+Sales Invoice,status,Select,label,Status
+Sales Invoice,status,Select,option,Draft
+Sales Invoice,status,Select,option,Return
+Sales Invoice,status,Select,option,Credit Note Issued
+Sales Invoice,status,Select,option,Submitted
+Sales Invoice,status,Select,option,Paid
+Sales Invoice,status,Select,option,Partly Paid
+Sales Invoice,status,Select,option,Unpaid
+Sales Invoice,status,Select,option,Unpaid and Discounted
+Sales Invoice,status,Select,option,Partly Paid and Discounted
+Sales Invoice,status,Select,option,Overdue and Discounted
+Sales Invoice,status,Select,option,Overdue
+Sales Invoice,status,Select,option,Cancelled
+Sales Invoice,status,Select,option,Internal Transfer
+Sales Invoice,inter_company_invoice_reference,Link,label,Inter Company Invoice Reference
+Sales Invoice,campaign,Link,label,Campaign
+Sales Invoice,represents_company,Link,label,Represents Company
+Sales Invoice,represents_company,Link,description,Company which internal customer represents
+Sales Invoice,source,Link,label,Source
+Sales Invoice,customer_group,Link,label,Customer Group
+Sales Invoice,is_internal_customer,Check,label,Is Internal Customer
+Sales Invoice,is_discounted,Check,label,Is Discounted
+Sales Invoice,remarks,Small Text,label,Remarks
+Sales Invoice,connections_tab,Tab Break,label,Connections
+Buying Settings,supplier_and_price_defaults_section,Tab Break,label,Naming Series and Price Defaults
+Buying Settings,supp_master_name,Select,label,Supplier Naming By
+Buying Settings,supp_master_name,Select,option,Supplier Name
+Buying Settings,supp_master_name,Select,option,Naming Series
+Buying Settings,supp_master_name,Select,option,Auto Name
+Buying Settings,supplier_group,Link,label,Default Supplier Group
+Buying Settings,buying_price_list,Link,label,Default Buying Price List
+Buying Settings,maintain_same_rate_action,Select,label,Action If Same Rate is Not Maintained
+Buying Settings,maintain_same_rate_action,Select,description,Configure the action to stop the transaction or just warn if the same rate is not maintained.
+Buying Settings,maintain_same_rate_action,Select,option,Stop
+Buying Settings,maintain_same_rate_action,Select,option,Warn
+Buying Settings,role_to_override_stop_action,Link,label,Role Allowed to Override Stop Action
+Buying Settings,po_required,Select,label,Is Purchase Order Required for Purchase Invoice & Receipt Creation?
+Buying Settings,po_required,Select,option,No
+Buying Settings,po_required,Select,option,Yes
+Buying Settings,blanket_order_allowance,Float,label,Blanket Order Allowance (%)
+Buying Settings,blanket_order_allowance,Float,description,Percentage you are allowed to order beyond the Blanket Order quantity.
+Buying Settings,pr_required,Select,label,Is Purchase Receipt Required for Purchase Invoice Creation?
+Buying Settings,pr_required,Select,option,No
+Buying Settings,pr_required,Select,option,Yes
+Buying Settings,project_update_frequency,Select,label,Update frequency of Project
+Buying Settings,project_update_frequency,Select,description,How often should Project be updated of Total Purchase Cost ?
+Buying Settings,project_update_frequency,Select,option,Each Transaction
+Buying Settings,project_update_frequency,Select,option,Manual
+Buying Settings,transaction_settings_section,Tab Break,label,Transaction Settings
+Buying Settings,set_landed_cost_based_on_purchase_invoice_rate,Check,label,Set Landed Cost Based on Purchase Invoice Rate
+Buying Settings,set_landed_cost_based_on_purchase_invoice_rate,Check,description,Users can enable the checkbox If they want to adjust the incoming rate (set using purchase receipt) based on the purchase invoice rate.
+Buying Settings,allow_zero_qty_in_supplier_quotation,Check,label,Allow Supplier Quotation with Zero Quantity
+Buying Settings,allow_zero_qty_in_supplier_quotation,Check,description,Allows users to submit Supplier Quotations with zero quantity. Useful when rates are fixed but the quantities are not. Eg. Rate Contracts.
+Buying Settings,use_transaction_date_exchange_rate,Check,label,Use Transaction Date Exchange Rate
+Buying Settings,use_transaction_date_exchange_rate,Check,description,"While making Purchase Invoice from Purchase Order, use Exchange Rate on Invoice's transaction date rather than inheriting it from Purchase Order. Only applies for Purchase Invoice."
+Buying Settings,allow_zero_qty_in_request_for_quotation,Check,label,Allow Request for Quotation with Zero Quantity
+Buying Settings,allow_zero_qty_in_request_for_quotation,Check,description,Allows users to submit Request for Quotations with zero quantity. Useful when rates are fixed but the quantities are not. Eg. Rate Contracts.
+Buying Settings,maintain_same_rate,Check,label,Maintain Same Rate Throughout the Purchase Cycle
+Buying Settings,allow_multiple_items,Check,label,Allow Item To Be Added Multiple Times in a Transaction
+Buying Settings,bill_for_rejected_quantity_in_purchase_invoice,Check,label,Bill for Rejected Quantity in Purchase Invoice
+Buying Settings,bill_for_rejected_quantity_in_purchase_invoice,Check,description,"If checked, Rejected Quantity will be included while making Purchase Invoice from Purchase Receipt."
+Buying Settings,set_valuation_rate_for_rejected_materials,Check,label,Set Valuation Rate for Rejected Materials
+Buying Settings,set_valuation_rate_for_rejected_materials,Check,description,"If enabled, the system will generate an accounting entry for materials rejected in the Purchase Receipt."
+Buying Settings,disable_last_purchase_rate,Check,label,Disable Last Purchase Rate
+Buying Settings,show_pay_button,Check,label,Show Pay Button in Purchase Order Portal
+Buying Settings,allow_zero_qty_in_purchase_order,Check,label,Allow Purchase Order with Zero Quantity
+Buying Settings,allow_zero_qty_in_purchase_order,Check,description,Allows users to submit Purchase Orders with zero quantity. Useful when rates are fixed but the quantities are not. Eg. Rate Contracts.
+Buying Settings,subcontract,Tab Break,label,Subcontracting Settings
+Buying Settings,backflush_raw_materials_of_subcontract_based_on,Select,label,Backflush Raw Materials of Subcontract Based On
+Buying Settings,backflush_raw_materials_of_subcontract_based_on,Select,option,BOM
+Buying Settings,backflush_raw_materials_of_subcontract_based_on,Select,option,Material Transferred for Subcontract
+Buying Settings,over_transfer_allowance,Float,label,Over Transfer Allowance (%)
+Buying Settings,over_transfer_allowance,Float,description,Percentage you are allowed to transfer more against the quantity ordered. For example: If you have ordered 100 units. and your Allowance is 10% then you are allowed to transfer 110 units.
+Buying Settings,auto_create_subcontracting_order,Check,label,Auto Create Subcontracting Order
+Buying Settings,auto_create_subcontracting_order,Check,description,Subcontracting Order (Draft) will be auto-created on submission of Purchase Order.
+Buying Settings,auto_create_purchase_receipt,Check,label,Auto Create Purchase Receipt
+Buying Settings,auto_create_purchase_receipt,Check,description,Purchase Receipt (Draft) will be auto-created on submission of Subcontracting Receipt.
+Buying Settings,request_for_quotation_tab,Tab Break,label,Request for Quotation
+Buying Settings,fixed_email,Link,label,Fixed Outgoing Email Account
+Buying Settings,fixed_email,Link,description,"If set, the system does not use the user's Email or the standard outgoing Email account for sending request for quotations."
+Item,,DocType,doctype_description,"A Product or a Service that is bought, sold or kept in stock."
+Item,details,Tab Break,label,Details
+Item,details,Tab Break,option,fa fa-flag
+Item,naming_series,Select,label,Series
+Item,naming_series,Select,option,STO-ITEM-.YYYY.-
+Item,item_code,Data,label,Item Code
+Item,item_name,Data,label,Item Name
+Item,item_group,Link,label,Item Group
+Item,stock_uom,Link,label,Default Unit of Measure
+Item,disabled,Check,label,Disabled
+Item,allow_alternative_item,Check,label,Allow Alternative Item
+Item,is_stock_item,Check,label,Maintain Stock
+Item,has_variants,Check,label,Has Variants
+Item,has_variants,Check,description,"If this item has variants, then it cannot be selected in sales orders etc."
+Item,opening_stock,Float,label,Opening Stock
+Item,valuation_rate,Currency,label,Valuation Rate
+Item,standard_rate,Currency,label,Standard Selling Rate
+Item,is_fixed_asset,Check,label,Is Fixed Asset
+Item,auto_create_assets,Check,label,Auto Create Assets on Purchase
+Item,is_grouped_asset,Check,label,Create Grouped Asset
+Item,asset_category,Link,label,Asset Category
+Item,asset_naming_series,Select,label,Asset Naming Series
+Item,over_delivery_receipt_allowance,Float,label,Over Delivery/Receipt Allowance (%)
+Item,over_billing_allowance,Float,label,Over Billing Allowance (%)
+Item,image,Attach Image,label,Image
+Item,section_break_11,Section Break,label,Description
+Item,description,Text Editor,label,Description
+Item,brand,Link,label,Brand
+Item,unit_of_measure_conversion,Section Break,label,Units of Measure
+Item,uoms,Table,label,UOMs
+Item,uoms,Table,description,Will also apply for variants
+Item,dashboard_tab,Tab Break,label,Dashboard
+Item,inventory_section,Tab Break,label,Inventory
+Item,inventory_section,Tab Break,option,fa fa-truck
+Item,inventory_settings_section,Section Break,label,Inventory Settings
+Item,shelf_life_in_days,Int,label,Shelf Life In Days
+Item,end_of_life,Date,label,End of Life
+Item,default_material_request_type,Select,label,Default Material Request Type
+Item,default_material_request_type,Select,option,Purchase
+Item,default_material_request_type,Select,option,Material Transfer
+Item,default_material_request_type,Select,option,Material Issue
+Item,default_material_request_type,Select,option,Manufacture
+Item,default_material_request_type,Select,option,Customer Provided
+Item,valuation_method,Select,label,Valuation Method
+Item,valuation_method,Select,option,FIFO
+Item,valuation_method,Select,option,Moving Average
+Item,valuation_method,Select,option,LIFO
+Item,warranty_period,Data,label,Warranty Period (in days)
+Item,weight_per_unit,Float,label,Weight Per Unit
+Item,weight_uom,Link,label,Weight UOM
+Item,allow_negative_stock,Check,label,Allow Negative Stock
+Item,sb_barcodes,Section Break,label,Barcodes
+Item,barcodes,Table,label,Barcodes
+Item,reorder_section,Section Break,label,Auto re-order
+Item,reorder_section,Section Break,option,fa fa-rss
+Item,reorder_levels,Table,label,Reorder level based on Warehouse
+Item,reorder_levels,Table,description,Will also apply for variants unless overrridden
+Item,serial_nos_and_batches,Section Break,label,Serial Nos and Batches
+Item,has_batch_no,Check,label,Has Batch No
+Item,create_new_batch,Check,label,Automatically Create New Batch
+Item,batch_number_series,Data,label,Batch Number Series
+Item,batch_number_series,Data,description,"Example: ABCD.#####. If series is set and Batch No is not mentioned in transactions, then automatic batch number will be created based on this series. If you always want to explicitly mention Batch No for this item, leave this blank. Note: this setting will take priority over the Naming Series Prefix in Stock Settings."
+Item,has_expiry_date,Check,label,Has Expiry Date
+Item,retain_sample,Check,label,Retain Sample
+Item,sample_quantity,Int,label,Max Sample Quantity
+Item,sample_quantity,Int,description,Maximum sample quantity that can be retained
+Item,has_serial_no,Check,label,Has Serial No
+Item,serial_no_series,Data,label,Serial Number Series
+Item,serial_no_series,Data,description,"Example: ABCD.#####
+If series is set and Serial No is not mentioned in transactions, then automatic serial number will be created based on this series. If you always want to explicitly mention Serial Nos for this item. leave this blank."
+Item,variants_section,Tab Break,label,Variants
+Item,variant_of,Link,label,Variant Of
+Item,variant_of,Link,description,"If item is a variant of another item then description, image, pricing, taxes etc will be set from the template unless explicitly specified"
+Item,variant_based_on,Select,label,Variant Based On
+Item,variant_based_on,Select,option,Item Attribute
+Item,variant_based_on,Select,option,Manufacturer
+Item,attributes,Table,label,Variant Attributes
+Item,accounting,Tab Break,label,Accounting
+Item,deferred_accounting_section,Section Break,label,Deferred Accounting
+Item,enable_deferred_expense,Check,label,Enable Deferred Expense
+Item,no_of_months_exp,Int,label,No of Months (Expense)
+Item,enable_deferred_revenue,Check,label,Enable Deferred Revenue
+Item,no_of_months,Int,label,No of Months (Revenue)
+Item,item_defaults,Table,label,Item Defaults
+Item,purchasing_tab,Tab Break,label,Purchasing
+Item,purchase_uom,Link,label,Default Purchase Unit of Measure
+Item,min_order_qty,Float,label,Minimum Order Qty
+Item,min_order_qty,Float,description,Minimum quantity should be as per Stock UOM
+Item,safety_stock,Float,label,Safety Stock
+Item,is_purchase_item,Check,label,Allow Purchase
+Item,lead_time_days,Int,label,Lead Time in days
+Item,lead_time_days,Int,description,Average time taken by the supplier to deliver
+Item,last_purchase_rate,Float,label,Last Purchase Rate
+Item,is_customer_provided_item,Check,label,Is Customer Provided Item
+Item,customer,Link,label,Customer
+Item,supplier_details,Section Break,label,Supplier Details
+Item,delivered_by_supplier,Check,label,Delivered by Supplier (Drop Ship)
+Item,supplier_items,Table,label,Supplier Items
+Item,foreign_trade_details,Section Break,label,Foreign Trade Details
+Item,country_of_origin,Link,label,Country of Origin
+Item,customs_tariff_number,Link,label,Customs Tariff Number
+Item,sales_details,Tab Break,label,Sales
+Item,sales_details,Tab Break,option,fa fa-tag
+Item,sales_uom,Link,label,Default Sales Unit of Measure
+Item,grant_commission,Check,label,Grant Commission
+Item,is_sales_item,Check,label,Allow Sales
+Item,max_discount,Float,label,Max Discount (%)
+Item,customer_details,Section Break,label,Customer Details
+Item,customer_items,Table,label,Customer Items
+Item,item_tax_section_break,Tab Break,label,Tax
+Item,item_tax_section_break,Tab Break,option,fa fa-money
+Item,taxes,Table,label,Taxes
+Item,taxes,Table,description,Will also apply for variants
+Item,quality_tab,Tab Break,label,Quality
+Item,inspection_required_before_purchase,Check,label,Inspection Required before Purchase
+Item,quality_inspection_template,Link,label,Quality Inspection Template
+Item,inspection_required_before_delivery,Check,label,Inspection Required before Delivery
+Item,manufacturing,Tab Break,label,Manufacturing
+Item,manufacturing,Tab Break,option,fa fa-cogs
+Item,include_item_in_manufacturing,Check,label,Include Item In Manufacturing
+Item,is_sub_contracted_item,Check,label,Supply Raw Materials for Purchase
+Item,is_sub_contracted_item,Check,description,If subcontracted to a vendor
+Item,default_bom,Link,label,Default BOM
+Item,customer_code,Small Text,label,Customer Code
+Item,default_item_manufacturer,Link,label,Default Item Manufacturer
+Item,default_manufacturer_part_no,Data,label,Default Manufacturer Part No
+Item,total_projected_qty,Float,label,Total Projected Qty
+Purchase Receipt,supplier_section,Section Break,option,fa fa-user
+Purchase Receipt,title,Data,label,Title
+Purchase Receipt,naming_series,Select,label,Series
+Purchase Receipt,naming_series,Select,option,رسید-خرید-.YYYY.-#####
+Purchase Receipt,naming_series,Select,option,MAT-PRE-.YYYY.-
+Purchase Receipt,naming_series,Select,option,MAT-PR-RET-.YYYY.-
+Purchase Receipt,supplier,Link,label,Supplier
+Purchase Receipt,supplier_name,Data,label,Supplier Name
+Purchase Receipt,supplier_delivery_note,Data,label,Supplier Delivery Note
+Purchase Receipt,subcontracting_receipt,Link,label,Subcontracting Receipt
+Purchase Receipt,posting_date,Date,label,Date
+Purchase Receipt,posting_time,Time,label,Posting Time
+Purchase Receipt,set_posting_time,Check,label,Edit Posting Date and Time
+Purchase Receipt,company,Link,label,Company
+Purchase Receipt,apply_putaway_rule,Check,label,Apply Putaway Rule
+Purchase Receipt,is_return,Check,label,Is Return
+Purchase Receipt,return_against,Link,label,Return Against Purchase Receipt
+Purchase Receipt,accounting_dimensions_section,Section Break,label,Accounting Dimensions
+Purchase Receipt,cost_center,Link,label,Cost Center
+Purchase Receipt,project,Link,label,Project
+Purchase Receipt,currency_and_price_list,Section Break,label,Currency and Price List
+Purchase Receipt,currency_and_price_list,Section Break,option,fa fa-tag
+Purchase Receipt,currency,Link,label,Currency
+Purchase Receipt,conversion_rate,Float,label,Exchange Rate
+Purchase Receipt,conversion_rate,Float,description,Rate at which supplier's currency is converted to company's base currency
+Purchase Receipt,buying_price_list,Link,label,Price List
+Purchase Receipt,price_list_currency,Link,label,Price List Currency
+Purchase Receipt,plc_conversion_rate,Float,label,Price List Exchange Rate
+Purchase Receipt,ignore_pricing_rule,Check,label,Ignore Pricing Rule
+Purchase Receipt,sec_warehouse,Section Break,label,Items
+Purchase Receipt,scan_barcode,Data,label,Scan Barcode
+Purchase Receipt,last_scanned_warehouse,Data,label,Last Scanned Warehouse
+Purchase Receipt,set_warehouse,Link,label,Accepted Warehouse
+Purchase Receipt,set_from_warehouse,Link,label,Set From Warehouse
+Purchase Receipt,rejected_warehouse,Link,label,Rejected Warehouse
+Purchase Receipt,is_subcontracted,Check,label,Is Subcontracted
+Purchase Receipt,supplier_warehouse,Link,label,Supplier Warehouse
+Purchase Receipt,items_section,Section Break,option,fa fa-shopping-cart
+Purchase Receipt,items,Table,label,Items
+Purchase Receipt,total_qty,Float,label,Total Quantity
+Purchase Receipt,total_net_weight,Float,label,Total Net Weight
+Purchase Receipt,base_total,Currency,label,Total (Company Currency)
+Purchase Receipt,base_net_total,Currency,label,Net Total (Company Currency)
+Purchase Receipt,total,Currency,label,Total
+Purchase Receipt,net_total,Currency,label,Net Total
+Purchase Receipt,tax_withholding_net_total,Currency,label,Tax Withholding Net Total
+Purchase Receipt,base_tax_withholding_net_total,Currency,label,Base Tax Withholding Net Total
+Purchase Receipt,taxes_charges_section,Section Break,label,Taxes and Charges
+Purchase Receipt,tax_category,Link,label,Tax Category
+Purchase Receipt,taxes_and_charges,Link,label,Purchase Taxes and Charges Template
+Purchase Receipt,shipping_rule,Link,label,Shipping Rule
+Purchase Receipt,incoterm,Link,label,Incoterm
+Purchase Receipt,named_place,Data,label,Named Place
+Purchase Receipt,taxes,Table,label,Purchase Taxes and Charges
+Purchase Receipt,totals,Section Break,option,fa fa-money
+Purchase Receipt,base_taxes_and_charges_added,Currency,label,Taxes and Charges Added (Company Currency)
+Purchase Receipt,base_taxes_and_charges_deducted,Currency,label,Taxes and Charges Deducted (Company Currency)
+Purchase Receipt,base_total_taxes_and_charges,Currency,label,Total Taxes and Charges (Company Currency)
+Purchase Receipt,taxes_and_charges_added,Currency,label,Taxes and Charges Added
+Purchase Receipt,taxes_and_charges_deducted,Currency,label,Taxes and Charges Deducted
+Purchase Receipt,total_taxes_and_charges,Currency,label,Total Taxes and Charges
+Purchase Receipt,section_break_46,Section Break,label,Totals
+Purchase Receipt,base_grand_total,Currency,label,Grand Total (Company Currency)
+Purchase Receipt,base_rounding_adjustment,Currency,label,Rounding Adjustment (Company Currency)
+Purchase Receipt,base_rounded_total,Currency,label,Rounded Total (Company Currency)
+Purchase Receipt,base_in_words,Data,label,In Words (Company Currency)
+Purchase Receipt,grand_total,Currency,label,Grand Total
+Purchase Receipt,rounding_adjustment,Currency,label,Rounding Adjustment
+Purchase Receipt,rounded_total,Currency,label,Rounded Total
+Purchase Receipt,in_words,Data,label,In Words
+Purchase Receipt,disable_rounded_total,Check,label,Disable Rounded Total
+Purchase Receipt,section_break_42,Section Break,label,Additional Discount
+Purchase Receipt,apply_discount_on,Select,label,Apply Additional Discount On
+Purchase Receipt,apply_discount_on,Select,option,Grand Total
+Purchase Receipt,apply_discount_on,Select,option,Net Total
+Purchase Receipt,base_discount_amount,Currency,label,Additional Discount Amount (Company Currency)
+Purchase Receipt,additional_discount_percentage,Float,label,Additional Discount Percentage
+Purchase Receipt,discount_amount,Currency,label,Additional Discount Amount
+Purchase Receipt,sec_tax_breakup,Section Break,label,Tax Breakup
+Purchase Receipt,other_charges_calculation,Text Editor,label,Taxes and Charges Calculation
+Purchase Receipt,pricing_rule_details,Section Break,label,Pricing Rules
+Purchase Receipt,pricing_rules,Table,label,Pricing Rule Detail
+Purchase Receipt,raw_material_details,Section Break,label,Raw Materials Consumed
+Purchase Receipt,raw_material_details,Section Break,option,fa fa-table
+Purchase Receipt,get_current_stock,Button,label,Get Current Stock
+Purchase Receipt,supplied_items,Table,label,Consumed Items
+Purchase Receipt,address_and_contact_tab,Tab Break,label,Address & Contact
+Purchase Receipt,section_addresses,Section Break,label,Supplier Address
+Purchase Receipt,supplier_address,Link,label,Supplier Address
+Purchase Receipt,address_display,Small Text,label,Address
+Purchase Receipt,contact_person,Link,label,Contact Person
+Purchase Receipt,contact_display,Small Text,label,Contact
+Purchase Receipt,contact_mobile,Small Text,label,Mobile No
+Purchase Receipt,contact_email,Small Text,label,Contact Email
+Purchase Receipt,section_break_98,Section Break,label,Shipping Address
+Purchase Receipt,dispatch_address,Link,label,Dispatch Address Template
+Purchase Receipt,dispatch_address_display,Text Editor,label,Dispatch Address
+Purchase Receipt,shipping_address,Link,label,Shipping Address Template
+Purchase Receipt,shipping_address_display,Small Text,label,Shipping Address
+Purchase Receipt,billing_address_section,Section Break,label,Company Billing Address
+Purchase Receipt,billing_address,Link,label,Billing Address
+Purchase Receipt,billing_address_display,Small Text,label,Billing Address
+Purchase Receipt,terms_tab,Tab Break,label,Terms
+Purchase Receipt,tc_name,Link,label,Terms
+Purchase Receipt,terms,Text Editor,label,Terms and Conditions
+Purchase Receipt,more_info_tab,Tab Break,label,More Info
+Purchase Receipt,status_section,Section Break,label,Status
+Purchase Receipt,status_section,Section Break,option,fa fa-file-text
+Purchase Receipt,status,Select,label,Status
+Purchase Receipt,status,Select,option,Draft
+Purchase Receipt,status,Select,option,Partly Billed
+Purchase Receipt,status,Select,option,To Bill
+Purchase Receipt,status,Select,option,Completed
+Purchase Receipt,status,Select,option,Return Issued
+Purchase Receipt,status,Select,option,Cancelled
+Purchase Receipt,status,Select,option,Closed
+Purchase Receipt,per_billed,Percent,label,% Amount Billed
+Purchase Receipt,per_returned,Percent,label,% Returned
+Purchase Receipt,subscription_detail,Section Break,label,Auto Repeat
+Purchase Receipt,auto_repeat,Link,label,Auto Repeat
+Purchase Receipt,printing_settings,Section Break,label,Printing Settings
+Purchase Receipt,letter_head,Link,label,Letter Head
+Purchase Receipt,group_same_items,Check,label,Group same items
+Purchase Receipt,select_print_heading,Link,label,Print Heading
+Purchase Receipt,language,Data,label,Print Language
+Purchase Receipt,transporter_info,Section Break,label,Transporter
+Purchase Receipt,transporter_info,Section Break,option,fa fa-truck
+Purchase Receipt,transporter_name,Data,label,Transporter Name
+Purchase Receipt,lr_no,Data,label,Vehicle Number
+Purchase Receipt,lr_date,Date,label,Vehicle Date
+Purchase Receipt,additional_info_section,Section Break,label,Additional Info
+Purchase Receipt,instructions,Small Text,label,Instructions
+Purchase Receipt,is_internal_supplier,Check,label,Is Internal Supplier
+Purchase Receipt,represents_company,Link,label,Represents Company
+Purchase Receipt,inter_company_reference,Link,label,Inter Company Reference
+Purchase Receipt,remarks,Small Text,label,Remarks
+Purchase Receipt,range,Data,label,Range
+Purchase Receipt,amended_from,Link,label,Amended From
+Purchase Receipt,is_old_subcontracting_flow,Check,label,Is Old Subcontracting Flow
+Purchase Receipt,other_details,HTML,label,Other Details
+Purchase Receipt,connections_tab,Tab Break,label,Connections
+Delivery Note,title,Data,label,Title
+Delivery Note,naming_series,Select,label,Series
+Delivery Note,naming_series,Select,option,حواله-تحویل-.YYYY.-#####
+Delivery Note,naming_series,Select,option,MAT-DN-.YYYY.-
+Delivery Note,naming_series,Select,option,MAT-DN-RET-.YYYY.-
+Delivery Note,customer,Link,label,Customer
+Delivery Note,tax_id,Data,label,Tax Id
+Delivery Note,customer_name,Data,label,Customer Name
+Delivery Note,posting_date,Date,label,Date
+Delivery Note,posting_time,Time,label,Posting Time
+Delivery Note,set_posting_time,Check,label,Edit Posting Date and Time
+Delivery Note,company,Link,label,Company
+Delivery Note,amended_from,Link,label,Amended From
+Delivery Note,is_return,Check,label,Is Return
+Delivery Note,issue_credit_note,Check,label,Issue Credit Note
+Delivery Note,return_against,Link,label,Return Against Delivery Note
+Delivery Note,accounting_dimensions_section,Section Break,label,Accounting Dimensions
+Delivery Note,cost_center,Link,label,Cost Center
+Delivery Note,project,Link,label,Project
+Delivery Note,currency_and_price_list,Section Break,label,Currency and Price List
+Delivery Note,currency_and_price_list,Section Break,option,fa fa-tag
+Delivery Note,currency,Link,label,Currency
+Delivery Note,conversion_rate,Float,label,Exchange Rate
+Delivery Note,conversion_rate,Float,description,Rate at which customer's currency is converted to company's base currency
+Delivery Note,selling_price_list,Link,label,Price List
+Delivery Note,price_list_currency,Link,label,Price List Currency
+Delivery Note,plc_conversion_rate,Float,label,Price List Exchange Rate
+Delivery Note,plc_conversion_rate,Float,description,Rate at which Price list currency is converted to company's base currency
+Delivery Note,ignore_pricing_rule,Check,label,Ignore Pricing Rule
+Delivery Note,items_section,Section Break,label,Items
+Delivery Note,items_section,Section Break,option,fa fa-shopping-cart
+Delivery Note,scan_barcode,Data,label,Scan Barcode
+Delivery Note,last_scanned_warehouse,Data,label,Last Scanned Warehouse
+Delivery Note,set_warehouse,Link,label,Set Source Warehouse
+Delivery Note,set_target_warehouse,Link,label,Set Target Warehouse
+Delivery Note,items,Table,label,Delivery Note Item
+Delivery Note,total_qty,Float,label,Total Quantity
+Delivery Note,total_net_weight,Float,label,Total Net Weight
+Delivery Note,base_total,Currency,label,Total (Company Currency)
+Delivery Note,base_net_total,Currency,label,Net Total (Company Currency)
+Delivery Note,total,Currency,label,Total
+Delivery Note,net_total,Currency,label,Net Total
+Delivery Note,taxes_section,Section Break,label,Taxes and Charges
+Delivery Note,taxes_section,Section Break,option,fa fa-money
+Delivery Note,tax_category,Link,label,Tax Category
+Delivery Note,taxes_and_charges,Link,label,Sales Taxes and Charges Template
+Delivery Note,shipping_rule,Link,label,Shipping Rule
+Delivery Note,incoterm,Link,label,Incoterm
+Delivery Note,named_place,Data,label,Named Place
+Delivery Note,taxes,Table,label,Sales Taxes and Charges
+Delivery Note,base_total_taxes_and_charges,Currency,label,Total Taxes and Charges (Company Currency)
+Delivery Note,total_taxes_and_charges,Currency,label,Total Taxes and Charges
+Delivery Note,totals,Section Break,label,Totals
+Delivery Note,totals,Section Break,option,fa fa-money
+Delivery Note,base_grand_total,Currency,label,Grand Total (Company Currency)
+Delivery Note,base_rounding_adjustment,Currency,label,Rounding Adjustment (Company Currency)
+Delivery Note,base_rounded_total,Currency,label,Rounded Total (Company Currency)
+Delivery Note,base_in_words,Data,label,In Words (Company Currency)
+Delivery Note,base_in_words,Data,description,In Words will be visible once you save the Delivery Note.
+Delivery Note,grand_total,Currency,label,Grand Total
+Delivery Note,rounding_adjustment,Currency,label,Rounding Adjustment
+Delivery Note,rounded_total,Currency,label,Rounded Total
+Delivery Note,in_words,Data,label,In Words
+Delivery Note,in_words,Data,description,In Words (Export) will be visible once you save the Delivery Note.
+Delivery Note,disable_rounded_total,Check,label,Disable Rounded Total
+Delivery Note,section_break_49,Section Break,label,Additional Discount
+Delivery Note,apply_discount_on,Select,label,Apply Additional Discount On
+Delivery Note,apply_discount_on,Select,option,Grand Total
+Delivery Note,apply_discount_on,Select,option,Net Total
+Delivery Note,base_discount_amount,Currency,label,Additional Discount Amount (Company Currency)
+Delivery Note,additional_discount_percentage,Float,label,Additional Discount Percentage
+Delivery Note,discount_amount,Currency,label,Additional Discount Amount
+Delivery Note,sec_tax_breakup,Section Break,label,Tax Breakup
+Delivery Note,other_charges_calculation,Text Editor,label,Taxes and Charges Calculation
+Delivery Note,packing_list,Section Break,label,Packing List
+Delivery Note,packing_list,Section Break,option,fa fa-suitcase
+Delivery Note,packed_items,Table,label,Packed Items
+Delivery Note,product_bundle_help,HTML,label,Product Bundle Help
+Delivery Note,pricing_rule_details,Section Break,label,Pricing Rules
+Delivery Note,pricing_rules,Table,label,Pricing Rule Detail
+Delivery Note,address_and_contact_tab,Tab Break,label,Address & Contact
+Delivery Note,contact_info,Section Break,label,Billing Address
+Delivery Note,contact_info,Section Break,option,fa fa-bullhorn
+Delivery Note,customer_address,Link,label,Billing Address Name
+Delivery Note,address_display,Small Text,label,Billing Address
+Delivery Note,contact_person,Link,label,Contact Person
+Delivery Note,contact_display,Small Text,label,Contact
+Delivery Note,contact_mobile,Small Text,label,Mobile No
+Delivery Note,contact_email,Data,label,Contact Email
+Delivery Note,shipping_address_section,Section Break,label,Shipping Address
+Delivery Note,shipping_address_name,Link,label,Shipping Address
+Delivery Note,shipping_address,Small Text,label,Shipping Address
+Delivery Note,dispatch_address_name,Link,label,Dispatch Address Name
+Delivery Note,dispatch_address,Small Text,label,Dispatch Address
+Delivery Note,company_address_section,Section Break,label,Company Address
+Delivery Note,company_address,Link,label,Company Address Name
+Delivery Note,company_address_display,Small Text,label,Company Address
+Delivery Note,company_contact_person,Link,label,Company Contact Person
+Delivery Note,terms_tab,Tab Break,label,Terms
+Delivery Note,tc_name,Link,label,Terms
+Delivery Note,terms,Text Editor,label,Terms and Conditions Details
+Delivery Note,more_info_tab,Tab Break,label,More Info
+Delivery Note,section_break_83,Section Break,label,Status
+Delivery Note,per_billed,Percent,label,% Amount Billed
+Delivery Note,status,Select,label,Status
+Delivery Note,status,Select,option,Draft
+Delivery Note,status,Select,option,To Bill
+Delivery Note,status,Select,option,Completed
+Delivery Note,status,Select,option,Return Issued
+Delivery Note,status,Select,option,Cancelled
+Delivery Note,status,Select,option,Closed
+Delivery Note,per_installed,Percent,label,% Installed
+Delivery Note,installation_status,Select,label,Installation Status
+Delivery Note,per_returned,Percent,label,% Returned
+Delivery Note,transporter_info,Section Break,label,Transporter Info
+Delivery Note,transporter_info,Section Break,option,fa fa-truck
+Delivery Note,transporter,Link,label,Transporter
+Delivery Note,driver,Link,label,Driver
+Delivery Note,lr_no,Data,label,Transport Receipt No
+Delivery Note,vehicle_no,Data,label,Vehicle No
+Delivery Note,transporter_name,Data,label,Transporter Name
+Delivery Note,driver_name,Data,label,Driver Name
+Delivery Note,lr_date,Date,label,Transport Receipt Date
+Delivery Note,customer_po_details,Section Break,label,Customer PO Details
+Delivery Note,po_no,Small Text,label,Customer's Purchase Order No
+Delivery Note,po_date,Date,label,Customer's Purchase Order Date
+Delivery Note,sales_team_section_break,Section Break,label,Commission
+Delivery Note,sales_team_section_break,Section Break,option,fa fa-group
+Delivery Note,sales_partner,Link,label,Sales Partner
+Delivery Note,amount_eligible_for_commission,Currency,label,Amount Eligible for Commission
+Delivery Note,commission_rate,Float,label,Commission Rate (%)
+Delivery Note,total_commission,Currency,label,Total Commission
+Delivery Note,section_break1,Section Break,label,Sales Team
+Delivery Note,sales_team,Table,label,Sales Team
+Delivery Note,subscription_section,Section Break,label,Subscription Section
+Delivery Note,auto_repeat,Link,label,Auto Repeat
+Delivery Note,printing_details,Section Break,label,Print Settings
+Delivery Note,letter_head,Link,label,Letter Head
+Delivery Note,print_without_amount,Check,label,Print Without Amount
+Delivery Note,group_same_items,Check,label,Group same items
+Delivery Note,select_print_heading,Link,label,Print Heading
+Delivery Note,language,Data,label,Print Language
+Delivery Note,more_info,Section Break,label,Additional Info
+Delivery Note,more_info,Section Break,option,fa fa-file-text
+Delivery Note,is_internal_customer,Check,label,Is Internal Customer
+Delivery Note,represents_company,Link,label,Represents Company
+Delivery Note,represents_company,Link,description,Company which internal customer represents.
+Delivery Note,inter_company_reference,Link,label,Inter Company Reference
+Delivery Note,customer_group,Link,label,Customer Group
+Delivery Note,territory,Link,label,Territory
+Delivery Note,source,Link,label,Source
+Delivery Note,campaign,Link,label,Campaign
+Delivery Note,excise_page,Data,label,Excise Page Number
+Delivery Note,instructions,Text,label,Instructions
+Delivery Note,connections_tab,Tab Break,label,Connections
+Purchase Invoice,title,Data,label,Title
+Purchase Invoice,naming_series,Select,label,Series
+Purchase Invoice,naming_series,Select,option,فاکتور-خرید-.YYYY.-#####
+Purchase Invoice,naming_series,Select,option,ACC-PINV-.YYYY.-
+Purchase Invoice,naming_series,Select,option,ACC-PINV-RET-.YYYY.-
+Purchase Invoice,supplier,Link,label,Supplier
+Purchase Invoice,supplier_name,Data,label,Supplier Name
+Purchase Invoice,tax_id,Read Only,label,Tax Id
+Purchase Invoice,company,Link,label,Company
+Purchase Invoice,posting_date,Date,label,Date
+Purchase Invoice,posting_time,Time,label,Posting Time
+Purchase Invoice,set_posting_time,Check,label,Edit Posting Date and Time
+Purchase Invoice,due_date,Date,label,Due Date
+Purchase Invoice,is_paid,Check,label,Is Paid
+Purchase Invoice,is_return,Check,label,Is Return (Debit Note)
+Purchase Invoice,return_against,Link,label,Return Against Purchase Invoice
+Purchase Invoice,update_outstanding_for_self,Check,label,Update Outstanding for Self
+Purchase Invoice,update_outstanding_for_self,Check,description,"Debit Note will update it's own outstanding amount, even if 'Return Against' is specified."
+Purchase Invoice,update_billed_amount_in_purchase_order,Check,label,Update Billed Amount in Purchase Order
+Purchase Invoice,update_billed_amount_in_purchase_receipt,Check,label,Update Billed Amount in Purchase Receipt
+Purchase Invoice,apply_tds,Check,label,Apply Tax Withholding Amount
+Purchase Invoice,tax_withholding_category,Link,label,Tax Withholding Category
+Purchase Invoice,amended_from,Link,label,Amended From
+Purchase Invoice,supplier_invoice_details,Section Break,label,Supplier Invoice
+Purchase Invoice,bill_no,Data,label,Supplier Invoice No
+Purchase Invoice,bill_date,Date,label,Supplier Invoice Date
+Purchase Invoice,accounting_dimensions_section,Section Break,label,Accounting Dimensions
+Purchase Invoice,cost_center,Link,label,Cost Center
+Purchase Invoice,project,Link,label,Project
+Purchase Invoice,currency_and_price_list,Section Break,label,Currency and Price List
+Purchase Invoice,currency_and_price_list,Section Break,option,fa fa-tag
+Purchase Invoice,currency,Link,label,Currency
+Purchase Invoice,conversion_rate,Float,label,Exchange Rate
+Purchase Invoice,use_transaction_date_exchange_rate,Check,label,Use Transaction Date Exchange Rate
+Purchase Invoice,buying_price_list,Link,label,Price List
+Purchase Invoice,price_list_currency,Link,label,Price List Currency
+Purchase Invoice,plc_conversion_rate,Float,label,Price List Exchange Rate
+Purchase Invoice,ignore_pricing_rule,Check,label,Ignore Pricing Rule
+Purchase Invoice,sec_warehouse,Section Break,label,Items
+Purchase Invoice,scan_barcode,Data,label,Scan Barcode
+Purchase Invoice,last_scanned_warehouse,Data,label,Last Scanned Warehouse
+Purchase Invoice,update_stock,Check,label,Update Stock
+Purchase Invoice,set_warehouse,Link,label,Set Accepted Warehouse
+Purchase Invoice,set_from_warehouse,Link,label,Set From Warehouse
+Purchase Invoice,is_subcontracted,Check,label,Is Subcontracted
+Purchase Invoice,rejected_warehouse,Link,label,Rejected Warehouse
+Purchase Invoice,supplier_warehouse,Link,label,Supplier Warehouse
+Purchase Invoice,items_section,Section Break,option,fa fa-shopping-cart
+Purchase Invoice,items,Table,label,Items
+Purchase Invoice,total_qty,Float,label,Total Quantity
+Purchase Invoice,total_net_weight,Float,label,Total Net Weight
+Purchase Invoice,base_total,Currency,label,Total (Company Currency)
+Purchase Invoice,base_net_total,Currency,label,Net Total (Company Currency)
+Purchase Invoice,total,Currency,label,Total
+Purchase Invoice,net_total,Currency,label,Net Total
+Purchase Invoice,tax_withholding_net_total,Currency,label,Tax Withholding Net Total
+Purchase Invoice,base_tax_withholding_net_total,Currency,label,Base Tax Withholding Net Total
+Purchase Invoice,taxes_section,Section Break,label,Taxes and Charges
+Purchase Invoice,taxes_section,Section Break,option,fa fa-money
+Purchase Invoice,tax_category,Link,label,Tax Category
+Purchase Invoice,taxes_and_charges,Link,label,Purchase Taxes and Charges Template
+Purchase Invoice,shipping_rule,Link,label,Shipping Rule
+Purchase Invoice,incoterm,Link,label,Incoterm
+Purchase Invoice,named_place,Data,label,Named Place
+Purchase Invoice,taxes,Table,label,Purchase Taxes and Charges
+Purchase Invoice,totals,Section Break,option,fa fa-money
+Purchase Invoice,base_taxes_and_charges_added,Currency,label,Taxes and Charges Added (Company Currency)
+Purchase Invoice,base_taxes_and_charges_deducted,Currency,label,Taxes and Charges Deducted (Company Currency)
+Purchase Invoice,base_total_taxes_and_charges,Currency,label,Total Taxes and Charges (Company Currency)
+Purchase Invoice,taxes_and_charges_added,Currency,label,Taxes and Charges Added
+Purchase Invoice,taxes_and_charges_deducted,Currency,label,Taxes and Charges Deducted
+Purchase Invoice,total_taxes_and_charges,Currency,label,Total Taxes and Charges
+Purchase Invoice,section_break_49,Section Break,label,Totals
+Purchase Invoice,base_grand_total,Currency,label,Grand Total (Company Currency)
+Purchase Invoice,base_rounding_adjustment,Currency,label,Rounding Adjustment (Company Currency)
+Purchase Invoice,base_rounded_total,Currency,label,Rounded Total (Company Currency)
+Purchase Invoice,base_in_words,Data,label,In Words (Company Currency)
+Purchase Invoice,grand_total,Currency,label,Grand Total
+Purchase Invoice,rounding_adjustment,Currency,label,Rounding Adjustment
+Purchase Invoice,use_company_roundoff_cost_center,Check,label,Use Company Default Round Off Cost Center
+Purchase Invoice,rounded_total,Currency,label,Rounded Total
+Purchase Invoice,in_words,Data,label,In Words
+Purchase Invoice,total_advance,Currency,label,Total Advance
+Purchase Invoice,outstanding_amount,Currency,label,Outstanding Amount
+Purchase Invoice,disable_rounded_total,Check,label,Disable Rounded Total
+Purchase Invoice,section_break_44,Section Break,label,Additional Discount
+Purchase Invoice,apply_discount_on,Select,label,Apply Additional Discount On
+Purchase Invoice,apply_discount_on,Select,option,Grand Total
+Purchase Invoice,apply_discount_on,Select,option,Net Total
+Purchase Invoice,base_discount_amount,Currency,label,Additional Discount Amount (Company Currency)
+Purchase Invoice,additional_discount_percentage,Float,label,Additional Discount Percentage
+Purchase Invoice,discount_amount,Currency,label,Additional Discount Amount
+Purchase Invoice,tax_withheld_vouchers_section,Section Break,label,Tax Withheld Vouchers
+Purchase Invoice,tax_withheld_vouchers,Table,label,Tax Withheld Vouchers
+Purchase Invoice,sec_tax_breakup,Section Break,label,Tax Breakup
+Purchase Invoice,other_charges_calculation,Text Editor,label,Taxes and Charges Calculation
+Purchase Invoice,pricing_rule_details,Section Break,label,Pricing Rules
+Purchase Invoice,pricing_rules,Table,label,Pricing Rule Detail
+Purchase Invoice,raw_materials_supplied,Section Break,label,Raw Materials Supplied
+Purchase Invoice,supplied_items,Table,label,Supplied Items
+Purchase Invoice,payments_tab,Tab Break,label,Payments
+Purchase Invoice,payments_section,Section Break,label,Payments
+Purchase Invoice,mode_of_payment,Link,label,Mode of Payment
+Purchase Invoice,base_paid_amount,Currency,label,Paid Amount (Company Currency)
+Purchase Invoice,clearance_date,Date,label,Clearance Date
+Purchase Invoice,cash_bank_account,Link,label,Cash/Bank Account
+Purchase Invoice,paid_amount,Currency,label,Paid Amount
+Purchase Invoice,advances_section,Section Break,label,Advance Payments
+Purchase Invoice,advances_section,Section Break,option,fa fa-money
+Purchase Invoice,allocate_advances_automatically,Check,label,Set Advances and Allocate (FIFO)
+Purchase Invoice,only_include_allocated_payments,Check,label,Only Include Allocated Payments
+Purchase Invoice,only_include_allocated_payments,Check,description,Advance payments allocated against orders will only be fetched
+Purchase Invoice,get_advances,Button,label,Get Advances Paid
+Purchase Invoice,advances,Table,label,Advances
+Purchase Invoice,advance_tax,Table,label,Advance Tax
+Purchase Invoice,write_off,Section Break,label,Write Off
+Purchase Invoice,write_off_amount,Currency,label,Write Off Amount
+Purchase Invoice,base_write_off_amount,Currency,label,Write Off Amount (Company Currency)
+Purchase Invoice,write_off_account,Link,label,Write Off Account
+Purchase Invoice,write_off_cost_center,Link,label,Write Off Cost Center
+Purchase Invoice,address_and_contact_tab,Tab Break,label,Address & Contact
+Purchase Invoice,section_addresses,Section Break,label,Supplier Address
+Purchase Invoice,supplier_address,Link,label,Select Supplier Address
+Purchase Invoice,address_display,Small Text,label,Address
+Purchase Invoice,contact_person,Link,label,Contact Person
+Purchase Invoice,contact_display,Small Text,label,Contact
+Purchase Invoice,contact_mobile,Small Text,label,Mobile No
+Purchase Invoice,contact_email,Small Text,label,Contact Email
+Purchase Invoice,company_shipping_address_section,Section Break,label,Shipping Address
+Purchase Invoice,dispatch_address,Link,label,Select Dispatch Address
+Purchase Invoice,dispatch_address_display,Text Editor,label,Dispatch Address
+Purchase Invoice,shipping_address,Link,label,Select Shipping Address
+Purchase Invoice,shipping_address_display,Small Text,label,Shipping Address
+Purchase Invoice,company_billing_address_section,Section Break,label,Company Billing Address
+Purchase Invoice,billing_address,Link,label,Select Billing Address
+Purchase Invoice,billing_address_display,Small Text,label,Billing Address
+Purchase Invoice,terms_tab,Tab Break,label,Terms
+Purchase Invoice,payment_schedule_section,Section Break,label,Payment Terms
+Purchase Invoice,payment_terms_template,Link,label,Payment Terms Template
+Purchase Invoice,ignore_default_payment_terms_template,Check,label,Ignore Default Payment Terms Template
+Purchase Invoice,payment_schedule,Table,label,Payment Schedule
+Purchase Invoice,terms_section_break,Section Break,label,Terms and Conditions
+Purchase Invoice,terms_section_break,Section Break,option,fa fa-legal
+Purchase Invoice,tc_name,Link,label,Terms
+Purchase Invoice,terms,Text Editor,label,Terms and Conditions
+Purchase Invoice,more_info_tab,Tab Break,label,More Info
+Purchase Invoice,status_section,Section Break,label,Status
+Purchase Invoice,status,Select,label,Status
+Purchase Invoice,status,Select,option,Draft
+Purchase Invoice,status,Select,option,Return
+Purchase Invoice,status,Select,option,Debit Note Issued
+Purchase Invoice,status,Select,option,Submitted
+Purchase Invoice,status,Select,option,Paid
+Purchase Invoice,status,Select,option,Partly Paid
+Purchase Invoice,status,Select,option,Unpaid
+Purchase Invoice,status,Select,option,Overdue
+Purchase Invoice,status,Select,option,Cancelled
+Purchase Invoice,status,Select,option,Internal Transfer
+Purchase Invoice,per_received,Percent,label,Per Received
+Purchase Invoice,accounting_details_section,Section Break,label,Accounting Details
+Purchase Invoice,credit_to,Link,label,Credit To
+Purchase Invoice,party_account_currency,Link,label,Party Account Currency
+Purchase Invoice,is_opening,Select,label,Is Opening Entry
+Purchase Invoice,is_opening,Select,option,No
+Purchase Invoice,is_opening,Select,option,Yes
+Purchase Invoice,against_expense_account,Small Text,label,Against Expense Account
+Purchase Invoice,unrealized_profit_loss_account,Link,label,Unrealized Profit / Loss Account
+Purchase Invoice,unrealized_profit_loss_account,Link,description,Unrealized Profit/Loss account for intra-company transfers
+Purchase Invoice,subscription_section,Section Break,label,Subscription
+Purchase Invoice,subscription,Link,label,Subscription
+Purchase Invoice,auto_repeat,Link,label,Auto Repeat
+Purchase Invoice,update_auto_repeat_reference,Button,label,Update Auto Repeat Reference
+Purchase Invoice,from_date,Date,label,From Date
+Purchase Invoice,from_date,Date,description,Start date of current invoice's period
+Purchase Invoice,to_date,Date,label,To Date
+Purchase Invoice,to_date,Date,description,End date of current invoice's period
+Purchase Invoice,printing_settings,Section Break,label,Print Settings
+Purchase Invoice,letter_head,Link,label,Letter Head
+Purchase Invoice,group_same_items,Check,label,Group same items
+Purchase Invoice,select_print_heading,Link,label,Print Heading
+Purchase Invoice,language,Data,label,Print Language
+Purchase Invoice,sb_14,Section Break,label,Hold Invoice
+Purchase Invoice,on_hold,Check,label,Hold Invoice
+Purchase Invoice,release_date,Date,label,Release Date
+Purchase Invoice,release_date,Date,description,"Once set, this invoice will be on hold till the set date"
+Purchase Invoice,hold_comment,Small Text,label,Reason For Putting On Hold
+Purchase Invoice,additional_info_section,Section Break,label,Additional Info
+Purchase Invoice,additional_info_section,Section Break,option,fa fa-file-text
+Purchase Invoice,is_internal_supplier,Check,label,Is Internal Supplier
+Purchase Invoice,represents_company,Link,label,Represents Company
+Purchase Invoice,represents_company,Link,description,Company which internal supplier represents
+Purchase Invoice,supplier_group,Link,label,Supplier Group
+Purchase Invoice,inter_company_invoice_reference,Link,label,Inter Company Invoice Reference
+Purchase Invoice,is_old_subcontracting_flow,Check,label,Is Old Subcontracting Flow
+Purchase Invoice,remarks,Small Text,label,Remarks
+Purchase Invoice,connections_tab,Tab Break,label,Connections
+Quotation,customer_section,Section Break,option,fa fa-user
+Quotation,title,Data,label,Title
+Quotation,naming_series,Select,label,Series
+Quotation,naming_series,Select,option,پیش‌فاکتور-.YYYY.-#####
+Quotation,naming_series,Select,option,SAL-QTN-.YYYY.-
+Quotation,quotation_to,Link,label,Quotation To
+Quotation,party_name,Dynamic Link,label,Party
+Quotation,customer_name,Data,label,Customer Name
+Quotation,transaction_date,Date,label,Date
+Quotation,valid_till,Date,label,Valid Till
+Quotation,order_type,Select,label,Order Type
+Quotation,order_type,Select,option,Sales
+Quotation,order_type,Select,option,Maintenance
+Quotation,order_type,Select,option,Shopping Cart
+Quotation,company,Link,label,Company
+Quotation,has_unit_price_items,Check,label,Has Unit Price Items
+Quotation,amended_from,Link,label,Amended From
+Quotation,currency_and_price_list,Section Break,label,Currency and Price List
+Quotation,currency_and_price_list,Section Break,option,fa fa-tag
+Quotation,currency,Link,label,Currency
+Quotation,conversion_rate,Float,label,Exchange Rate
+Quotation,conversion_rate,Float,description,Rate at which customer's currency is converted to company's base currency
+Quotation,selling_price_list,Link,label,Price List
+Quotation,price_list_currency,Link,label,Price List Currency
+Quotation,plc_conversion_rate,Float,label,Price List Exchange Rate
+Quotation,plc_conversion_rate,Float,description,Rate at which Price list currency is converted to company's base currency
+Quotation,ignore_pricing_rule,Check,label,Ignore Pricing Rule
+Quotation,items_section,Section Break,option,fa fa-shopping-cart
+Quotation,scan_barcode,Data,label,Scan Barcode
+Quotation,last_scanned_warehouse,Data,label,Last Scanned Warehouse
+Quotation,items,Table,label,Items
+Quotation,total_qty,Float,label,Total Quantity
+Quotation,total_net_weight,Float,label,Total Net Weight
+Quotation,base_total,Currency,label,Total (Company Currency)
+Quotation,base_net_total,Currency,label,Net Total (Company Currency)
+Quotation,total,Currency,label,Total
+Quotation,net_total,Currency,label,Net Total
+Quotation,taxes_section,Section Break,label,Taxes and Charges
+Quotation,taxes_section,Section Break,option,fa fa-money
+Quotation,tax_category,Link,label,Tax Category
+Quotation,taxes_and_charges,Link,label,Sales Taxes and Charges Template
+Quotation,shipping_rule,Link,label,Shipping Rule
+Quotation,incoterm,Link,label,Incoterm
+Quotation,named_place,Data,label,Named Place
+Quotation,taxes,Table,label,Sales Taxes and Charges
+Quotation,base_total_taxes_and_charges,Currency,label,Total Taxes and Charges (Company Currency)
+Quotation,total_taxes_and_charges,Currency,label,Total Taxes and Charges
+Quotation,totals,Section Break,label,Totals
+Quotation,totals,Section Break,option,fa fa-money
+Quotation,base_grand_total,Currency,label,Grand Total (Company Currency)
+Quotation,base_rounding_adjustment,Currency,label,Rounding Adjustment (Company Currency)
+Quotation,base_rounded_total,Currency,label,Rounded Total (Company Currency)
+Quotation,base_in_words,Data,label,In Words (Company Currency)
+Quotation,grand_total,Currency,label,Grand Total
+Quotation,rounding_adjustment,Currency,label,Rounding Adjustment
+Quotation,rounded_total,Currency,label,Rounded Total
+Quotation,disable_rounded_total,Check,label,Disable Rounded Total
+Quotation,in_words,Data,label,In Words
+Quotation,section_break_44,Section Break,label,Additional Discount
+Quotation,apply_discount_on,Select,label,Apply Additional Discount On
+Quotation,apply_discount_on,Select,option,Grand Total
+Quotation,apply_discount_on,Select,option,Net Total
+Quotation,base_discount_amount,Currency,label,Additional Discount Amount (Company Currency)
+Quotation,coupon_code,Link,label,Coupon Code
+Quotation,additional_discount_percentage,Float,label,Additional Discount Percentage
+Quotation,discount_amount,Currency,label,Additional Discount Amount
+Quotation,referral_sales_partner,Link,label,Referral Sales Partner
+Quotation,sec_tax_breakup,Section Break,label,Tax Breakup
+Quotation,other_charges_calculation,Text Editor,label,Taxes and Charges Calculation
+Quotation,bundle_items_section,Section Break,label,Bundle Items
+Quotation,bundle_items_section,Section Break,option,fa fa-suitcase
+Quotation,packed_items,Table,label,Bundle Items
+Quotation,pricing_rule_details,Section Break,label,Pricing Rules
+Quotation,pricing_rules,Table,label,Pricing Rule Detail
+Quotation,address_and_contact_tab,Tab Break,label,Address & Contact
+Quotation,billing_address_section,Section Break,label,Billing Address
+Quotation,billing_address_section,Section Break,option,fa fa-bullhorn
+Quotation,customer_address,Link,label,Customer Address
+Quotation,address_display,Small Text,label,Address
+Quotation,contact_person,Link,label,Contact Person
+Quotation,contact_display,Small Text,label,Contact
+Quotation,contact_mobile,Small Text,label,Mobile No
+Quotation,contact_email,Data,label,Contact Email
+Quotation,shipping_address_section,Section Break,label,Shipping Address
+Quotation,shipping_address_name,Link,label,Shipping Address
+Quotation,shipping_address,Small Text,label,Shipping Address
+Quotation,company_address_section,Section Break,label,Company Address
+Quotation,company_address,Link,label,Company Address Name
+Quotation,company_address_display,Small Text,label,Company Address
+Quotation,company_contact_person,Link,label,Company Contact Person
+Quotation,terms_tab,Tab Break,label,Terms
+Quotation,payment_schedule_section,Section Break,label,Payment Terms
+Quotation,payment_terms_template,Link,label,Payment Terms Template
+Quotation,payment_schedule,Table,label,Payment Schedule
+Quotation,terms_section_break,Section Break,label,Terms and Conditions
+Quotation,terms_section_break,Section Break,option,fa fa-legal
+Quotation,tc_name,Link,label,Terms
+Quotation,terms,Text Editor,label,Term Details
+Quotation,more_info_tab,Tab Break,label,More Info
+Quotation,subscription_section,Section Break,label,Auto Repeat
+Quotation,auto_repeat,Link,label,Auto Repeat
+Quotation,update_auto_repeat_reference,Button,label,Update Auto Repeat Reference
+Quotation,print_settings,Section Break,label,Print Settings
+Quotation,letter_head,Link,label,Letter Head
+Quotation,group_same_items,Check,label,Group same items
+Quotation,select_print_heading,Link,label,Print Heading
+Quotation,language,Data,label,Print Language
+Quotation,lost_reasons_section,Section Break,label,Lost Reasons
+Quotation,lost_reasons,Table MultiSelect,label,Lost Reasons
+Quotation,competitors,Table MultiSelect,label,Competitors
+Quotation,order_lost_reason,Small Text,label,Detailed Reason
+Quotation,additional_info_section,Section Break,label,Additional Info
+Quotation,additional_info_section,Section Break,option,fa fa-file-text
+Quotation,status,Select,label,Status
+Quotation,status,Select,option,Draft
+Quotation,status,Select,option,Open
+Quotation,status,Select,option,Replied
+Quotation,status,Select,option,Partially Ordered
+Quotation,status,Select,option,Ordered
+Quotation,status,Select,option,Lost
+Quotation,status,Select,option,Cancelled
+Quotation,status,Select,option,Expired
+Quotation,customer_group,Link,label,Customer Group
+Quotation,territory,Link,label,Territory
+Quotation,campaign,Link,label,Campaign
+Quotation,source,Link,label,Source
+Quotation,opportunity,Link,label,Opportunity
+Quotation,supplier_quotation,Link,label,Supplier Quotation
+Quotation,enq_det,Text,label,Opportunity Item
+Quotation,connections_tab,Tab Break,label,Connections
+Purchase Order,supplier_section,Section Break,option,fa fa-user
+Purchase Order,title,Data,label,Title
+Purchase Order,naming_series,Select,label,Series
+Purchase Order,naming_series,Select,option,سفارش-خرید-.YYYY.-#####
+Purchase Order,naming_series,Select,option,PUR-ORD-.YYYY.-
+Purchase Order,supplier,Link,label,Supplier
+Purchase Order,supplier_name,Data,label,Supplier Name
+Purchase Order,order_confirmation_no,Data,label,Order Confirmation No
+Purchase Order,order_confirmation_date,Date,label,Order Confirmation Date
+Purchase Order,get_items_from_open_material_requests,Button,label,Get Items from Open Material Requests
+Purchase Order,get_items_from_open_material_requests,Button,description,Fetch items based on Default Supplier.
+Purchase Order,transaction_date,Date,label,Date
+Purchase Order,schedule_date,Date,label,Required By
+Purchase Order,company,Link,label,Company
+Purchase Order,apply_tds,Check,label,Apply Tax Withholding Amount
+Purchase Order,tax_withholding_category,Link,label,Tax Withholding Category
+Purchase Order,is_subcontracted,Check,label,Is Subcontracted
+Purchase Order,has_unit_price_items,Check,label,Has Unit Price Items
+Purchase Order,supplier_warehouse,Link,label,Supplier Warehouse
+Purchase Order,amended_from,Link,label,Amended From
+Purchase Order,accounting_dimensions_section,Section Break,label,Accounting Dimensions
+Purchase Order,cost_center,Link,label,Cost Center
+Purchase Order,project,Link,label,Project
+Purchase Order,currency_and_price_list,Section Break,label,Currency and Price List
+Purchase Order,currency_and_price_list,Section Break,option,fa fa-tag
+Purchase Order,currency,Link,label,Currency
+Purchase Order,conversion_rate,Float,label,Exchange Rate
+Purchase Order,buying_price_list,Link,label,Price List
+Purchase Order,price_list_currency,Link,label,Price List Currency
+Purchase Order,plc_conversion_rate,Float,label,Price List Exchange Rate
+Purchase Order,ignore_pricing_rule,Check,label,Ignore Pricing Rule
+Purchase Order,scan_barcode,Data,label,Scan Barcode
+Purchase Order,last_scanned_warehouse,Data,label,Last Scanned Warehouse
+Purchase Order,set_from_warehouse,Link,label,Set From Warehouse
+Purchase Order,set_warehouse,Link,label,Set Target Warehouse
+Purchase Order,items_section,Section Break,option,fa fa-shopping-cart
+Purchase Order,items,Table,label,Items
+Purchase Order,total_qty,Float,label,Total Quantity
+Purchase Order,total_net_weight,Float,label,Total Net Weight
+Purchase Order,base_total,Currency,label,Total (Company Currency)
+Purchase Order,base_net_total,Currency,label,Net Total (Company Currency)
+Purchase Order,total,Currency,label,Total
+Purchase Order,net_total,Currency,label,Net Total
+Purchase Order,tax_withholding_net_total,Currency,label,Tax Withholding Net Total
+Purchase Order,base_tax_withholding_net_total,Currency,label,Base Tax Withholding Net Total
+Purchase Order,section_break_48,Section Break,label,Pricing Rules
+Purchase Order,pricing_rules,Table,label,Purchase Order Pricing Rule
+Purchase Order,raw_material_details,Section Break,label,Raw Materials Supplied
+Purchase Order,set_reserve_warehouse,Link,label,Set Reserve Warehouse
+Purchase Order,supplied_items,Table,label,Supplied Items
+Purchase Order,taxes_section,Section Break,label,Taxes and Charges
+Purchase Order,taxes_section,Section Break,option,fa fa-money
+Purchase Order,tax_category,Link,label,Tax Category
+Purchase Order,taxes_and_charges,Link,label,Purchase Taxes and Charges Template
+Purchase Order,shipping_rule,Link,label,Shipping Rule
+Purchase Order,incoterm,Link,label,Incoterm
+Purchase Order,named_place,Data,label,Named Place
+Purchase Order,taxes,Table,label,Purchase Taxes and Charges
+Purchase Order,totals,Section Break,option,fa fa-money
+Purchase Order,base_taxes_and_charges_added,Currency,label,Taxes and Charges Added (Company Currency)
+Purchase Order,base_taxes_and_charges_deducted,Currency,label,Taxes and Charges Deducted (Company Currency)
+Purchase Order,base_total_taxes_and_charges,Currency,label,Total Taxes and Charges (Company Currency)
+Purchase Order,taxes_and_charges_added,Currency,label,Taxes and Charges Added
+Purchase Order,taxes_and_charges_deducted,Currency,label,Taxes and Charges Deducted
+Purchase Order,total_taxes_and_charges,Currency,label,Total Taxes and Charges
+Purchase Order,totals_section,Section Break,label,Totals
+Purchase Order,base_grand_total,Currency,label,Grand Total (Company Currency)
+Purchase Order,base_rounding_adjustment,Currency,label,Rounding Adjustment (Company Currency)
+Purchase Order,base_in_words,Data,label,In Words (Company Currency)
+Purchase Order,base_rounded_total,Currency,label,Rounded Total (Company Currency)
+Purchase Order,grand_total,Currency,label,Grand Total
+Purchase Order,rounding_adjustment,Currency,label,Rounding Adjustment
+Purchase Order,rounded_total,Currency,label,Rounded Total
+Purchase Order,disable_rounded_total,Check,label,Disable Rounded Total
+Purchase Order,in_words,Data,label,In Words
+Purchase Order,advance_paid,Currency,label,Advance Paid
+Purchase Order,discount_section,Section Break,label,Additional Discount
+Purchase Order,apply_discount_on,Select,label,Apply Additional Discount On
+Purchase Order,apply_discount_on,Select,option,Grand Total
+Purchase Order,apply_discount_on,Select,option,Net Total
+Purchase Order,base_discount_amount,Currency,label,Additional Discount Amount (Company Currency)
+Purchase Order,additional_discount_percentage,Float,label,Additional Discount Percentage
+Purchase Order,discount_amount,Currency,label,Additional Discount Amount
+Purchase Order,sec_tax_breakup,Section Break,label,Tax Breakup
+Purchase Order,other_charges_calculation,Text Editor,label,Taxes and Charges Calculation
+Purchase Order,address_and_contact_tab,Tab Break,label,Address & Contact
+Purchase Order,section_addresses,Section Break,label,Supplier Address
+Purchase Order,supplier_address,Link,label,Supplier Address
+Purchase Order,address_display,Small Text,label,Supplier Address Details
+Purchase Order,contact_person,Link,label,Supplier Contact
+Purchase Order,contact_display,Small Text,label,Contact Name
+Purchase Order,contact_mobile,Small Text,label,Contact Mobile No
+Purchase Order,contact_email,Small Text,label,Contact Email
+Purchase Order,shipping_address_section,Section Break,label,Shipping Address
+Purchase Order,dispatch_address,Link,label,Dispatch Address
+Purchase Order,dispatch_address_display,Text Editor,label,Dispatch Address Details
+Purchase Order,shipping_address,Link,label,Shipping Address
+Purchase Order,shipping_address_display,Small Text,label,Shipping Address Details
+Purchase Order,company_billing_address_section,Section Break,label,Company Billing Address
+Purchase Order,billing_address,Link,label,Company Billing Address
+Purchase Order,billing_address_display,Small Text,label,Billing Address Details
+Purchase Order,drop_ship,Tab Break,label,Drop Ship
+Purchase Order,customer,Link,label,Customer
+Purchase Order,customer_name,Data,label,Customer Name
+Purchase Order,customer_contact_person,Link,label,Customer Contact
+Purchase Order,customer_contact_display,Small Text,label,Customer Contact
+Purchase Order,customer_contact_mobile,Small Text,label,Customer Mobile No
+Purchase Order,customer_contact_email,Code,label,Customer Contact Email
+Purchase Order,terms_tab,Tab Break,label,Terms
+Purchase Order,payment_schedule_section,Section Break,label,Payment Terms
+Purchase Order,payment_terms_template,Link,label,Payment Terms Template
+Purchase Order,payment_schedule,Table,label,Payment Schedule
+Purchase Order,terms_section_break,Section Break,label,Terms & Conditions
+Purchase Order,terms_section_break,Section Break,option,fa fa-legal
+Purchase Order,tc_name,Link,label,Terms
+Purchase Order,terms,Text Editor,label,Terms and Conditions
+Purchase Order,more_info_tab,Tab Break,label,More Info
+Purchase Order,tracking_section,Section Break,label,Order Status
+Purchase Order,status,Select,label,Status
+Purchase Order,status,Select,option,Draft
+Purchase Order,status,Select,option,On Hold
+Purchase Order,status,Select,option,To Receive and Bill
+Purchase Order,status,Select,option,To Bill
+Purchase Order,status,Select,option,To Receive
+Purchase Order,status,Select,option,Completed
+Purchase Order,status,Select,option,Cancelled
+Purchase Order,status,Select,option,Closed
+Purchase Order,status,Select,option,Delivered
+Purchase Order,per_billed,Percent,label,% Billed
+Purchase Order,per_received,Percent,label,% Received
+Purchase Order,column_break5,Section Break,label,Printing Settings
+Purchase Order,letter_head,Link,label,Letter Head
+Purchase Order,group_same_items,Check,label,Group same items
+Purchase Order,select_print_heading,Link,label,Print Heading
+Purchase Order,language,Data,label,Print Language
+Purchase Order,subscription_section,Section Break,label,Auto Repeat
+Purchase Order,from_date,Date,label,From Date
+Purchase Order,to_date,Date,label,To Date
+Purchase Order,auto_repeat,Link,label,Auto Repeat
+Purchase Order,update_auto_repeat_reference,Button,label,Update Auto Repeat Reference
+Purchase Order,additional_info_section,Section Break,label,Additional Info
+Purchase Order,is_internal_supplier,Check,label,Is Internal Supplier
+Purchase Order,represents_company,Link,label,Represents Company
+Purchase Order,ref_sq,Link,label,Supplier Quotation
+Purchase Order,party_account_currency,Link,label,Party Account Currency
+Purchase Order,inter_company_order_reference,Link,label,Inter Company Order Reference
+Purchase Order,is_old_subcontracting_flow,Check,label,Is Old Subcontracting Flow
+Purchase Order,connections_tab,Tab Break,label,Connections
+Sales Order,customer_section,Section Break,option,fa fa-user
+Sales Order,title,Data,label,Title
+Sales Order,naming_series,Select,label,Series
+Sales Order,naming_series,Select,option,سفارش-فروش-.YYYY.-#####
+Sales Order,naming_series,Select,option,SAL-ORD-.YYYY.-
+Sales Order,customer,Link,label,Customer
+Sales Order,customer_name,Data,label,Customer Name
+Sales Order,tax_id,Data,label,Tax Id
+Sales Order,order_type,Select,label,Order Type
+Sales Order,order_type,Select,option,Sales
+Sales Order,order_type,Select,option,Maintenance
+Sales Order,order_type,Select,option,Shopping Cart
+Sales Order,transaction_date,Date,label,Date
+Sales Order,delivery_date,Date,label,Delivery Date
+Sales Order,po_no,Data,label,Customer's Purchase Order
+Sales Order,po_date,Date,label,Customer's Purchase Order Date
+Sales Order,company,Link,label,Company
+Sales Order,skip_delivery_note,Check,label,Skip Delivery Note
+Sales Order,has_unit_price_items,Check,label,Has Unit Price Items
+Sales Order,amended_from,Link,label,Amended From
+Sales Order,accounting_dimensions_section,Section Break,label,Accounting Dimensions
+Sales Order,cost_center,Link,label,Cost Center
+Sales Order,project,Link,label,Project
+Sales Order,currency_and_price_list,Section Break,label,Currency and Price List
+Sales Order,currency_and_price_list,Section Break,option,fa fa-tag
+Sales Order,currency,Link,label,Currency
+Sales Order,conversion_rate,Float,label,Exchange Rate
+Sales Order,conversion_rate,Float,description,Rate at which customer's currency is converted to company's base currency
+Sales Order,selling_price_list,Link,label,Price List
+Sales Order,price_list_currency,Link,label,Price List Currency
+Sales Order,plc_conversion_rate,Float,label,Price List Exchange Rate
+Sales Order,plc_conversion_rate,Float,description,Rate at which Price list currency is converted to company's base currency
+Sales Order,ignore_pricing_rule,Check,label,Ignore Pricing Rule
+Sales Order,sec_warehouse,Section Break,label,Items
+Sales Order,scan_barcode,Data,label,Scan Barcode
+Sales Order,last_scanned_warehouse,Data,label,Last Scanned Warehouse
+Sales Order,set_warehouse,Link,label,Set Source Warehouse
+Sales Order,reserve_stock,Check,label,Reserve Stock
+Sales Order,reserve_stock,Check,description,"If checked, Stock will be reserved on <b>Submit</b>"
+Sales Order,items_section,Section Break,option,fa fa-shopping-cart
+Sales Order,items,Table,label,Items
+Sales Order,total_qty,Float,label,Total Quantity
+Sales Order,total_net_weight,Float,label,Total Net Weight
+Sales Order,base_total,Currency,label,Total (Company Currency)
+Sales Order,base_net_total,Currency,label,Net Total (Company Currency)
+Sales Order,total,Currency,label,Total
+Sales Order,net_total,Currency,label,Net Total
+Sales Order,taxes_section,Section Break,label,Taxes
+Sales Order,taxes_section,Section Break,option,fa fa-money
+Sales Order,tax_category,Link,label,Tax Category
+Sales Order,taxes_and_charges,Link,label,Sales Taxes and Charges Template
+Sales Order,shipping_rule,Link,label,Shipping Rule
+Sales Order,incoterm,Link,label,Incoterm
+Sales Order,named_place,Data,label,Named Place
+Sales Order,taxes,Table,label,Sales Taxes and Charges
+Sales Order,base_total_taxes_and_charges,Currency,label,Total Taxes and Charges (Company Currency)
+Sales Order,total_taxes_and_charges,Currency,label,Total Taxes and Charges
+Sales Order,totals,Section Break,label,Totals
+Sales Order,totals,Section Break,option,fa fa-money
+Sales Order,base_grand_total,Currency,label,Grand Total (Company Currency)
+Sales Order,base_rounding_adjustment,Currency,label,Rounding Adjustment (Company Currency)
+Sales Order,base_rounded_total,Currency,label,Rounded Total (Company Currency)
+Sales Order,base_in_words,Data,label,In Words (Company Currency)
+Sales Order,base_in_words,Data,description,In Words will be visible once you save the Sales Order.
+Sales Order,grand_total,Currency,label,Grand Total
+Sales Order,rounding_adjustment,Currency,label,Rounding Adjustment
+Sales Order,rounded_total,Currency,label,Rounded Total
+Sales Order,in_words,Data,label,In Words
+Sales Order,advance_paid,Currency,label,Advance Paid
+Sales Order,disable_rounded_total,Check,label,Disable Rounded Total
+Sales Order,section_break_48,Section Break,label,Additional Discount
+Sales Order,apply_discount_on,Select,label,Apply Additional Discount On
+Sales Order,apply_discount_on,Select,option,Grand Total
+Sales Order,apply_discount_on,Select,option,Net Total
+Sales Order,base_discount_amount,Currency,label,Additional Discount Amount (Company Currency)
+Sales Order,coupon_code,Link,label,Coupon Code
+Sales Order,additional_discount_percentage,Float,label,Additional Discount Percentage
+Sales Order,discount_amount,Currency,label,Additional Discount Amount
+Sales Order,sec_tax_breakup,Section Break,label,Tax Breakup
+Sales Order,other_charges_calculation,Text Editor,label,Taxes and Charges Calculation
+Sales Order,packing_list,Section Break,label,Packing List
+Sales Order,packing_list,Section Break,option,fa fa-suitcase
+Sales Order,packed_items,Table,label,Packed Items
+Sales Order,pricing_rule_details,Section Break,label,Pricing Rules
+Sales Order,pricing_rules,Table,label,Pricing Rule Detail
+Sales Order,contact_info,Tab Break,label,Address & Contact
+Sales Order,contact_info,Tab Break,option,fa fa-bullhorn
+Sales Order,billing_address_column,Section Break,label,Billing Address
+Sales Order,customer_address,Link,label,Customer Address
+Sales Order,address_display,Small Text,label,Address
+Sales Order,customer_group,Link,label,Customer Group
+Sales Order,territory,Link,label,Territory
+Sales Order,contact_person,Link,label,Contact Person
+Sales Order,contact_display,Small Text,label,Contact
+Sales Order,contact_phone,Data,label,Phone
+Sales Order,contact_mobile,Small Text,label,Mobile No
+Sales Order,contact_email,Data,label,Contact Email
+Sales Order,shipping_address_column,Section Break,label,Shipping Address
+Sales Order,shipping_address_name,Link,label,Shipping Address Name
+Sales Order,shipping_address,Small Text,label,Shipping Address
+Sales Order,dispatch_address_name,Link,label,Dispatch Address Name
+Sales Order,dispatch_address,Small Text,label,Dispatch Address
+Sales Order,col_break46,Section Break,label,Company Address
+Sales Order,company_address,Link,label,Company Address Name
+Sales Order,company_address_display,Small Text,label,Company Address
+Sales Order,company_contact_person,Link,label,Company Contact Person
+Sales Order,payment_schedule_section,Tab Break,label,Terms
+Sales Order,payment_terms_section,Section Break,label,Payment Terms
+Sales Order,payment_terms_template,Link,label,Payment Terms Template
+Sales Order,payment_schedule,Table,label,Payment Schedule
+Sales Order,terms_section_break,Section Break,label,Terms & Conditions
+Sales Order,terms_section_break,Section Break,option,fa fa-legal
+Sales Order,tc_name,Link,label,Terms
+Sales Order,terms,Text Editor,label,Terms and Conditions Details
+Sales Order,more_info,Tab Break,label,More Info
+Sales Order,more_info,Tab Break,option,fa fa-file-text
+Sales Order,section_break_78,Section Break,label,Status
+Sales Order,status,Select,label,Status
+Sales Order,status,Select,option,Draft
+Sales Order,status,Select,option,On Hold
+Sales Order,status,Select,option,To Deliver and Bill
+Sales Order,status,Select,option,To Bill
+Sales Order,status,Select,option,To Deliver
+Sales Order,status,Select,option,Completed
+Sales Order,status,Select,option,Cancelled
+Sales Order,status,Select,option,Closed
+Sales Order,delivery_status,Select,label,Delivery Status
+Sales Order,delivery_status,Select,option,Not Delivered
+Sales Order,delivery_status,Select,option,Fully Delivered
+Sales Order,delivery_status,Select,option,Partly Delivered
+Sales Order,delivery_status,Select,option,Closed
+Sales Order,delivery_status,Select,option,Not Applicable
+Sales Order,per_delivered,Percent,label,%  Delivered
+Sales Order,per_delivered,Percent,description,% of materials delivered against this Sales Order
+Sales Order,per_billed,Percent,label,% Amount Billed
+Sales Order,per_billed,Percent,description,% of materials billed against this Sales Order
+Sales Order,per_picked,Percent,label,% Picked
+Sales Order,billing_status,Select,label,Billing Status
+Sales Order,billing_status,Select,option,Not Billed
+Sales Order,billing_status,Select,option,Fully Billed
+Sales Order,billing_status,Select,option,Partly Billed
+Sales Order,billing_status,Select,option,Closed
+Sales Order,sales_team_section_break,Section Break,label,Commission
+Sales Order,sales_team_section_break,Section Break,option,fa fa-group
+Sales Order,sales_partner,Link,label,Sales Partner
+Sales Order,amount_eligible_for_commission,Currency,label,Amount Eligible for Commission
+Sales Order,commission_rate,Float,label,Commission Rate
+Sales Order,total_commission,Currency,label,Total Commission
+Sales Order,section_break1,Section Break,label,Sales Team
+Sales Order,sales_team,Table,label,Sales Team
+Sales Order,loyalty_points_redemption,Section Break,label,Loyalty Points
+Sales Order,loyalty_points,Int,label,Loyalty Points
+Sales Order,loyalty_amount,Currency,label,Loyalty Amount
+Sales Order,subscription_section,Section Break,label,Auto Repeat
+Sales Order,from_date,Date,label,From Date
+Sales Order,to_date,Date,label,To Date
+Sales Order,auto_repeat,Link,label,Auto Repeat
+Sales Order,update_auto_repeat_reference,Button,label,Update Auto Repeat Reference
+Sales Order,printing_details,Section Break,label,Print Settings
+Sales Order,letter_head,Link,label,Letter Head
+Sales Order,group_same_items,Check,label,Group same items
+Sales Order,select_print_heading,Link,label,Print Heading
+Sales Order,language,Data,label,Print Language
+Sales Order,additional_info_section,Section Break,label,Additional Info
+Sales Order,is_internal_customer,Check,label,Is Internal Customer
+Sales Order,represents_company,Link,label,Represents Company
+Sales Order,source,Link,label,Source
+Sales Order,inter_company_order_reference,Link,label,Inter Company Order Reference
+Sales Order,campaign,Link,label,Campaign
+Sales Order,party_account_currency,Link,label,Party Account Currency
+Sales Order,connections_tab,Tab Break,label,Connections
+Accounts Settings,invoice_and_billing_tab,Tab Break,label,Invoice and Billing
+Accounts Settings,enable_features_section,Section Break,label,Invoice Cancellation
+Accounts Settings,unlink_payment_on_cancellation_of_invoice,Check,label,Unlink Payment on Cancellation of Invoice
+Accounts Settings,unlink_advance_payment_on_cancelation_of_order,Check,label,Unlink Advance Payment on Cancellation of Order
+Accounts Settings,delete_linked_ledger_entries,Check,label,Delete Accounting and Stock Ledger Entries on deletion of Transaction
+Accounts Settings,enable_immutable_ledger,Check,label,Enable Immutable Ledger
+Accounts Settings,enable_immutable_ledger,Check,description,On enabling this cancellation entries will be posted on the actual cancellation date and reports will consider cancelled entries as well
+Accounts Settings,invoicing_features_section,Section Break,label,Invoicing Features
+Accounts Settings,check_supplier_invoice_uniqueness,Check,label,Check Supplier Invoice Number Uniqueness
+Accounts Settings,check_supplier_invoice_uniqueness,Check,description,Enabling this ensures each Purchase Invoice has a unique value in Supplier Invoice No. field within a particular fiscal year
+Accounts Settings,automatically_fetch_payment_terms,Check,label,Automatically Fetch Payment Terms from Order
+Accounts Settings,automatically_fetch_payment_terms,Check,description,Payment Terms from orders will be fetched into the invoices as is
+Accounts Settings,enable_common_party_accounting,Check,label,Enable Common Party Accounting
+Accounts Settings,enable_common_party_accounting,Check,description,"Learn about <a href=""https://docs.erpnext.com/docs/v13/user/manual/en/accounts/articles/common_party_accounting#:~:text=Common%20Party%20Accounting%20in%20ERPNext,Invoice%20against%20a%20primary%20Supplier."">Common Party</a>"
+Accounts Settings,allow_multi_currency_invoices_against_single_party_account,Check,label,Allow multi-currency invoices against single party account
+Accounts Settings,allow_multi_currency_invoices_against_single_party_account,Check,description,Enabling this will allow creation of multi-currency invoices against single party account in company currency
+Accounts Settings,journals_section,Section Break,label,Journals
+Accounts Settings,merge_similar_account_heads,Check,label,Merge Similar Account Heads
+Accounts Settings,merge_similar_account_heads,Check,description,Rows with Same Account heads will be merged on Ledger
+Accounts Settings,deferred_accounting_settings_section,Section Break,label,Deferred Accounting Settings
+Accounts Settings,book_deferred_entries_based_on,Select,label,Book Deferred Entries Based On
+Accounts Settings,book_deferred_entries_based_on,Select,description,"If ""Months"" is selected, a fixed amount will be booked as deferred revenue or expense for each month irrespective of the number of days in a month. It will be prorated if deferred revenue or expense is not booked for an entire month"
+Accounts Settings,book_deferred_entries_based_on,Select,option,Days
+Accounts Settings,book_deferred_entries_based_on,Select,option,Months
+Accounts Settings,automatically_process_deferred_accounting_entry,Check,label,Automatically Process Deferred Accounting Entry
+Accounts Settings,book_deferred_entries_via_journal_entry,Check,label,Book Deferred Entries Via Journal Entry
+Accounts Settings,book_deferred_entries_via_journal_entry,Check,description,"If this is unchecked, direct GL entries will be created to book deferred revenue or expense"
+Accounts Settings,submit_journal_entries,Check,label,Submit Journal Entries
+Accounts Settings,submit_journal_entries,Check,description,If this is unchecked Journal Entries will be saved in a Draft state and will have to be submitted manually
+Accounts Settings,tax_settings_section,Section Break,label,Tax Settings
+Accounts Settings,determine_address_tax_category_from,Select,label,Determine Address Tax Category From
+Accounts Settings,determine_address_tax_category_from,Select,description,Address used to determine Tax Category in transactions
+Accounts Settings,determine_address_tax_category_from,Select,option,Billing Address
+Accounts Settings,determine_address_tax_category_from,Select,option,Shipping Address
+Accounts Settings,add_taxes_from_item_tax_template,Check,label,Automatically Add Taxes and Charges from Item Tax Template
+Accounts Settings,add_taxes_from_taxes_and_charges_template,Check,label,Automatically Add Taxes from Taxes and Charges Template
+Accounts Settings,add_taxes_from_taxes_and_charges_template,Check,description,"If no taxes are set, and Taxes and Charges Template is selected, the system will automatically apply the taxes from the chosen template."
+Accounts Settings,book_tax_discount_loss,Check,label,Book Tax Loss on Early Payment Discount
+Accounts Settings,book_tax_discount_loss,Check,description,Split Early Payment Discount Loss into Income and Tax Loss
+Accounts Settings,round_row_wise_tax,Check,label,Round Tax Amount Row-wise
+Accounts Settings,round_row_wise_tax,Check,description,Tax Amount will be rounded on a row(items) level
+Accounts Settings,print_settings,Section Break,label,Print Settings
+Accounts Settings,show_inclusive_tax_in_print,Check,label,Show Inclusive Tax in Print
+Accounts Settings,show_taxes_as_table_in_print,Check,label,Show Taxes as Table in Print
+Accounts Settings,show_payment_schedule_in_print,Check,label,Show Payment Schedule in Print
+Accounts Settings,item_price_settings_section,Section Break,label,Item Price Settings
+Accounts Settings,maintain_same_internal_transaction_rate,Check,label,Maintain Same Rate Throughout Internal Transaction
+Accounts Settings,fetch_valuation_rate_for_internal_transaction,Check,label,Fetch Valuation Rate for Internal Transaction
+Accounts Settings,maintain_same_rate_action,Select,label,Action if Same Rate is Not Maintained Throughout  Internal Transaction
+Accounts Settings,maintain_same_rate_action,Select,option,Stop
+Accounts Settings,maintain_same_rate_action,Select,option,Warn
+Accounts Settings,role_to_override_stop_action,Link,label,Role Allowed to Override Stop Action
+Accounts Settings,currency_exchange_section,Section Break,label,Currency Exchange Settings
+Accounts Settings,allow_stale,Check,label,Allow Stale Exchange Rates
+Accounts Settings,allow_pegged_currencies_exchange_rates,Check,label,Allow Implicit Pegged Currency Conversion
+Accounts Settings,allow_pegged_currencies_exchange_rates,Check,description,"System will do an implicit conversion using the pegged currency. <br>
+Ex: Instead of AED -&gt; INR, system will do AED -&gt; USD -&gt; INR using the pegged exchange rate of AED against USD."
+Accounts Settings,stale_days,Int,label,Stale Days
+Accounts Settings,section_break_jpd0,Section Break,label,Payment Reconciliation Settings
+Accounts Settings,auto_reconcile_payments,Check,label,Auto Reconcile Payments
+Accounts Settings,auto_reconciliation_job_trigger,Int,label,Auto Reconciliation Job Trigger
+Accounts Settings,auto_reconciliation_job_trigger,Int,description,Interval should be between 1 to 59 MInutes
+Accounts Settings,reconciliation_queue_size,Int,label,Reconciliation Queue Size
+Accounts Settings,reconciliation_queue_size,Int,description,Documents Processed on each trigger. Queue Size should be between 5 and 100
+Accounts Settings,exchange_gain_loss_posting_date,Select,label,Posting Date Inheritance for Exchange Gain / Loss
+Accounts Settings,exchange_gain_loss_posting_date,Select,description,Only applies for Normal Payments
+Accounts Settings,exchange_gain_loss_posting_date,Select,option,Invoice
+Accounts Settings,exchange_gain_loss_posting_date,Select,option,Payment
+Accounts Settings,exchange_gain_loss_posting_date,Select,option,Reconciliation Date
+Accounts Settings,invoicing_settings_tab,Tab Break,label,Credit Limits
+Accounts Settings,accounts_transactions_settings_section,Section Break,label,Credit Limit Settings
+Accounts Settings,over_billing_allowance,Currency,label,Over Billing Allowance (%)
+Accounts Settings,over_billing_allowance,Currency,description,"The percentage you are allowed to bill more against the amount ordered. For example, if the order value is $100 for an item and tolerance is set as 10%, then you are allowed to bill up to $110"
+Accounts Settings,role_allowed_to_over_bill,Link,label,Role Allowed to Over Bill
+Accounts Settings,role_allowed_to_over_bill,Link,description,Users with this role are allowed to over bill above the allowance percentage
+Accounts Settings,credit_controller,Link,label,Role allowed to bypass Credit Limit
+Accounts Settings,make_payment_via_journal_entry,Check,label,Make Payment via Journal Entry
+Accounts Settings,pos_tab,Tab Break,label,POS
+Accounts Settings,pos_setting_section,Section Break,label,POS Setting
+Accounts Settings,post_change_gl_entries,Check,label,Create Ledger Entries for Change Amount
+Accounts Settings,post_change_gl_entries,Check,description,"If enabled, ledger entries will be posted for change amount in POS transactions"
+Accounts Settings,assets_tab,Tab Break,label,Assets
+Accounts Settings,asset_settings_section,Section Break,label,Asset Settings
+Accounts Settings,calculate_depr_using_total_days,Check,label,Calculate daily depreciation using total days in depreciation period
+Accounts Settings,calculate_depr_using_total_days,Check,description,"Enable this option to calculate daily depreciation by considering the total number of days in the entire depreciation period, (including leap years) while using daily pro-rata based depreciation"
+Accounts Settings,book_asset_depreciation_entry_automatically,Check,label,Book Asset Depreciation Entry Automatically
+Accounts Settings,closing_settings_tab,Tab Break,label,Accounts Closing
+Accounts Settings,period_closing_settings_section,Section Break,label,Period Closing Settings
+Accounts Settings,acc_frozen_upto,Date,label,Accounts Frozen Till Date
+Accounts Settings,acc_frozen_upto,Date,description,Accounting entries are frozen up to this date. Nobody can create or modify entries except users with the role specified below
+Accounts Settings,ignore_account_closing_balance,Check,label,Ignore Account Closing Balance
+Accounts Settings,ignore_account_closing_balance,Check,description,Financial reports will be generated using GL Entry doctypes (should be enabled if Period Closing Voucher is not posted for all years sequentially or missing)
+Accounts Settings,frozen_accounts_modifier,Link,label,Role Allowed to Set Frozen Accounts and Edit Frozen Entries
+Accounts Settings,frozen_accounts_modifier,Link,description,Users with this role are allowed to set frozen accounts and create / modify accounting entries against frozen accounts
+Accounts Settings,tab_break_dpet,Tab Break,label,Chart Of Accounts
+Accounts Settings,show_balance_in_coa,Check,label,Show Balances in Chart Of Accounts
+Accounts Settings,banking_tab,Tab Break,label,Banking
+Accounts Settings,enable_party_matching,Check,label,Enable Automatic Party Matching
+Accounts Settings,enable_party_matching,Check,description,Auto match and set the Party in Bank Transactions
+Accounts Settings,enable_fuzzy_matching,Check,label,Enable Fuzzy Matching
+Accounts Settings,enable_fuzzy_matching,Check,description,Approximately match the description/party name against parties
+Accounts Settings,reports_tab,Tab Break,label,Reports
+Accounts Settings,remarks_section,Section Break,label,Remarks Column Length
+Accounts Settings,general_ledger_remarks_length,Int,label,General Ledger
+Accounts Settings,general_ledger_remarks_length,Int,description,Truncates 'Remarks' column to set character length
+Accounts Settings,receivable_payable_remarks_length,Int,label,Accounts Receivable/Payable
+Accounts Settings,receivable_payable_remarks_length,Int,description,Truncates 'Remarks' column to set character length
+Accounts Settings,accounts_receivable_payable_tuning_section,Section Break,label,Accounts Receivable / Payable Tuning
+Accounts Settings,receivable_payable_fetch_method,Select,label,Data Fetch Method
+Accounts Settings,receivable_payable_fetch_method,Select,option,Buffered Cursor
+Accounts Settings,receivable_payable_fetch_method,Select,option,UnBuffered Cursor
+Accounts Settings,receivable_payable_fetch_method,Select,option,Raw SQL
+Accounts Settings,drop_ar_procedures,Button,label,Drop Procedures
+Accounts Settings,drop_ar_procedures,Button,description,Drops existing SQL Procedures and Function setup by Accounts Receivable report
+Accounts Settings,legacy_section,Section Break,label,Legacy Fields
+Accounts Settings,ignore_is_opening_check_for_reporting,Check,label,Ignore Is Opening check for reporting
+Accounts Settings,ignore_is_opening_check_for_reporting,Check,description,Ignores legacy Is Opening field in GL Entry that allows adding opening balance post the system is in use while generating reports
+Accounts Settings,payment_request_settings,Tab Break,label,Payment Request
+Accounts Settings,payment_request_settings,Tab Break,description,Payment Request created from Sales Order or Purchase Order will be in Draft status. When disabled document will be in unsaved state.
+Accounts Settings,create_pr_in_draft_status,Check,label,Create in Draft Status
+Asset Category,asset_category_name,Data,label,Asset Category Name
+Asset Category,depreciation_options,Section Break,label,Depreciation Options
+Asset Category,enable_cwip_accounting,Check,label,Enable Capital Work in Progress Accounting
+Asset Category,non_depreciable_category,Check,label,Non Depreciable Category
+Asset Category,finance_book_detail,Section Break,label,Finance Book Detail
+Asset Category,finance_books,Table,label,Finance Books
+Asset Category,section_break_2,Section Break,label,Accounts
+Asset Category,accounts,Table,label,Accounts
+Selling Settings,,DocType,doctype_description,Settings for Selling Module
+Selling Settings,customer_defaults_section,Section Break,label,Customer Defaults
+Selling Settings,cust_master_name,Select,label,Customer Naming By
+Selling Settings,cust_master_name,Select,option,Customer Name
+Selling Settings,cust_master_name,Select,option,Naming Series
+Selling Settings,cust_master_name,Select,option,Auto Name
+Selling Settings,customer_group,Link,label,Default Customer Group
+Selling Settings,territory,Link,label,Default Territory
+Selling Settings,item_price_settings_section,Section Break,label,Item Price Settings
+Selling Settings,selling_price_list,Link,label,Default Price List
+Selling Settings,maintain_same_rate_action,Select,label,Action if Same Rate is Not Maintained Throughout Sales Cycle
+Selling Settings,maintain_same_rate_action,Select,option,Stop
+Selling Settings,maintain_same_rate_action,Select,option,Warn
+Selling Settings,role_to_override_stop_action,Link,label,Role Allowed to Override Stop Action
+Selling Settings,maintain_same_sales_rate,Check,label,Maintain Same Rate Throughout Sales Cycle
+Selling Settings,editable_price_list_rate,Check,label,Allow User to Edit Price List Rate in Transactions
+Selling Settings,validate_selling_price,Check,label,Validate Selling Price for Item Against Purchase Rate or Valuation Rate
+Selling Settings,editable_bundle_item_rates,Check,label,Calculate Product Bundle Price based on Child Items' Rates
+Selling Settings,allow_negative_rates_for_items,Check,label,Allow Negative rates for Items
+Selling Settings,sales_transactions_settings_section,Section Break,label,Transaction Settings
+Selling Settings,so_required,Select,label,Is Sales Order Required for Sales Invoice & Delivery Note Creation?
+Selling Settings,so_required,Select,option,No
+Selling Settings,so_required,Select,option,Yes
+Selling Settings,dn_required,Select,label,Is Delivery Note Required for Sales Invoice Creation?
+Selling Settings,dn_required,Select,option,No
+Selling Settings,dn_required,Select,option,Yes
+Selling Settings,sales_update_frequency,Select,label,Sales Update Frequency in Company and Project
+Selling Settings,sales_update_frequency,Select,description,How often should Project and Company be updated based on Sales Transactions?
+Selling Settings,sales_update_frequency,Select,option,Monthly
+Selling Settings,sales_update_frequency,Select,option,Each Transaction
+Selling Settings,sales_update_frequency,Select,option,Daily
+Selling Settings,blanket_order_allowance,Float,label,Blanket Order Allowance (%)
+Selling Settings,blanket_order_allowance,Float,description,Percentage you are allowed to sell beyond the Blanket Order quantity.
+Selling Settings,allow_multiple_items,Check,label,Allow Item to be Added Multiple Times in a Transaction
+Selling Settings,allow_against_multiple_purchase_orders,Check,label,Allow Multiple Sales Orders Against a Customer's Purchase Order
+Selling Settings,allow_sales_order_creation_for_expired_quotation,Check,label,Allow Sales Order Creation For Expired Quotation
+Selling Settings,dont_reserve_sales_order_qty_on_sales_return,Check,label,Don't Reserve Sales Order Qty on Sales Return
+Selling Settings,hide_tax_id,Check,label,Hide Customer's Tax ID from Sales Transactions
+Selling Settings,enable_discount_accounting,Check,label,Enable Discount Accounting for Selling
+Selling Settings,enable_discount_accounting,Check,description,"If enabled, additional ledger entries will be made for discounts in a separate Discount Account"
+Selling Settings,allow_zero_qty_in_quotation,Check,label,Allow Quotation with Zero Quantity
+Selling Settings,allow_zero_qty_in_quotation,Check,description,Allows users to submit Quotations with zero quantity. Useful when rates are fixed but the quantities are not. Eg. Rate Contracts.
+Selling Settings,allow_zero_qty_in_sales_order,Check,label,Allow Sales Order with Zero Quantity
+Selling Settings,allow_zero_qty_in_sales_order,Check,description,Allows users to submit Sales Orders with zero quantity. Useful when rates are fixed but the quantities are not. Eg. Rate Contracts.
+Stock Settings,,DocType,doctype_description,Default settings for your stock-related transactions
+Stock Settings,defaults_tab,Tab Break,label,Defaults
+Stock Settings,item_defaults_section,Section Break,label,Item Defaults
+Stock Settings,item_naming_by,Select,label,Item Naming By
+Stock Settings,item_naming_by,Select,option,Item Code
+Stock Settings,item_naming_by,Select,option,Naming Series
+Stock Settings,valuation_method,Select,label,Default Valuation Method
+Stock Settings,valuation_method,Select,option,FIFO
+Stock Settings,valuation_method,Select,option,Moving Average
+Stock Settings,valuation_method,Select,option,LIFO
+Stock Settings,item_group,Link,label,Default Item Group
+Stock Settings,default_warehouse,Link,label,Default Warehouse
+Stock Settings,sample_retention_warehouse,Link,label,Sample Retention Warehouse
+Stock Settings,stock_uom,Link,label,Default Stock UOM
+Stock Settings,price_list_defaults_section,Section Break,label,Price List Defaults
+Stock Settings,auto_insert_price_list_rate_if_missing,Check,label,Auto Insert Item Price If Missing
+Stock Settings,update_price_list_based_on,Select,label,Update Price List Based On
+Stock Settings,update_price_list_based_on,Select,option,Rate
+Stock Settings,update_price_list_based_on,Select,option,Price List Rate
+Stock Settings,update_existing_price_list_rate,Check,label,Update Existing Price List Rate
+Stock Settings,conversion_factor_section,Section Break,label,Stock UOM Quantity
+Stock Settings,allow_to_edit_stock_uom_qty_for_sales,Check,label,Allow to Edit Stock UOM Qty for Sales Documents
+Stock Settings,allow_to_edit_stock_uom_qty_for_purchase,Check,label,Allow to Edit Stock UOM Qty for Purchase Documents
+Stock Settings,allow_uom_with_conversion_rate_defined_in_item,Check,label,Allow UOM with Conversion Rate Defined in Item
+Stock Settings,allow_uom_with_conversion_rate_defined_in_item,Check,description,"If enabled, the system will allow selecting UOMs in sales and purchase transactions only if the conversion rate is set in the item master."
+Stock Settings,stock_validations_tab,Tab Break,label,Stock Validations
+Stock Settings,section_break_9,Section Break,label,Stock Transactions Settings
+Stock Settings,over_delivery_receipt_allowance,Float,label,Over Delivery/Receipt Allowance (%)
+Stock Settings,over_delivery_receipt_allowance,Float,description,"The percentage you are allowed to receive or deliver more against the quantity ordered. For example, if you have ordered 100 units, and your Allowance is 10%, then you are allowed to receive 110 units."
+Stock Settings,mr_qty_allowance,Float,label,Over Transfer Allowance
+Stock Settings,mr_qty_allowance,Float,description,"The percentage you are allowed to transfer more against the quantity ordered. For example, if you have ordered 100 units, and your Allowance is 10%, then you are allowed transfer 110 units."
+Stock Settings,over_picking_allowance,Percent,label,Over Picking Allowance
+Stock Settings,over_picking_allowance,Percent,description,The percentage you are allowed to pick more items in the pick list than the ordered quantity.
+Stock Settings,role_allowed_to_over_deliver_receive,Link,label,Role Allowed to Over Deliver/Receive
+Stock Settings,role_allowed_to_over_deliver_receive,Link,description,Users with this role are allowed to over deliver/receive against orders above the allowance percentage
+Stock Settings,allow_negative_stock,Check,label,Allow Negative Stock
+Stock Settings,show_barcode_field,Check,label,Show Barcode Field in Stock Transactions
+Stock Settings,clean_description_html,Check,label,Convert Item Description to Clean HTML in Transactions
+Stock Settings,allow_internal_transfer_at_arms_length_price,Check,label,Allow Internal Transfers at Arm's Length Price
+Stock Settings,allow_internal_transfer_at_arms_length_price,Check,description,"If enabled, the item rate won't adjust to the valuation rate during internal transfers, but accounting will still use the valuation rate."
+Stock Settings,quality_inspection_settings_section,Section Break,label,Quality Inspection Settings
+Stock Settings,action_if_quality_inspection_is_not_submitted,Select,label,Action If Quality Inspection Is Not Submitted
+Stock Settings,action_if_quality_inspection_is_not_submitted,Select,option,Stop
+Stock Settings,action_if_quality_inspection_is_not_submitted,Select,option,Warn
+Stock Settings,action_if_quality_inspection_is_rejected,Select,label,Action If Quality Inspection Is Rejected
+Stock Settings,action_if_quality_inspection_is_rejected,Select,option,Stop
+Stock Settings,action_if_quality_inspection_is_rejected,Select,option,Warn
+Stock Settings,stock_reservation_tab,Tab Break,label,Stock Reservation
+Stock Settings,enable_stock_reservation,Check,label,Enable Stock Reservation
+Stock Settings,enable_stock_reservation,Check,description,Allows to keep aside a specific quantity of inventory for a particular order.
+Stock Settings,allow_partial_reservation,Check,label,Allow Partial Reservation
+Stock Settings,allow_partial_reservation,Check,description,"Partial stock can be reserved. For example, If you have a Sales Order of 100 units and the Available Stock is 90 units then a Stock Reservation Entry will be created for 90 units."
+Stock Settings,auto_reserve_stock_for_sales_order_on_purchase,Check,label,Auto Reserve Stock for Sales Order on Purchase
+Stock Settings,auto_reserve_stock_for_sales_order_on_purchase,Check,description,Stock will be reserved on submission of <b>Purchase Receipt</b> created against Material Request for Sales Order.
+Stock Settings,serial_and_batch_reservation_section,Section Break,label,Serial and Batch Reservation
+Stock Settings,auto_reserve_serial_and_batch,Check,label,Auto Reserve Serial and Batch Nos
+Stock Settings,auto_reserve_serial_and_batch,Check,description,Serial and Batch Nos will be auto-reserved based on <b>Pick Serial / Batch Based On</b>
+Stock Settings,serial_and_batch_item_settings_tab,Tab Break,label,Serial & Batch Item
+Stock Settings,section_break_7,Section Break,label,Serial & Batch Item Settings
+Stock Settings,allow_existing_serial_no,Check,label,Allow existing Serial No to be Manufactured/Received again
+Stock Settings,do_not_use_batchwise_valuation,Check,label,Do Not Use Batch-wise Valuation
+Stock Settings,do_not_use_batchwise_valuation,Check,description,"If enabled, the system will use the moving average valuation method to calculate the valuation rate for the batched items and will not consider the individual batch-wise incoming rate."
+Stock Settings,auto_create_serial_and_batch_bundle_for_outward,Check,label,Auto Create Serial and Batch Bundle For Outward
+Stock Settings,pick_serial_and_batch_based_on,Select,label,Pick Serial / Batch Based On
+Stock Settings,pick_serial_and_batch_based_on,Select,option,FIFO
+Stock Settings,pick_serial_and_batch_based_on,Select,option,LIFO
+Stock Settings,pick_serial_and_batch_based_on,Select,option,Expiry
+Stock Settings,disable_serial_no_and_batch_selector,Check,label,Disable Serial No And Batch Selector
+Stock Settings,use_serial_batch_fields,Check,label,Use Serial / Batch Fields
+Stock Settings,use_serial_batch_fields,Check,description,"On submission of the stock transaction, system will auto create the Serial and Batch Bundle based on the Serial No / Batch fields."
+Stock Settings,do_not_update_serial_batch_on_creation_of_auto_bundle,Check,label,Do Not Update Serial / Batch on Creation of Auto Bundle
+Stock Settings,do_not_update_serial_batch_on_creation_of_auto_bundle,Check,description,"If enabled, do not update serial / batch values in the stock transactions on creation of auto Serial 
+ / Batch Bundle."
+Stock Settings,serial_and_batch_bundle_section,Section Break,label,Serial and Batch Bundle
+Stock Settings,set_serial_and_batch_bundle_naming_based_on_naming_series,Check,label,Set Serial and Batch Bundle Naming Based on Naming Series
+Stock Settings,use_naming_series,Check,label,Have Default Naming Series for Batch ID?
+Stock Settings,naming_series_prefix,Data,label,Naming Series Prefix
+Stock Settings,stock_reservation_tab,Tab Break,label,Stock Reservation
+Stock Settings,enable_stock_reservation,Check,label,Enable Stock Reservation
+Stock Settings,enable_stock_reservation,Check,description,Allows to keep aside a specific quantity of inventory for a particular order.
+Stock Settings,allow_partial_reservation,Check,label,Allow Partial Reservation
+Stock Settings,allow_partial_reservation,Check,description,"Partial stock can be reserved. For example, If you have a Sales Order of 100 units and the Available Stock is 90 units then a Stock Reservation Entry will be created for 90 units."
+Stock Settings,auto_reserve_stock_for_sales_order_on_purchase,Check,label,Auto Reserve Stock for Sales Order on Purchase
+Stock Settings,auto_reserve_stock_for_sales_order_on_purchase,Check,description,Stock will be reserved on submission of <b>Purchase Receipt</b> created against Material Request for Sales Order.
+Stock Settings,serial_and_batch_reservation_section,Section Break,label,Serial and Batch Reservation
+Stock Settings,auto_reserve_serial_and_batch,Check,label,Auto Reserve Serial and Batch Nos
+Stock Settings,auto_reserve_serial_and_batch,Check,description,Serial and Batch Nos will be auto-reserved based on <b>Pick Serial / Batch Based On</b>
+Stock Settings,quality_tab,Tab Break,label,Quality
+Stock Settings,quality_inspection_settings_section,Section Break,label,Quality Inspection Settings
+Stock Settings,action_if_quality_inspection_is_not_submitted,Select,label,Action If Quality Inspection Is Not Submitted
+Stock Settings,action_if_quality_inspection_is_not_submitted,Select,option,Stop
+Stock Settings,action_if_quality_inspection_is_not_submitted,Select,option,Warn
+Stock Settings,action_if_quality_inspection_is_rejected,Select,label,Action If Quality Inspection Is Rejected
+Stock Settings,action_if_quality_inspection_is_rejected,Select,option,Stop
+Stock Settings,action_if_quality_inspection_is_rejected,Select,option,Warn
+Stock Settings,allow_to_make_quality_inspection_after_purchase_or_delivery,Check,label,Allow to Make Quality Inspection after Purchase / Delivery
+Stock Settings,stock_planning_tab,Tab Break,label,Stock Planning
+Stock Settings,auto_material_request,Section Break,label,Auto Material Request
+Stock Settings,auto_indent,Check,label,Raise Material Request When Stock Reaches Re-order Level
+Stock Settings,reorder_email_notify,Check,label,Notify by Email on Creation of Automatic Material Request
+Stock Settings,inter_warehouse_transfer_settings_section,Section Break,label,Inter Warehouse Transfer Settings
+Stock Settings,allow_from_dn,Check,label,Allow Material Transfer from Delivery Note to Sales Invoice
+Stock Settings,allow_from_pr,Check,label,Allow Material Transfer from Purchase Receipt to Purchase Invoice
+Stock Settings,stock_closing_tab,Tab Break,label,Stock Closing
+Stock Settings,control_historical_stock_transactions_section,Section Break,label,Control Historical Stock Transactions
+Stock Settings,stock_frozen_upto,Date,label,Stock Frozen Upto
+Stock Settings,stock_frozen_upto,Date,description,No stock transactions can be created or modified before this date.
+Stock Settings,stock_frozen_upto_days,Int,label,Freeze Stocks Older Than (Days)
+Stock Settings,stock_frozen_upto_days,Int,description,Stock transactions that are older than the mentioned days cannot be modified.
+Stock Settings,role_allowed_to_create_edit_back_dated_transactions,Link,label,Role Allowed to Create/Edit Back-dated Transactions
+Stock Settings,role_allowed_to_create_edit_back_dated_transactions,Link,description,"If mentioned, the system will allow only the users with this Role to create or modify any stock transaction earlier than the latest stock transaction for a specific item and warehouse. If set as blank, it allows all users to create/edit back-dated transactions."
+Stock Settings,stock_auth_role,Link,label,Role Allowed to Edit Frozen Stock
+Stock Settings,stock_auth_role,Link,description,"The users with this Role are allowed to create/modify a stock transaction, even though the transaction is frozen."

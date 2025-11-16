@@ -1,0 +1,4574 @@
+[
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Title",
+    "translated_text": "عنوان"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Series",
+    "translated_text": "سری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Customer",
+    "translated_text": "مشتری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Customer Name",
+    "translated_text": "نامِ مشتری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Tax Id",
+    "translated_text": "شناسهٔ مالیاتی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Company",
+    "translated_text": "شرکت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Company Tax ID",
+    "translated_text": "شناسهٔ مالیاتیِ شرکت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Date",
+    "translated_text": "تاریخ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Posting Time",
+    "translated_text": "زمانِ ثبت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Edit Posting Date and Time",
+    "translated_text": "ویرایشِ تاریخ و زمانِ ثبت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Payment Due Date",
+    "translated_text": "تاریخِ سررسیدِ پرداخت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Include Payment (POS)",
+    "translated_text": "شامل‌کردن پرداخت در نقطهٔ فروش (POS)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "POS Profile",
+    "translated_text": "پروفایلِ نقطهٔ فروش (POS)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Consolidated",
+    "translated_text": "تجمیع‌شده است"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Return (Credit Note)",
+    "translated_text": "مرجوعی است (یادداشتِ بستانکار)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Return Against",
+    "translated_text": "مرجوعی نسبت به"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Sales Invoice",
+    "translated_text": "فاکتور فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Update Outstanding for Self",
+    "translated_text": "به‌روزرسانیِ مانده برای خودِ سند"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Credit Note will update it's own outstanding amount, even if 'Return Against' is specified.",
+    "translated_text": "یادداشتِ بستانکار حتی در صورتِ تعیینِ «مرجوعی نسبت به»، مبلغِ باقیماندهٔ خود را به‌روز می‌کند."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Update Billed Amount in Sales Order",
+    "translated_text": "به‌روزرسانی مبلغِ صورتحساب‌شده در سفارش فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Update Billed Amount in Delivery Note",
+    "translated_text": "به‌روزرسانی مبلغِ صورتحساب‌شده در حوالهٔ تحویل"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Rate Adjustment Entry (Debit Note)",
+    "translated_text": "ورودیِ تعدیلِ نرخ (یادداشت بدهکار – Debit Note) است"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Issue a debit note with 0 qty against an existing Sales Invoice",
+    "translated_text": "صدور «یادداشت بدهکار (Debit Note)» با مقدار صفر در مقابل یک فاکتور فروش موجود"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Amended From",
+    "translated_text": "اصلاح‌شده از"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Accounting Dimensions",
+    "translated_text": "ابعاد حسابداری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Cost Center",
+    "translated_text": "مرکزِ هزینه"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Project",
+    "translated_text": "پروژه"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Currency and Price List",
+    "translated_text": "ارز و فهرستِ قیمت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Currency",
+    "translated_text": "ارز"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Exchange Rate",
+    "translated_text": "نرخِ ارز"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Rate at which Customer Currency is converted to customer's base currency",
+    "translated_text": "نرخی که بر اساسِ آن ارزِ مشتری به ارزِ پایهٔ مشتری تبدیل می‌شود"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Price List",
+    "translated_text": "فهرستِ قیمت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Price List Currency",
+    "translated_text": "ارزِ فهرستِ قیمت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Price List Exchange Rate",
+    "translated_text": "نرخِ تبدیلِ ارزِ فهرستِ قیمت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Rate at which Price list currency is converted to customer's base currency",
+    "translated_text": "نرخی که بر اساسِ آن ارزِ فهرستِ قیمت به ارزِ پایهٔ مشتری تبدیل می‌شود"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Ignore Pricing Rule",
+    "translated_text": "نادیده‌گرفتنِ قانونِ قیمت‌گذاری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Items",
+    "translated_text": "اقلام"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Scan Barcode",
+    "translated_text": "اسکن بارکد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Update Stock",
+    "translated_text": "به‌روزرسانیِ موجودی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Last Scanned Warehouse",
+    "translated_text": "آخرین انبارِ اسکن‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Source Warehouse",
+    "translated_text": "انبارِ مبدأ (Source Warehouse)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Warehouse",
+    "translated_text": "انبار"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Set Target Warehouse",
+    "translated_text": "تنظیمِ انبارِ مقصد (Target Warehouse)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Total Quantity",
+    "translated_text": "کل تعداد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Total Net Weight",
+    "translated_text": "جمعِ وزنِ خالص"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Total (Company Currency)",
+    "translated_text": "جمع کل (به ارز شرکت)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Net Total (Company Currency)",
+    "translated_text": "جمعِ خالص (به ارزِ شرکت)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Total",
+    "translated_text": "جمع"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Net Total",
+    "translated_text": "جمعِ خالص"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Taxes and Charges",
+    "translated_text": "مالیات و عوارض"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Tax Category",
+    "translated_text": "دسته‌بندی مالیاتی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Sales Taxes and Charges Template",
+    "translated_text": "الگوی مالیات‌ها و عوارضِ فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Shipping Rule",
+    "translated_text": "قاعدهٔ ارسال"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Incoterm",
+    "translated_text": "اینکوترمز"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Named Place",
+    "translated_text": "محلِ نام‌برده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Sales Taxes and Charges",
+    "translated_text": "مالیات‌ها و عوارض فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Total Taxes and Charges (Company Currency)",
+    "translated_text": "جمع مالیات‌ها و عوارض (به ارز شرکت)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Total Taxes and Charges",
+    "translated_text": "جمع مالیات‌ها و عوارض"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Totals",
+    "translated_text": "جمع‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Grand Total (Company Currency)",
+    "translated_text": "جمعِ کل (به ارزِ شرکت)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Rounding Adjustment (Company Currency)",
+    "translated_text": "تعدیلِ گردکردن (به ارزِ شرکت)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Rounded Total (Company Currency)",
+    "translated_text": "جمعِ گرد‌شده (به ارزِ شرکت)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "In Words (Company Currency)",
+    "translated_text": "به حروف (به ارزِ شرکت)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "In Words will be visible once you save the Sales Invoice.",
+    "translated_text": "«به حروف» پس از ذخیرهٔ فاکتور فروش قابل مشاهده خواهد بود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Grand Total",
+    "translated_text": "جمعِ کل"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Rounding Adjustment",
+    "translated_text": "تعدیلِ گردکردن"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Use Company default Cost Center for Round off",
+    "translated_text": "استفاده از مرکز هزینهٔ پیش‌فرضِ شرکت برای عملیاتِ گردکردن"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Rounded Total",
+    "translated_text": "جمع گرد‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "In Words",
+    "translated_text": "به حروف"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Total Advance",
+    "translated_text": "جمعِ پیش‌پرداخت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Outstanding Amount",
+    "translated_text": "مبلغِ باقیمانده / معوق"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Disable Rounded Total",
+    "translated_text": "غیرفعال‌سازیِ جمعِ گرد‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Additional Discount",
+    "translated_text": "تخفیفِ اضافی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Apply Additional Discount On",
+    "translated_text": "اعمالِ تخفیفِ اضافی بر"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Additional Discount Amount (Company Currency)",
+    "translated_text": "مبلغِ تخفیفِ اضافی (به ارزِ شرکت)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Cash or Non Trade Discount",
+    "translated_text": "تخفیفِ نقدی یا غیرتجاری است"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Discount Account",
+    "translated_text": "حسابِ تخفیف"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Account",
+    "translated_text": "حساب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Additional Discount Percentage",
+    "translated_text": "درصدِ تخفیفِ اضافی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Additional Discount Amount",
+    "translated_text": "مبلغِ تخفیفِ اضافی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Tax Breakup",
+    "translated_text": "تفکیک مالیات"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Taxes and Charges Calculation",
+    "translated_text": "محاسبهٔ مالیات‌ها و عوارض"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Pricing Rules",
+    "translated_text": "قوانینِ قیمت‌گذاری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Pricing Rule Detail",
+    "translated_text": "جزئیاتِ قانونِ قیمت‌گذاری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Packing List",
+    "translated_text": "فهرستِ بسته‌بندی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Packed Items",
+    "translated_text": "اقلامِ بسته‌بندی‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Product Bundle Help",
+    "translated_text": "راهنمای بستهٔ محصول"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Time Sheet List",
+    "translated_text": "فهرستِ برگه‌های زمانی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Time Sheets",
+    "translated_text": "برگه‌های زمانی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Total Billing Hours",
+    "translated_text": "کل ساعاتِ قابل‌صورتحساب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Total Billing Amount",
+    "translated_text": "جمع مبلغ قابل‌صورتحساب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Payments",
+    "translated_text": "پرداخت‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Cash/Bank Account",
+    "translated_text": "حسابِ نقد/بانک"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Sales Invoice Payment",
+    "translated_text": "پرداختِ فاکتور فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Paid Amount (Company Currency)",
+    "translated_text": "مبلغِ پرداخت‌شده (به ارزِ شرکت)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Paid Amount",
+    "translated_text": "مبلغِ پرداخت‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Changes",
+    "translated_text": "تغییرات"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Base Change Amount (Company Currency)",
+    "translated_text": "مبلغِ پایهٔ باقیماندهٔ پرداخت (به ارزِ شرکت)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Change Amount",
+    "translated_text": "مبلغِ باقیماندهٔ پرداخت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Account for Change Amount",
+    "translated_text": "حسابِ مبلغِ باقیماندهٔ پرداخت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Advance Payments",
+    "translated_text": "پیش‌پرداخت‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allocate Advances Automatically (FIFO)",
+    "translated_text": "تخصیص خودکارِ پیش‌پرداخت‌ها (اول‌ورود–اول‌خروج (FIFO))"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Only Include Allocated Payments",
+    "translated_text": "فقط پرداخت‌هایِ تخصیص‌داده‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Advance payments allocated against orders will only be fetched",
+    "translated_text": "تنها پیش‌پرداخت‌های تخصیص‌یافته به سفارش‌ها دریافت می‌شود"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Get Advances Received",
+    "translated_text": "واکشیِ پیش‌پرداخت‌هایِ دریافت‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Advances",
+    "translated_text": "پیش‌پرداخت‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Write Off",
+    "translated_text": "حذف از دفاتر"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Write Off Amount",
+    "translated_text": "مبلغِ حذف از دفاتر (Write Off)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Write Off Amount (Company Currency)",
+    "translated_text": "مبلغِ حذف از دفاتر (به ارزِ شرکت) (Write Off)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Write Off Outstanding Amount",
+    "translated_text": "حذفِ مبلغِ معوق از دفاتر (Write Off)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Write Off Account",
+    "translated_text": "حسابِ حذف از دفاتر"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Write Off Cost Center",
+    "translated_text": "مرکزِ هزینهٔ حذف از دفاتر"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Loyalty Points Redemption",
+    "translated_text": "بازخریدِ امتیازهایِ وفاداری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Redeem Loyalty Points",
+    "translated_text": "بازخرید امتیازهای وفاداری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Loyalty Points",
+    "translated_text": "امتیازهایِ وفاداری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Loyalty Amount",
+    "translated_text": "مبلغِ وفاداری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Loyalty Program",
+    "translated_text": "برنامهٔ وفاداری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Redemption Account",
+    "translated_text": "حساب بازخرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Redemption Cost Center",
+    "translated_text": "مرکز هزینهٔ بازخرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Address & Contact",
+    "translated_text": "آدرس و مخاطب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Billing Address",
+    "translated_text": "آدرسِ صورتحساب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Customer Address",
+    "translated_text": "نشانیِ مشتری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Address",
+    "translated_text": "آدرس"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Contact Person",
+    "translated_text": "شخصِ تماس"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Contact",
+    "translated_text": "مخاطب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Mobile No",
+    "translated_text": "شمارهٔ همراه"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Contact Email",
+    "translated_text": "ایمیلِ مخاطب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Territory",
+    "translated_text": "منطقهٔ فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Shipping Address",
+    "translated_text": "نشانیِ ارسال"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Shipping Address Name",
+    "translated_text": "نام نشانی ارسال"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Dispatch Address Name",
+    "translated_text": "نامِ نشانیِ ارسال"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Dispatch Address",
+    "translated_text": "نشانیِ ارسال"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Company Address",
+    "translated_text": "نشانیِ شرکت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Company Address Name",
+    "translated_text": "نامِ نشانیِ شرکت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Company Contact Person",
+    "translated_text": "شخصِ تماسِ شرکت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Terms",
+    "translated_text": "شرایط"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Payment Terms",
+    "translated_text": "شرایطِ پرداخت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Ignore Default Payment Terms Template",
+    "translated_text": "نادیده‌گرفتنِ الگویِ پیش‌فرضِ شرایطِ پرداخت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Payment Terms Template",
+    "translated_text": "الگویِ شرایطِ پرداخت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Payment Schedule",
+    "translated_text": "زمان‌بندیِ پرداخت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Terms and Conditions",
+    "translated_text": "شرایط و ضوابط"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Terms and Conditions Details",
+    "translated_text": "جزئیاتِ شرایط و ضوابط"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "More Info",
+    "translated_text": "اطلاعاتِ بیشتر"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Customer PO Details",
+    "translated_text": "جزئیاتِ «سفارش خریدِ مشتری (PO)»"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Customer's Purchase Order",
+    "translated_text": "سفارشِ خریدِ مشتری (PO)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Customer's Purchase Order Date",
+    "translated_text": "تاریخِ سفارشِ خریدِ مشتری (PO)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Accounting Details",
+    "translated_text": "جزئیات حسابداری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Debit To",
+    "translated_text": "بدهکار به"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Party Account Currency",
+    "translated_text": "ارزِ حسابِ طرف‌حساب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Opening Entry",
+    "translated_text": "سندِ افتتاحیه است"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "No",
+    "translated_text": "خیر"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Yes",
+    "translated_text": "بله"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Unrealized Profit / Loss Account",
+    "translated_text": "حسابِ سود/زیانِ تحقق‌نیافته"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Unrealized Profit / Loss account for intra-company transfers",
+    "translated_text": "حسابِ سود/زیانِ تحقق‌نیافته برای انتقالاتِ درون‌شرکتی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Against Income Account",
+    "translated_text": "در برابرِ حسابِ درآمد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Commission",
+    "translated_text": "کمیسیون"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Sales Partner",
+    "translated_text": "همکار فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Amount Eligible for Commission",
+    "translated_text": "مبلغِ مشمولِ کمیسیون"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Commission Rate (%)",
+    "translated_text": "نرخِ کمیسیون (%)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Total Commission",
+    "translated_text": "جمعِ کمیسیون"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Sales Team",
+    "translated_text": "تیم فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Sales Contributions and Incentives",
+    "translated_text": "مشارکت‌ها و مشوق‌های فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Print Settings",
+    "translated_text": "تنظیماتِ چاپ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Letter Head",
+    "translated_text": "سربرگ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Group same items",
+    "translated_text": "تجمیعِ اقلامِ یکسان"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Print Heading",
+    "translated_text": "عنوانِ چاپ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Print Language",
+    "translated_text": "زبانِ چاپ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Subscription",
+    "translated_text": "اشتراک"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "From Date",
+    "translated_text": "از تاریخ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Auto Repeat",
+    "translated_text": "تکرارِ خودکار"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "To Date",
+    "translated_text": "تا تاریخ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Update Auto Repeat Reference",
+    "translated_text": "به‌روزرسانیِ مرجعِ تکرارِ خودکار"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Additional Info",
+    "translated_text": "اطلاعاتِ تکمیلی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Status",
+    "translated_text": "وضعیت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Draft",
+    "translated_text": "پیش‌نویس"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Return",
+    "translated_text": "مرجوعی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Credit Note Issued",
+    "translated_text": "یادداشتِ بستانکار صادر شد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Submitted",
+    "translated_text": "ثبت‌شده (ارسال‌شده)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Paid",
+    "translated_text": "پرداخت‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Partly Paid",
+    "translated_text": "بخشی پرداخت‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Unpaid",
+    "translated_text": "پرداخت‌نشده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Unpaid and Discounted",
+    "translated_text": "پرداخت‌نشده و تخفیف‌خورده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Partly Paid and Discounted",
+    "translated_text": "بخشی پرداخت‌شده و تخفیف‌خورده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Overdue and Discounted",
+    "translated_text": "سررسیدگذشته و تخفیف‌خورده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Overdue",
+    "translated_text": "سررسید گذشته"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Cancelled",
+    "translated_text": "لغوشده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Internal Transfer",
+    "translated_text": "انتقالِ داخلی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Inter Company Invoice Reference",
+    "translated_text": "مرجع فاکتور بین‌شرکتی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Purchase Invoice",
+    "translated_text": "فاکتور خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Campaign",
+    "translated_text": "کمپین"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Represents Company",
+    "translated_text": "نمایندگیِ شرکت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Company which internal customer represents",
+    "translated_text": "شرکتی که «مشتریِ داخلی» نمایندگی می‌کند"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Source",
+    "translated_text": "منبع"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Lead Source",
+    "translated_text": "منبعِ سرنخ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Customer Group",
+    "translated_text": "گروهِ مشتری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Internal Customer",
+    "translated_text": "آیا مشتریِ داخلی است؟"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Discounted",
+    "translated_text": "تخفیف دارد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Remarks",
+    "translated_text": "ملاحظات"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Connections",
+    "translated_text": "پیوندها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Naming Series and Price Defaults",
+    "translated_text": "سریِ نام‌گذاری و پیش‌فرض‌هایِ قیمت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Supplier Naming By",
+    "translated_text": "نام‌گذاری تأمین‌کننده بر اساسِ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Supplier Name",
+    "translated_text": "نامِ تأمین‌کننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Naming Series",
+    "translated_text": "سریِ نام‌گذاری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Auto Name",
+    "translated_text": "نام‌گذاریِ خودکار"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Default Supplier Group",
+    "translated_text": "گروهِ تأمین‌کننده (پیش‌فرض)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Supplier Group",
+    "translated_text": "گروهِ تأمین‌کننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Default Buying Price List",
+    "translated_text": "فهرستِ قیمتِ خرید (پیش‌فرض)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Action If Same Rate is Not Maintained",
+    "translated_text": "اقدام در صورت رعایت نشدنِ نرخِ یکسان"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Configure the action to stop the transaction or just warn if the same rate is not maintained.",
+    "translated_text": "تنظیم کنید که در صورتِ رعایت‌نشدنِ همان نرخ، تراکنش متوقف شود یا فقط هشدار داده شود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Stop",
+    "translated_text": "توقف"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Warn",
+    "translated_text": "هشدار بده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Role Allowed to Override Stop Action",
+    "translated_text": "نقشِ مجاز برای نادیده‌گرفتن اقدامِ «توقف»"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Role",
+    "translated_text": "نقش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Purchase Order Required for Purchase Invoice & Receipt Creation?",
+    "translated_text": "آیا برای ایجاد فاکتور خرید و رسید خرید، سفارش خرید لازم است؟"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Blanket Order Allowance (%)",
+    "translated_text": "حدِ مجازِ سفارشِ کلی (٪)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Percentage you are allowed to order beyond the Blanket Order quantity.",
+    "translated_text": "درصدی که اجازه دارید بیش از مقدارِ «سفارشِ کلی» سفارش‌گذاری کنید."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Purchase Receipt Required for Purchase Invoice Creation?",
+    "translated_text": "آیا برای ایجاد فاکتور خرید، رسید خرید لازم است؟"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Update frequency of Project",
+    "translated_text": "تناوبِ به‌روزرسانیِ پروژه"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "How often should Project be updated of Total Purchase Cost ?",
+    "translated_text": "پروژه با هزینهٔ کلِ خرید هر چند وقت یک‌بار به‌روزرسانی شود؟"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Each Transaction",
+    "translated_text": "هر تراکنش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Manual",
+    "translated_text": "دستی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Transaction Settings",
+    "translated_text": "تنظیماتِ تراکنش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Set Landed Cost Based on Purchase Invoice Rate",
+    "translated_text": "تنظیمِ هزینهٔ نهایی ورود (Landed Cost) بر پایهٔ نرخِ فاکتور خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Users can enable the checkbox If they want to adjust the incoming rate (set using purchase receipt) based on the purchase invoice rate.",
+    "translated_text": "کاربران در صورت تمایل به تنظیمِ نرخِ ورودی (که با رسیدِ خرید تعیین شده) بر اساسِ نرخِ فاکتورِ خرید، می‌توانند این گزینه را فعال کنند."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Supplier Quotation with Zero Quantity",
+    "translated_text": "اجازهٔ ثبتِ پیشنهادِ قیمتِ تأمین‌کننده با تعدادِ صفر"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allows users to submit Supplier Quotations with zero quantity. Useful when rates are fixed but the quantities are not. Eg. Rate Contracts.",
+    "translated_text": "اجازهٔ ثبت «پیشنهاد قیمتِ تأمین‌کننده» با مقدارِ صفر. زمانی مفید است که نرخ‌ها ثابت‌اند اما مقادیر مشخص نیستند (مثلاً قراردادهای نرخ)."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Use Transaction Date Exchange Rate",
+    "translated_text": "استفاده از نرخِ تبدیلِ ارزِ تاریخِ تراکنش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "While making Purchase Invoice from Purchase Order, use Exchange Rate on Invoice's transaction date rather than inheriting it from Purchase Order. Only applies for Purchase Invoice.",
+    "translated_text": "هنگام ساختِ فاکتور خرید از سفارش خرید، به‌جای ارث‌بری نرخِ تبدیل از سفارش خرید، از نرخِ تبدیلِ ارزِ تاریخِ تراکنشِ فاکتور استفاده کن. این مورد فقط برای فاکتور خرید اعمال می‌شود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Request for Quotation with Zero Quantity",
+    "translated_text": "اجازهٔ ثبتِ درخواستِ استعلامِ قیمت با تعدادِ صفر"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allows users to submit Request for Quotations with zero quantity. Useful when rates are fixed but the quantities are not. Eg. Rate Contracts.",
+    "translated_text": "اجازهٔ ثبت «درخواست استعلام قیمت (RFQ)» با مقدارِ صفر. زمانی مفید است که نرخ‌ها ثابت‌اند اما مقادیر مشخص نیستند (مثلاً قراردادهای نرخ)."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Maintain Same Rate Throughout the Purchase Cycle",
+    "translated_text": "حفظِ نرخِ یکسان در سراسرِ چرخهٔ خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Item To Be Added Multiple Times in a Transaction",
+    "translated_text": "اجازهٔ افزودنِ یک کالا چند بار در یک تراکنش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Bill for Rejected Quantity in Purchase Invoice",
+    "translated_text": "صورتحساب‌کردنِ مقدارِ مردود در «فاکتور خرید»"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "If checked, Rejected Quantity will be included while making Purchase Invoice from Purchase Receipt.",
+    "translated_text": "اگر این گزینه فعال شود، هنگام ساخت «فاکتور خرید» از روی «رسید خرید»، مقادیرِ مردود نیز لحاظ می‌شوند."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Set Valuation Rate for Rejected Materials",
+    "translated_text": "نرخِ ارزیابیِ اقلامِ مردود را تنظیم کنید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "If enabled, the system will generate an accounting entry for materials rejected in the Purchase Receipt.",
+    "translated_text": "در صورت فعال‌سازی، سامانه برای موادِ مردودِ موجود در «رسید خرید» ثبتِ حسابداری ایجاد می‌کند."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Disable Last Purchase Rate",
+    "translated_text": "غیرفعال‌کردنِ «آخرین نرخ خرید»"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Show Pay Button in Purchase Order Portal",
+    "translated_text": "نمایشِ دکمهٔ پرداخت در پورتالِ سفارش خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Purchase Order with Zero Quantity",
+    "translated_text": "اجازهٔ ثبتِ سفارشِ خرید با تعدادِ صفر"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allows users to submit Purchase Orders with zero quantity. Useful when rates are fixed but the quantities are not. Eg. Rate Contracts.",
+    "translated_text": "اجازهٔ ثبت «سفارش خرید» با مقدارِ صفر. زمانی مفید است که نرخ‌ها ثابت‌اند اما مقادیر مشخص نیستند (مثلاً قراردادهای نرخ)."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Subcontracting Settings",
+    "translated_text": "تنظیمات برون‌سپاری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Backflush Raw Materials of Subcontract Based On",
+    "translated_text": "ثبتِ خودکارِ مصرفِ موادِ اولیهٔ برون‌سپاری بر اساسِ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "BOM",
+    "translated_text": "صورتِ مواد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Material Transferred for Subcontract",
+    "translated_text": "موادِ منتقل‌شده برایِ برون‌سپاری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Over Transfer Allowance (%)",
+    "translated_text": "حدِ مجازِ انتقالِ اضافی (٪)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Percentage you are allowed to transfer more against the quantity ordered. For example: If you have ordered 100 units. and your Allowance is 10% then you are allowed to transfer 110 units.",
+    "translated_text": "درصدی که مجازید بیش از مقدارِ سفارش‌شده انتقال دهید. مثال: اگر ۱۰۰ واحد سفارش داده‌اید و حدِ مجاز ۱۰٪ است، می‌توانید ۱۱۰ واحد انتقال دهید."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Auto Create Subcontracting Order",
+    "translated_text": "ایجادِ خودکارِ سفارشِ برون‌سپاری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Subcontracting Order (Draft) will be auto-created on submission of Purchase Order.",
+    "translated_text": "با ثبتِ سفارش خرید، «سفارشِ برون‌سپاری» (پیش‌نویس) به‌صورت خودکار ایجاد می‌شود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Auto Create Purchase Receipt",
+    "translated_text": "ایجاد خودکارِ «رسید خرید»"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Purchase Receipt (Draft) will be auto-created on submission of Subcontracting Receipt.",
+    "translated_text": "با ثبتِ «رسید برون‌سپاری»، «رسید خرید» (پیش‌نویس) به‌صورت خودکار ایجاد خواهد شد."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Request for Quotation",
+    "translated_text": "درخواستِ استعلامِ قیمت (RFQ)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Fixed Outgoing Email Account",
+    "translated_text": "حسابِ ایمیلِ خروجیِ ثابت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "If set, the system does not use the user's Email or the standard outgoing Email account for sending request for quotations.",
+    "translated_text": "اگر تنظیم شود، سامانه برای ارسالِ درخواستِ استعلامِ قیمت از ایمیلِ کاربر یا حسابِ خروجیِ پیش‌فرض استفاده نخواهد کرد."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Email Account",
+    "translated_text": "حسابِ ایمیل"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "A Product or a Service that is bought, sold or kept in stock.",
+    "translated_text": "کالا یا خدمتی که خریداری، فروخته یا در موجودی نگهداری می‌شود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Details",
+    "translated_text": "جزئیات"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Item Code",
+    "translated_text": "کُدِ کالا"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Item Name",
+    "translated_text": "نامِ کالا"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Item Group",
+    "translated_text": "گروهِ کالا"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Default Unit of Measure",
+    "translated_text": "واحدِ اندازه‌گیریِ پیش‌فرض"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "UOM",
+    "translated_text": "واحد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Disabled",
+    "translated_text": "غیرفعال"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Alternative Item",
+    "translated_text": "اجازهٔ استفاده از کالای جایگزین"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Maintain Stock",
+    "translated_text": "نگهداریِ موجودی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Has Variants",
+    "translated_text": "دارایِ تنوع"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "If this item has variants, then it cannot be selected in sales orders etc.",
+    "translated_text": "اگر این کالا واریانت دارد، خودِ کالا در سفارش‌های فروش و مواردِ مشابه قابلِ انتخاب نیست."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Opening Stock",
+    "translated_text": "موجودیِ اولِ دوره"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Valuation Rate",
+    "translated_text": "نرخِ ارزش‌گذاری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Standard Selling Rate",
+    "translated_text": "نرخ فروشِ استاندارد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Fixed Asset",
+    "translated_text": "داراییِ ثابت است"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Auto Create Assets on Purchase",
+    "translated_text": "ایجادِ خودکارِ دارایی هنگامِ خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Create Grouped Asset",
+    "translated_text": "ایجادِ داراییِ گروهی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Asset Category",
+    "translated_text": "دسته‌بندی دارایی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Asset Naming Series",
+    "translated_text": "سریِ نام‌گذاریِ دارایی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Over Delivery/Receipt Allowance (%)",
+    "translated_text": "حدِ مجازِ تحویل/دریافتِ اضافی (٪)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Over Billing Allowance (%)",
+    "translated_text": "حدِ مجازِ اضافه‌صورتحساب (٪)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Image",
+    "translated_text": "تصویر"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Description",
+    "translated_text": "توضیحات"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Brand",
+    "translated_text": "برند"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Units of Measure",
+    "translated_text": "واحدهای اندازه‌گیری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "UOMs",
+    "translated_text": "واحدها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Will also apply for variants",
+    "translated_text": "برای واریانت‌ها نیز اعمال می‌شود"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Dashboard",
+    "translated_text": "داشبورد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Inventory",
+    "translated_text": "موجودی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Inventory Settings",
+    "translated_text": "تنظیماتِ موجودی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Shelf Life In Days",
+    "translated_text": "عمر مفید (روز)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "End of Life",
+    "translated_text": "پایانِ عمر"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Default Material Request Type",
+    "translated_text": "نوعِ درخواستِ مواد (پیش‌فرض)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Purchase",
+    "translated_text": "خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Material Transfer",
+    "translated_text": "انتقالِ مواد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Material Issue",
+    "translated_text": "خروجِ مواد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Manufacture",
+    "translated_text": "تولید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Customer Provided",
+    "translated_text": "تأمین‌شده توسط مشتری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Valuation Method",
+    "translated_text": "روشِ ارزش‌گذاری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "FIFO",
+    "translated_text": "اول‌ورود–اول‌خروج (FIFO)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Moving Average",
+    "translated_text": "میانگینِ متحرک"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "LIFO",
+    "translated_text": "آخر‌ورود–اول‌خروج (LIFO)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Warranty Period (in days)",
+    "translated_text": "دورهٔ گارانتی (به روز)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Weight Per Unit",
+    "translated_text": "وزنِ هر واحد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Weight UOM",
+    "translated_text": "واحدِ وزن"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Negative Stock",
+    "translated_text": "اجازهٔ موجودیِ منفی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Barcodes",
+    "translated_text": "بارکدها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Auto re-order",
+    "translated_text": "سفارش‌گذاریِ خودکار"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Reorder level based on Warehouse",
+    "translated_text": "سطحِ سفارشِ مجدد بر اساسِ انبار"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Will also apply for variants unless overrridden",
+    "translated_text": "برای واریانت‌ها نیز اعمال می‌شود مگر آن‌که به‌طور جداگانه تغییر داده شود"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Serial Nos and Batches",
+    "translated_text": "شماره‌سریال‌ها و پارت‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Has Batch No",
+    "translated_text": "شمارهٔ پارت دارد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Automatically Create New Batch",
+    "translated_text": "ایجادِ خودکارِ پارتِ جدید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Batch Number Series",
+    "translated_text": "سریِ شمارهٔ پارت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Has Expiry Date",
+    "translated_text": "تاریخِ انقضا دارد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Retain Sample",
+    "translated_text": "نگهداری نمونه"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Max Sample Quantity",
+    "translated_text": "حداکثر مقدارِ نمونهٔ قابل‌نگهداری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Maximum sample quantity that can be retained",
+    "translated_text": "حداکثر مقدارِ نمونهٔ قابلِ نگهداری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Has Serial No",
+    "translated_text": "شمارهٔ سریال دارد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Serial Number Series",
+    "translated_text": "سری شمارهٔ سریال"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Variants",
+    "translated_text": "واریانت‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Variant Of",
+    "translated_text": "واریانتِ کالای"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "If item is a variant of another item then description, image, pricing, taxes etc will be set from the template unless explicitly specified",
+    "translated_text": "اگر این کالا واریانتِ کالای دیگری باشد، توضیحات، تصویر، قیمت‌گذاری، مالیات‌ها و… از الگو تعیین می‌شود مگر اینکه به‌طورِ صریح مشخص شده باشد."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Item",
+    "translated_text": "کالا"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Variant Based On",
+    "translated_text": "واریانت بر اساسِ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Item Attribute",
+    "translated_text": "ویژگیِ کالا"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Manufacturer",
+    "translated_text": "سازنده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Variant Attributes",
+    "translated_text": "ویژگی‌های واریانت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Accounting",
+    "translated_text": "حسابداری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Deferred Accounting",
+    "translated_text": "حسابداریِ معوق"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Enable Deferred Expense",
+    "translated_text": "فعال‌سازیِ هزینهٔ معوق"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "No of Months (Expense)",
+    "translated_text": "تعدادِ ماه‌ها (هزینه)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Enable Deferred Revenue",
+    "translated_text": "فعال‌سازیِ درآمدِ معوق"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "No of Months (Revenue)",
+    "translated_text": "تعدادِ ماه‌ها (درآمد)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Item Defaults",
+    "translated_text": "پیش‌فرض‌های کالا"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Purchasing",
+    "translated_text": "خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Default Purchase Unit of Measure",
+    "translated_text": "واحدِ خریدِ پیش‌فرض"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Minimum Order Qty",
+    "translated_text": "حداقل مقدارِ سفارش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Minimum quantity should be as per Stock UOM",
+    "translated_text": "حداقل مقدار باید مطابقِ «واحدِ انبار» باشد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Safety Stock",
+    "translated_text": "موجودی ایمنی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Purchase",
+    "translated_text": "اجازهٔ خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Lead Time in days",
+    "translated_text": "زمانِ تأمین (روز)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Average time taken by the supplier to deliver",
+    "translated_text": "میانگینِ زمانِ تحویل توسطِ تأمین‌کننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Last Purchase Rate",
+    "translated_text": "آخرین نرخِ خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Customer Provided Item",
+    "translated_text": "آیا کالا توسط مشتری تأمین شده است؟"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Supplier Details",
+    "translated_text": "جزئیاتِ تأمین‌کننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Delivered by Supplier (Drop Ship)",
+    "translated_text": "تحویل توسط تأمین‌کننده (ارسال مستقیم از تأمین‌کننده – Drop Ship)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Supplier Items",
+    "translated_text": "اقلامِ تأمین‌کننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Foreign Trade Details",
+    "translated_text": "جزئیاتِ تجارتِ خارجی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Country of Origin",
+    "translated_text": "کشورِ مبدأ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Country",
+    "translated_text": "کشور"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Customs Tariff Number",
+    "translated_text": "شمارهٔ تعرفهٔ گمرکی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Sales",
+    "translated_text": "فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Default Sales Unit of Measure",
+    "translated_text": "واحدِ فروشِ پیش‌فرض"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Grant Commission",
+    "translated_text": "اعطایِ کمیسیون"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Sales",
+    "translated_text": "اجازهٔ فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Max Discount (%)",
+    "translated_text": "حداکثر تخفیف (٪)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Customer Details",
+    "translated_text": "جزئیاتِ مشتری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Customer Items",
+    "translated_text": "کالاهای مشتری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Tax",
+    "translated_text": "مالیات"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Taxes",
+    "translated_text": "مالیات‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Quality",
+    "translated_text": "کیفیت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Inspection Required before Purchase",
+    "translated_text": "بازرسی پیش از خرید الزامی است"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Quality Inspection Template",
+    "translated_text": "قالب بازرسی کیفیت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Inspection Required before Delivery",
+    "translated_text": "بازرسی پیش از تحویل الزامی است"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Manufacturing",
+    "translated_text": "تولید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Include Item In Manufacturing",
+    "translated_text": "گنجاندن کالا در تولید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Supply Raw Materials for Purchase",
+    "translated_text": "تأمین مواد اولیه برای خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "If subcontracted to a vendor",
+    "translated_text": "اگر به فروشنده/پیمانکار برون‌سپاری شده باشد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Default BOM",
+    "translated_text": "صورت‌موادِ پیش‌فرض (BOM)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Customer Code",
+    "translated_text": "کُدِ مشتری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Default Item Manufacturer",
+    "translated_text": "سازندهٔ کالای پیش‌فرض"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Default Manufacturer Part No",
+    "translated_text": "شمارهٔ قطعهٔ سازنده (پیش‌فرض)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Total Projected Qty",
+    "translated_text": "کل مقدارِ پیش‌بینی‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Delivery Note",
+    "translated_text": "حوالهٔ تحویل"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Return",
+    "translated_text": "مرجوعی است"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Issue Credit Note",
+    "translated_text": "صدورِ یادداشتِ بستانکار"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Return Against Delivery Note",
+    "translated_text": "مرجوعی در برابر حوالهٔ تحویل"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Rate at which customer's currency is converted to company's base currency",
+    "translated_text": "نرخی که بر اساسِ آن ارزِ مشتری به ارزِ پایهٔ شرکت تبدیل می‌شود"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Rate at which Price list currency is converted to company's base currency",
+    "translated_text": "نرخی که بر اساسِ آن ارزِ فهرستِ قیمت به ارزِ پایهٔ شرکت تبدیل می‌شود"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Set Source Warehouse",
+    "translated_text": "تنظیمِ انبارِ مبدأ (Source Warehouse)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Delivery Note Item",
+    "translated_text": "قلمِ حوالهٔ تحویل"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "In Words will be visible once you save the Delivery Note.",
+    "translated_text": "«به حروف» پس از ذخیرهٔ حوالهٔ تحویل قابل مشاهده خواهد بود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "In Words (Export) will be visible once you save the Delivery Note.",
+    "translated_text": "«به حروف (صادرات – Export)» پس از ذخیرهٔ «حوالهٔ تحویل» قابل مشاهده خواهد بود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Billing Address Name",
+    "translated_text": "نامِ آدرسِ صورتحساب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "% Amount Billed",
+    "translated_text": "٪ مبلغِ فاکتور‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "To Bill",
+    "translated_text": "برای صدور صورتحساب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Completed",
+    "translated_text": "تکمیل‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Return Issued",
+    "translated_text": "مرجوعی صادرشده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Closed",
+    "translated_text": "بسته‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "% Installed",
+    "translated_text": "٪ نصب‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Installation Status",
+    "translated_text": "وضعیتِ نصب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "% Returned",
+    "translated_text": "٪ مرجوع‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Transporter Info",
+    "translated_text": "اطلاعاتِ شرکتِ حمل‌ونقل"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Transporter",
+    "translated_text": "شرکتِ حمل‌ونقل"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Supplier",
+    "translated_text": "تأمین‌کننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Driver",
+    "translated_text": "راننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Transport Receipt No",
+    "translated_text": "شمارهٔ رسیدِ حمل‌ونقل"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Vehicle No",
+    "translated_text": "شمارهٔ خودرو"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Transporter Name",
+    "translated_text": "نامِ شرکتِ حمل‌ونقل"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Driver Name",
+    "translated_text": "نامِ راننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Transport Receipt Date",
+    "translated_text": "تاریخِ رسیدِ حمل‌ونقل"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Customer's Purchase Order No",
+    "translated_text": "شمارهٔ سفارشِ خریدِ مشتری (PO)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Subscription Section",
+    "translated_text": "بخشِ اشتراک"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Print Without Amount",
+    "translated_text": "چاپ بدونِ مبلغ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Company which internal customer represents.",
+    "translated_text": "شرکتی که «مشتریِ داخلی» نمایندگی می‌کند."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Inter Company Reference",
+    "translated_text": "مرجع بین‌شرکتی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Purchase Receipt",
+    "translated_text": "رسید خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Excise Page Number",
+    "translated_text": "شمارهٔ صفحهٔ عوارض"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Instructions",
+    "translated_text": "دستورالعمل‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Due Date",
+    "translated_text": "تاریخِ سررسید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Paid",
+    "translated_text": "پرداخت‌شده است"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Return (Debit Note)",
+    "translated_text": "مرجوعی است (یادداشتِ بدهکار)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Return Against Purchase Invoice",
+    "translated_text": "مرجوعی در برابر فاکتور خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Debit Note will update it's own outstanding amount, even if 'Return Against' is specified.",
+    "translated_text": "یادداشتِ بدهکار ماندهٔ خود را به‌روزرسانی می‌کند، حتی اگر «مرجوعی نسبت به» مشخص شده باشد."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Update Billed Amount in Purchase Order",
+    "translated_text": "به‌روزرسانی مبلغِ صورتحساب‌شده در سفارش خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Update Billed Amount in Purchase Receipt",
+    "translated_text": "به‌روزرسانی مبلغِ صورتحساب‌شده در رسید خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Apply Tax Withholding Amount",
+    "translated_text": "اعمالِ مبلغِ مالیاتِ کسرشونده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Tax Withholding Category",
+    "translated_text": "دسته‌بندی مالیاتِ کسرشونده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Supplier Invoice",
+    "translated_text": "فاکتورِ تأمین‌کننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Supplier Invoice No",
+    "translated_text": "شمارهٔ فاکتورِ تأمین‌کننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Supplier Invoice Date",
+    "translated_text": "تاریخِ فاکتورِ تأمین‌کننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Set Accepted Warehouse",
+    "translated_text": "تنظیمِ انبارِ پذیرفته‌شده (Accepted)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Set From Warehouse",
+    "translated_text": "تنظیمِ انبارِ مبدأ (From Warehouse)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Subcontracted",
+    "translated_text": "برون‌سپاری شده است"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Rejected Warehouse",
+    "translated_text": "انبارِ مردودی‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Supplier Warehouse",
+    "translated_text": "انبارِ تأمین‌کننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Tax Withholding Net Total",
+    "translated_text": "جمع خالص مالیات کسرشونده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Base Tax Withholding Net Total",
+    "translated_text": "جمعِ خالصِ پایهٔ مالیاتِ کسرشونده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Purchase Taxes and Charges Template",
+    "translated_text": "الگوی مالیات‌ها و عوارضِ خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Purchase Taxes and Charges",
+    "translated_text": "مالیات‌ها و عوارضِ خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Taxes and Charges Added (Company Currency)",
+    "translated_text": "مالیات‌ها و عوارضِ افزوده‌شده (به ارز شرکت)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Taxes and Charges Deducted (Company Currency)",
+    "translated_text": "مالیات‌ها و عوارضِ کسرشده (به ارز شرکت)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Taxes and Charges Added",
+    "translated_text": "مالیات‌ها و عوارضِ افزوده‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Taxes and Charges Deducted",
+    "translated_text": "مالیات‌ها و عوارضِ کسرشده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Use Company Default Round Off Cost Center",
+    "translated_text": "استفاده از مرکز هزینهٔ پیش‌فرضِ شرکت برای گردکردن"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Tax Withheld Vouchers",
+    "translated_text": "اسنادِ مالیاتِ کسرشده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Raw Materials Supplied",
+    "translated_text": "مواد اولیهٔ تأمین‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Supplied Items",
+    "translated_text": "اقلامِ تأمین‌شده (Supplied Items)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Mode of Payment",
+    "translated_text": "روشِ پرداخت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Clearance Date",
+    "translated_text": "تاریخِ تسویه"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Set Advances and Allocate (FIFO)",
+    "translated_text": "تنظیمِ پیش‌پرداخت‌ها و تخصیص (اول‌ورود–اول‌خروج (FIFO))"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Get Advances Paid",
+    "translated_text": "واکشیِ پیش‌پرداخت‌هایِ پرداخت‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Advance Tax",
+    "translated_text": "مالیاتِ علی‌الحساب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Supplier Address",
+    "translated_text": "نشانیِ تأمین‌کننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Select Supplier Address",
+    "translated_text": "نشانیِ تأمین‌کننده را انتخاب کنید."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Select Dispatch Address",
+    "translated_text": "نشانی ارسال را انتخاب کنید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Select Shipping Address",
+    "translated_text": "نشانی ارسال را انتخاب کنید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Company Billing Address",
+    "translated_text": "نشانیِ صورتحسابِ شرکت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Select Billing Address",
+    "translated_text": "نشانی صورتحساب را انتخاب کنید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Debit Note Issued",
+    "translated_text": "یادداشتِ بدهکار صادر شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Per Received",
+    "translated_text": "درصدِ دریافت‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Credit To",
+    "translated_text": "بستانکار به"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Against Expense Account",
+    "translated_text": "در برابرِ حسابِ هزینه"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Unrealized Profit/Loss account for intra-company transfers",
+    "translated_text": "حسابِ سود/زیانِ تحقق‌نیافته برای انتقالاتِ درون‌شرکتی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Start date of current invoice's period",
+    "translated_text": "تاریخ آغازِ دورهٔ فاکتور جاری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "End date of current invoice's period",
+    "translated_text": "تاریخِ پایانِ دورهٔ فاکتورِ جاری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Hold Invoice",
+    "translated_text": "تعلیقِ فاکتور"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Release Date",
+    "translated_text": "تاریخ آزادسازی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Once set, this invoice will be on hold till the set date",
+    "translated_text": "پس از تنظیم، این فاکتور تا تاریخِ تعیین‌شده در حالتِ تعلیق خواهد بود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Reason For Putting On Hold",
+    "translated_text": "دلیلِ تعلیق"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Internal Supplier",
+    "translated_text": "آیا تأمین‌کنندهٔ داخلی است؟"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Company which internal supplier represents",
+    "translated_text": "شرکتی که «تأمین‌کنندهٔ داخلی» نمایندگی می‌کند"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Old Subcontracting Flow",
+    "translated_text": "روالِ قدیمیِ برون‌سپاری است"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Quotation To",
+    "translated_text": "پیش‌فاکتور برای"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "DocType",
+    "translated_text": "نوع‌سند"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Party",
+    "translated_text": "طرف‌حساب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Valid Till",
+    "translated_text": "معتبر تا"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Order Type",
+    "translated_text": "نوعِ سفارش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Maintenance",
+    "translated_text": "نگهداشت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Shopping Cart",
+    "translated_text": "سبد خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Has Unit Price Items",
+    "translated_text": "دارای اقلام با قیمتِ واحد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Quotation",
+    "translated_text": "پیش‌فاکتور"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Coupon Code",
+    "translated_text": "کُدِ تخفیف"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Referral Sales Partner",
+    "translated_text": "همکار فروش معرفی‌کننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Bundle Items",
+    "translated_text": "اقلامِ «بستهٔ محصول (Bundle)»"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Term Details",
+    "translated_text": "جزئیاتِ شرایط"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Lost Reasons",
+    "translated_text": "دلایلِ از‌دست‌رفتن"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Quotation Lost Reason Detail",
+    "translated_text": "جزئیاتِ دلیلِ از‌دست‌رفتنِ پیش‌فاکتور"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Competitors",
+    "translated_text": "رقبا"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Competitor Detail",
+    "translated_text": "جزئیاتِ رقیب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Detailed Reason",
+    "translated_text": "علتِ تفصیلی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Open",
+    "translated_text": "باز"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Replied",
+    "translated_text": "پاسخ‌داده‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Partially Ordered",
+    "translated_text": "سفارش‌گذاریِ جزئی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Ordered",
+    "translated_text": "سفارش‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Lost",
+    "translated_text": "از‌دست‌رفته"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Expired",
+    "translated_text": "منقضی‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Opportunity",
+    "translated_text": "فرصت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Supplier Quotation",
+    "translated_text": "پیشنهاد قیمت تأمین‌کننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Opportunity Item",
+    "translated_text": "کالای فرصت فروش (Opportunity Item)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Order Confirmation No",
+    "translated_text": "شمارهٔ تأییدِ سفارش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Order Confirmation Date",
+    "translated_text": "تاریخِ تأییدِ سفارش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Get Items from Open Material Requests",
+    "translated_text": "دریافتِ اقلام از «درخواست‌های موادِ» باز"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Fetch items based on Default Supplier.",
+    "translated_text": "واکشیِ اقلام بر اساسِ «تأمین‌کنندهٔ پیش‌فرض»."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Required By",
+    "translated_text": "تاریخِ موردنیاز"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Purchase Order",
+    "translated_text": "سفارش خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Purchase Order Pricing Rule",
+    "translated_text": "قانونِ قیمت‌گذاریِ سفارش خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Set Reserve Warehouse",
+    "translated_text": "تنظیمِ انبارِ رزرو (Reserve)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Advance Paid",
+    "translated_text": "پیش‌پرداختِ پرداخت‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Supplier Address Details",
+    "translated_text": "جزئیاتِ نشانیِ تأمین‌کننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Supplier Contact",
+    "translated_text": "مخاطبِ تأمین‌کننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Contact Name",
+    "translated_text": "نامِ مخاطب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Contact Mobile No",
+    "translated_text": "شمارهٔ همراهِ مخاطب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Dispatch Address Details",
+    "translated_text": "جزئیاتِ نشانیِ ارسال"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Shipping Address Details",
+    "translated_text": "جزئیات نشانی ارسال"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Billing Address Details",
+    "translated_text": "جزئیاتِ آدرسِ صورتحساب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Drop Ship",
+    "translated_text": "ارسالِ مستقیم از تأمین‌کننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Customer Contact",
+    "translated_text": "مخاطبِ مشتری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Customer Mobile No",
+    "translated_text": "شمارهٔ همراهِ مشتری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Customer Contact Email",
+    "translated_text": "ایمیلِ مخاطبِ مشتری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Terms & Conditions",
+    "translated_text": "شرایط و ضوابط"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Order Status",
+    "translated_text": "وضعیتِ سفارش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "On Hold",
+    "translated_text": "در حالتِ تعلیق"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "To Receive and Bill",
+    "translated_text": "در انتظار دریافت و صدور فاکتور"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "To Receive",
+    "translated_text": "در انتظار دریافت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Delivered",
+    "translated_text": "تحویل‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "% Billed",
+    "translated_text": "٪ فاکتور‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "% Received",
+    "translated_text": "٪ دریافت‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Printing Settings",
+    "translated_text": "تنظیماتِ چاپ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Inter Company Order Reference",
+    "translated_text": "مرجع سفارش بین‌شرکتی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Sales Order",
+    "translated_text": "سفارش فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Delivery Date",
+    "translated_text": "تاریخِ تحویل"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Skip Delivery Note",
+    "translated_text": "نادیده‌گرفتنِ حوالهٔ تحویل (Skip Delivery Note)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Reserve Stock",
+    "translated_text": "رزرو موجودی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "In Words will be visible once you save the Sales Order.",
+    "translated_text": "«به حروف» پس از ذخیرهٔ سفارش فروش قابل مشاهده خواهد بود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Phone",
+    "translated_text": "تلفن"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "To Deliver and Bill",
+    "translated_text": "برای تحویل و صدور صورتحساب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "To Deliver",
+    "translated_text": "برای تحویل"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Delivery Status",
+    "translated_text": "وضعیتِ تحویل"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Not Delivered",
+    "translated_text": "تحویل‌نشده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Fully Delivered",
+    "translated_text": "کاملاً تحویل‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Partly Delivered",
+    "translated_text": "بخشی تحویل‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Not Applicable",
+    "translated_text": "قابلِ اجرا نیست"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "%  Delivered",
+    "translated_text": "٪ تحویل‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "% of materials delivered against this Sales Order",
+    "translated_text": "٪ موادِ تحویل‌شده برای این سفارش فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "% of materials billed against this Sales Order",
+    "translated_text": "٪ موادِ فاکتور‌شده برای این سفارش فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "% Picked",
+    "translated_text": "٪ برداشت‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Billing Status",
+    "translated_text": "وضعیتِ صدورِ فاکتور"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Not Billed",
+    "translated_text": "فاکتور نشده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Fully Billed",
+    "translated_text": "کاملاً فاکتور‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Partly Billed",
+    "translated_text": "بخشی فاکتور‌شده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Commission Rate",
+    "translated_text": "نرخِ کمیسیون"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Invoice and Billing",
+    "translated_text": "فاکتور و صورتحساب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Invoice Cancellation",
+    "translated_text": "ابطالِ فاکتور"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Unlink Payment on Cancellation of Invoice",
+    "translated_text": "هنگام لغوِ فاکتور، پرداخت را جدا کن"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Unlink Advance Payment on Cancellation of Order",
+    "translated_text": "هنگام لغوِ سفارش، پیش‌پرداخت را جدا کن"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Delete Accounting and Stock Ledger Entries on deletion of Transaction",
+    "translated_text": "حذفِ ثبت‌هایِ دفترکلِ حسابداری و موجودی هنگامِ حذفِ تراکنش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Enable Immutable Ledger",
+    "translated_text": "فعال‌سازیِ دفترکلِ تغییرناپذیر"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "On enabling this cancellation entries will be posted on the actual cancellation date and reports will consider cancelled entries as well",
+    "translated_text": "با فعال‌سازیِ این گزینه، ثبت‌هایِ ابطال در تاریخِ واقعیِ ابطال ثبت می‌شوند و گزارش‌ها اقلامِ ابطالی را نیز در نظر می‌گیرند"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Invoicing Features",
+    "translated_text": "قابلیت‌هایِ صدورِ فاکتور/صورتحساب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Check Supplier Invoice Number Uniqueness",
+    "translated_text": "بررسی یکتابودنِ شمارهٔ فاکتورِ تأمین‌کننده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Enabling this ensures each Purchase Invoice has a unique value in Supplier Invoice No. field within a particular fiscal year",
+    "translated_text": "با فعال‌سازیِ این گزینه، در هر سال مالی مقدارِ فیلدِ «شمارهٔ فاکتورِ تأمین‌کننده» در هر «فاکتور خرید» باید یکتا باشد."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Automatically Fetch Payment Terms from Order",
+    "translated_text": "واکشیِ خودکارِ شرایطِ پرداخت از سفارش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Payment Terms from orders will be fetched into the invoices as is",
+    "translated_text": "شرایطِ پرداخت از سفارش‌ها عیناً به فاکتورها منتقل می‌شود"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Enable Common Party Accounting",
+    "translated_text": "فعال‌سازیِ حسابداریِ طرفِ مشترک"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow multi-currency invoices against single party account",
+    "translated_text": "صدورِ فاکتورِ چندارزی روی یک حسابِ طرفِ مقابل مجاز باشد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Enabling this will allow creation of multi-currency invoices against single party account in company currency",
+    "translated_text": "با فعال‌سازی، ایجادِ فاکتورهایِ چندارزی روی یک حسابِ طرفِ مقابل به ارزِ شرکت مجاز می‌شود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Journals",
+    "translated_text": "اسنادِ روزنامه"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Merge Similar Account Heads",
+    "translated_text": "ادغامِ سرفصل‌هایِ حسابِ مشابه"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Rows with Same Account heads will be merged on Ledger",
+    "translated_text": "ردیف‌های با همان سرفصل حساب در دفترکل ادغام می‌شوند"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Deferred Accounting Settings",
+    "translated_text": "تنظیماتِ حسابداریِ معوق"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Book Deferred Entries Based On",
+    "translated_text": "ثبتِ اقلامِ معوق بر اساسِ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "If \"Months\" is selected, a fixed amount will be booked as deferred revenue or expense for each month irrespective of the number of days in a month. It will be prorated if deferred revenue or expense is not booked for an entire month",
+    "translated_text": "اگر «ماه‌ها» انتخاب شود، برای هر ماه ـ بدونِ توجه به تعدادِ روزهای آن ـ مبلغِ ثابتی به‌عنوانِ درآمد/هزینهٔ معوق ثبت می‌شود. اگر برایِ یک ماه کامل ثبت نشود، مبلغ به‌صورتِ روزشمار سرشکن خواهد شد."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Days",
+    "translated_text": "روزها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Months",
+    "translated_text": "ماه‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Automatically Process Deferred Accounting Entry",
+    "translated_text": "پردازشِ خودکارِ ثبت‌هایِ حسابداریِ معوق"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Book Deferred Entries Via Journal Entry",
+    "translated_text": "ثبتِ اقلامِ معوق از طریقِ سندِ روزنامه"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "If this is unchecked, direct GL entries will be created to book deferred revenue or expense",
+    "translated_text": "اگر این گزینه غیرفعال باشد، برای ثبتِ درآمد/هزینهٔ معوق، ثبت‌هایِ مستقیمِ دفتر کل ایجاد می‌شود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Submit Journal Entries",
+    "translated_text": "ثبت نهایی اسنادِ روزنامه"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "If this is unchecked Journal Entries will be saved in a Draft state and will have to be submitted manually",
+    "translated_text": "اگر غیرفعال باشد، اسنادِ روزنامه به‌صورتِ پیش‌نویس ذخیره می‌شوند و باید به‌صورتِ دستی ثبتِ نهایی شوند."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Tax Settings",
+    "translated_text": "تنظیماتِ مالیات"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Determine Address Tax Category From",
+    "translated_text": "مبنایِ تعیینِ دستهٔ مالیاتیِ نشانی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Address used to determine Tax Category in transactions",
+    "translated_text": "آدرسی که برای تعیین گروهِ مالیاتی در تراکنش‌ها استفاده می‌شود"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Automatically Add Taxes and Charges from Item Tax Template",
+    "translated_text": "افزودنِ خودکارِ «مالیات و عوارض» از «الگوی مالیاتِ کالا»"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Automatically Add Taxes from Taxes and Charges Template",
+    "translated_text": "افزودنِ خودکارِ مالیات از الگویِ «مالیات و عوارض»"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "If no taxes are set, and Taxes and Charges Template is selected, the system will automatically apply the taxes from the chosen template.",
+    "translated_text": "اگر مالیاتی تعیین نشده باشد و الگوی «مالیات و عوارض» انتخاب شود، سامانه به‌طورِ خودکار مالیات‌هایِ همان الگو را اعمال می‌کند."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Book Tax Loss on Early Payment Discount",
+    "translated_text": "ثبتِ زیانِ مالیات بابتِ تخفیفِ پرداختِ زودهنگام"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Split Early Payment Discount Loss into Income and Tax Loss",
+    "translated_text": "تفکیک زیانِ تخفیف پرداختِ زودهنگام به درآمد و زیانِ مالیاتی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Round Tax Amount Row-wise",
+    "translated_text": "گردکردنِ مبلغِ مالیات به‌تفکیکِ سطر (Row-wise)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Tax Amount will be rounded on a row(items) level",
+    "translated_text": "مبلغ مالیات در سطح هر سطر (اقلام) گرد می‌شود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Show Inclusive Tax in Print",
+    "translated_text": "نمایش مالیاتِ شامل‌شده در چاپ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Show Taxes as Table in Print",
+    "translated_text": "نمایش مالیات‌ها به‌صورت جدول در چاپ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Show Payment Schedule in Print",
+    "translated_text": "نمایش برنامهٔ پرداخت در چاپ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Item Price Settings",
+    "translated_text": "تنظیماتِ قیمتِ کالا"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Maintain Same Rate Throughout Internal Transaction",
+    "translated_text": "حفظِ نرخِ یکسان در سراسرِ تراکنشِ داخلی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Fetch Valuation Rate for Internal Transaction",
+    "translated_text": "به‌کارگیریِ «نرخِ ارزش‌گذاری» برای تراکنشِ داخلی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Action if Same Rate is Not Maintained Throughout  Internal Transaction",
+    "translated_text": "اقدام در صورت رعایت نشدنِ نرخِ یکسان در کلِ تراکنشِ داخلی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Currency Exchange Settings",
+    "translated_text": "تنظیماتِ تبدیلِ ارز"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Stale Exchange Rates",
+    "translated_text": "اجازهٔ استفاده از نرخ‌های قدیمیِ ارز"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Implicit Pegged Currency Conversion",
+    "translated_text": "اجازهٔ تبدیلِ ضمنیِ ارزِ وابسته (Pegged)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Stale Days",
+    "translated_text": "روزهای مهلت‌گذشته"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Payment Reconciliation Settings",
+    "translated_text": "تنظیماتِ تطبیقِ پرداخت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Auto Reconcile Payments",
+    "translated_text": "تطبیقِ خودکارِ پرداخت‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Auto Reconciliation Job Trigger",
+    "translated_text": "محرکِ اجرایِ خودکارِ تطبیق"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Interval should be between 1 to 59 MInutes",
+    "translated_text": "بازه باید بینِ ۱ تا ۵۹ دقیقه باشد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Reconciliation Queue Size",
+    "translated_text": "اندازهٔ صف تطبیق"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Documents Processed on each trigger. Queue Size should be between 5 and 100",
+    "translated_text": "تعدادِ اسنادی که در هر فراخوان پردازش می‌شوند؛ اندازهٔ صف باید بینِ ۵ تا ۱۰۰ باشد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Posting Date Inheritance for Exchange Gain / Loss",
+    "translated_text": "ارث‌بریِ تاریخِ ثبت برایِ سود/زیانِ تسعیرِ ارز"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Only applies for Normal Payments",
+    "translated_text": "فقط برایِ پرداخت‌هایِ عادی اعمال می‌شود"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Invoice",
+    "translated_text": "فاکتور"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Payment",
+    "translated_text": "پرداخت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Reconciliation Date",
+    "translated_text": "تاریخ تطبیق"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Credit Limits",
+    "translated_text": "سقف‌هایِ اعتبار"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Credit Limit Settings",
+    "translated_text": "تنظیماتِ سقفِ اعتبار"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "The percentage you are allowed to bill more against the amount ordered. For example, if the order value is $100 for an item and tolerance is set as 10%, then you are allowed to bill up to $110",
+    "translated_text": "درصدی که مجازید بیش از مبلغِ سفارش‌شده صورتحساب صادر کنید. مثال: اگر ارزش سفارش برای یک قلم ۱۰۰ باشد و تلورانس ۱۰٪ تنظیم شده باشد، مجازید تا ۱۱۰ صورتحساب کنید."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Role Allowed to Over Bill",
+    "translated_text": "نقش مجاز برای صدور فاکتور بیش از مقدار"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Users with this role are allowed to over bill above the allowance percentage",
+    "translated_text": "کاربرانِ دارای این نقش می‌توانند بیش از درصدِ مجاز، صورتحساب صادر کنند."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Role allowed to bypass Credit Limit",
+    "translated_text": "نقشی که مجاز به عبور از سقف اعتبار است"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Make Payment via Journal Entry",
+    "translated_text": "انجامِ پرداخت از طریقِ سندِ روزنامه"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "POS",
+    "translated_text": "نقطهٔ فروش (POS)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "POS Setting",
+    "translated_text": "تنظیماتِ نقطهٔ فروش (POS)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Create Ledger Entries for Change Amount",
+    "translated_text": "ایجادِ ثبت‌های دفترکل برای مبلغِ باقیماندهٔ پرداخت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "If enabled, ledger entries will be posted for change amount in POS transactions",
+    "translated_text": "در صورت فعال‌سازی، برای مبلغِ باقیماندهٔ پرداخت در تراکنش‌های «نقطهٔ فروش (POS)» ثبت‌های دفترکل ایجاد می‌شود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Assets",
+    "translated_text": "دارایی‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Asset Settings",
+    "translated_text": "تنظیماتِ دارایی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Calculate daily depreciation using total days in depreciation period",
+    "translated_text": "محاسبهٔ استهلاکِ روزانه بر اساسِ کلِ روزهایِ دورهٔ استهلاک"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Enable this option to calculate daily depreciation by considering the total number of days in the entire depreciation period, (including leap years) while using daily pro-rata based depreciation",
+    "translated_text": "با فعال‌سازیِ این گزینه، استهلاکِ روزانه با در نظر گرفتنِ تعدادِ کلِ روزهایِ دورهٔ استهلاک (شاملِ سال‌هایِ کبیسه) و بر مبنایِ روشِ روزشمار محاسبه می‌شود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Book Asset Depreciation Entry Automatically",
+    "translated_text": "ثبتِ خودکارِ سندِ استهلاکِ دارایی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Accounts Closing",
+    "translated_text": "بستن حساب‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Period Closing Settings",
+    "translated_text": "تنظیماتِ بستنِ دوره"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Accounts Frozen Till Date",
+    "translated_text": "قفل حساب‌ها تا این تاریخ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Accounting entries are frozen up to this date. Nobody can create or modify entries except users with the role specified below",
+    "translated_text": "ثبت‌های حسابداری تا این تاریخ قفل هستند؛ فقط کاربرانی که نقشِ زیر برایشان تعیین شده می‌توانند ثبت یا ویرایش کنند."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Ignore Account Closing Balance",
+    "translated_text": "نادیده‌گرفتنِ ماندهٔ اختتامیهٔ حساب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Financial reports will be generated using GL Entry doctypes (should be enabled if Period Closing Voucher is not posted for all years sequentially or missing)",
+    "translated_text": "گزارش‌هایِ مالی با استفاده از ثبت‌هایِ دفتر کل تولید می‌شوند (اگر سندِ بستنِ دوره برای همهٔ سال‌ها به‌صورت پیوسته ثبت نشده یا مفقود است، این گزینه را فعال کنید)."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Role Allowed to Set Frozen Accounts and Edit Frozen Entries",
+    "translated_text": "نقشی که مجاز به تعیین حساب‌های منجمد و ویرایش اقلام منجمد است"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Users with this role are allowed to set frozen accounts and create / modify accounting entries against frozen accounts",
+    "translated_text": "کاربرانِ دارای این نقش مجازند حساب‌های منجمد را تعیین کرده و در برابرِ آن‌ها اسنادِ حسابداری ایجاد/ویرایش کنند."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Chart Of Accounts",
+    "translated_text": "سرفصل‌هایِ حسابداری (Chart of Accounts)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Show Balances in Chart Of Accounts",
+    "translated_text": "نمایش مانده‌ها در سرفصل‌های حسابداری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Banking",
+    "translated_text": "بانکداری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Enable Automatic Party Matching",
+    "translated_text": "فعال‌سازیِ تطبیقِ خودکارِ طرف‌حساب"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Auto match and set the Party in Bank Transactions",
+    "translated_text": "تطبیقِ خودکار و تعیینِ طرف‌حساب در تراکنش‌هایِ بانکی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Enable Fuzzy Matching",
+    "translated_text": "فعال‌سازیِ تطبیقِ فازی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Approximately match the description/party name against parties",
+    "translated_text": "تطبیقِ تقریبیِ شرح/نامِ طرف با طرف‌حساب‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Reports",
+    "translated_text": "گزارش‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Remarks Column Length",
+    "translated_text": "طول ستون ملاحظات"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "General Ledger",
+    "translated_text": "دفتر کل"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Truncates 'Remarks' column to set character length",
+    "translated_text": "ستونِ «ملاحظات» را تا طولِ تعیین‌شده کوتاه می‌کند."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Accounts Receivable/Payable",
+    "translated_text": "حساب‌های دریافتنی/پرداختنی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Accounts Receivable / Payable Tuning",
+    "translated_text": "تنظیمات دریافتنی و پرداختنی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Data Fetch Method",
+    "translated_text": "روشِ واکشیِ داده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Buffered Cursor",
+    "translated_text": "کرسرِ بافرشده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "UnBuffered Cursor",
+    "translated_text": "نشانگرِ بدونِ بافر"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Raw SQL",
+    "translated_text": "SQL خام"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Drop Procedures",
+    "translated_text": "حذفِ رویه‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Drops existing SQL Procedures and Function setup by Accounts Receivable report",
+    "translated_text": "رویه‌ها و توابعِ «زبانِ ساخت‌یافتهٔ پرس‌وجو (SQL)» که توسط گزارشِ حساب‌های دریافتنی ایجاد شده‌اند، حذف می‌شود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Legacy Fields",
+    "translated_text": "فیلدهایِ قدیمی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Ignore Is Opening check for reporting",
+    "translated_text": "نادیده‌گرفتنِ بررسیِ «افتتاحیه است» در گزارش‌گیری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Ignores legacy Is Opening field in GL Entry that allows adding opening balance post the system is in use while generating reports",
+    "translated_text": "هنگامِ گزارش‌گیری، فیلدِ قدیمیِ «افتتاحیه است» در ثبتِ دفتر کل ـ که اجازهٔ افزودنِ ماندهٔ افتتاحیه پس از آغازِ بهره‌برداری از سیستم را می‌داد ـ نادیده گرفته می‌شود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Payment Request",
+    "translated_text": "درخواستِ پرداخت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Payment Request created from Sales Order or Purchase Order will be in Draft status. When disabled document will be in unsaved state.",
+    "translated_text": "«درخواست پرداخت» ایجادشده از روی سفارش فروش یا سفارش خرید در وضعیت «پیش‌نویس» خواهد بود. در حالت غیرفعال، سند ذخیره نمی‌شود و در وضعیت ذخیره‌نشده می‌ماند."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Create in Draft Status",
+    "translated_text": "ایجاد در وضعیتِ پیش‌نویس"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Asset Category Name",
+    "translated_text": "نامِ دسته‌بندیِ دارایی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Depreciation Options",
+    "translated_text": "گزینه‌هایِ استهلاک"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Enable Capital Work in Progress Accounting",
+    "translated_text": "فعال‌سازیِ حسابداریِ داراییِ ثابتِ در جریانِ تکمیل"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Non Depreciable Category",
+    "translated_text": "دستهٔ غیراستهلاک‌پذیر"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Finance Book Detail",
+    "translated_text": "جزئیاتِ دفترِ مالی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Finance Books",
+    "translated_text": "دفاترِ مالی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Accounts",
+    "translated_text": "حساب‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Settings for Selling Module",
+    "translated_text": "تنظیمات ماژول فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Customer Defaults",
+    "translated_text": "پیش‌فرض‌های مشتری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Customer Naming By",
+    "translated_text": "نام‌گذاریِ مشتری بر اساسِ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Default Customer Group",
+    "translated_text": "گروهِ مشتریِ پیش‌فرض"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Default Territory",
+    "translated_text": "ناحیهٔ فروشِ پیش‌فرض"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Default Price List",
+    "translated_text": "فهرستِ قیمتِ پیش‌فرض"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Action if Same Rate is Not Maintained Throughout Sales Cycle",
+    "translated_text": "اقدام در صورت رعایت نشدنِ نرخِ یکسان در کلِ چرخهٔ فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Maintain Same Rate Throughout Sales Cycle",
+    "translated_text": "حفظِ نرخِ یکسان در سراسرِ چرخهٔ فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow User to Edit Price List Rate in Transactions",
+    "translated_text": "اجازه به کاربر برای ویرایشِ نرخِ «فهرست قیمت» در تراکنش‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Validate Selling Price for Item Against Purchase Rate or Valuation Rate",
+    "translated_text": "اعتبارسنجی قیمتِ فروشِ کالا نسبت به نرخِ خرید یا نرخِ ارزش‌گذاری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Calculate Product Bundle Price based on Child Items' Rates",
+    "translated_text": "محاسبهٔ قیمتِ «بستهٔ محصول» بر اساسِ نرخِ اقلامِ زیرمجموعه"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Negative rates for Items",
+    "translated_text": "اجازهٔ نرخ‌های منفی برای کالاها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Sales Order Required for Sales Invoice & Delivery Note Creation?",
+    "translated_text": "آیا برای ایجاد فاکتور فروش و حوالهٔ تحویل، سفارش فروش لازم است؟"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Is Delivery Note Required for Sales Invoice Creation?",
+    "translated_text": "آیا برای ایجاد فاکتور فروش، حوالهٔ تحویل لازم است؟"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Sales Update Frequency in Company and Project",
+    "translated_text": "تناوبِ به‌روزرسانیِ فروش در شرکت و پروژه"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "How often should Project and Company be updated based on Sales Transactions?",
+    "translated_text": "هر چند وقت یک‌بار «پروژه» و «شرکت» بر اساسِ تراکنش‌های فروش به‌روزرسانی شوند؟"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Monthly",
+    "translated_text": "ماهانه"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Daily",
+    "translated_text": "روزانه"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Percentage you are allowed to sell beyond the Blanket Order quantity.",
+    "translated_text": "درصدی که اجازه دارید بیش از مقدارِ «سفارشِ کلی» بفروشید."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Item to be Added Multiple Times in a Transaction",
+    "translated_text": "اجازهٔ افزودنِ یک کالا چند بار در یک تراکنش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Multiple Sales Orders Against a Customer's Purchase Order",
+    "translated_text": "اجازهٔ ثبتِ چند «سفارش فروش» در برابر «سفارش خریدِ مشتری (PO)»"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Sales Order Creation For Expired Quotation",
+    "translated_text": "اجازهٔ ایجاد «سفارش فروش» از روی «پیش‌فاکتورِ منقضی‌شده»"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Don't Reserve Sales Order Qty on Sales Return",
+    "translated_text": "در «مرجوعی فروش»، مقدارِ سفارش فروش را رزرو نکن"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Hide Customer's Tax ID from Sales Transactions",
+    "translated_text": "مخفی‌کردنِ شناسهٔ مالیاتیِ مشتری در تراکنش‌های فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Enable Discount Accounting for Selling",
+    "translated_text": "فعال‌سازیِ حسابداریِ تخفیف در فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "If enabled, additional ledger entries will be made for discounts in a separate Discount Account",
+    "translated_text": "در صورت فعال‌سازی، برای تخفیف‌ها ثبت‌های دفترکلِ اضافی در یک حساب «تخفیف» جداگانه انجام می‌شود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Quotation with Zero Quantity",
+    "translated_text": "اجازهٔ ثبتِ پیش‌فاکتور با تعدادِ صفر"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allows users to submit Quotations with zero quantity. Useful when rates are fixed but the quantities are not. Eg. Rate Contracts.",
+    "translated_text": "اجازهٔ ثبت «پیش‌فاکتور» با مقدارِ صفر. زمانی مفید است که نرخ‌ها ثابت‌اند اما مقادیر مشخص نیستند (مثلاً قراردادهای نرخ)."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Sales Order with Zero Quantity",
+    "translated_text": "اجازهٔ ثبتِ سفارشِ فروش با تعدادِ صفر"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allows users to submit Sales Orders with zero quantity. Useful when rates are fixed but the quantities are not. Eg. Rate Contracts.",
+    "translated_text": "اجازهٔ ثبت «سفارش فروش» با مقدارِ صفر. زمانی مفید است که نرخ‌ها ثابت‌اند اما مقادیر مشخص نیستند (مثلاً قراردادهای نرخ)."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Default settings for your stock-related transactions",
+    "translated_text": "تنظیماتِ پیش‌فرض برایِ تراکنش‌هایِ مرتبط با انبارِ شما"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Defaults",
+    "translated_text": "پیش‌فرض‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Item Naming By",
+    "translated_text": "نام‌گذاریِ کالا بر اساسِ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Default Valuation Method",
+    "translated_text": "روشِ ارزیابی (پیش‌فرض)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Default Item Group",
+    "translated_text": "گروهِ کالای پیش‌فرض"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Default Warehouse",
+    "translated_text": "انبارِ پیش‌فرض"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Sample Retention Warehouse",
+    "translated_text": "انبارِ نگهداریِ نمونه"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Default Stock UOM",
+    "translated_text": "واحدِ اندازه‌گیریِ پیش‌فرضِ انبار"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Price List Defaults",
+    "translated_text": "پیش‌فرض‌هایِ فهرستِ قیمت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Auto Insert Item Price If Missing",
+    "translated_text": "افزودنِ خودکارِ «قیمتِ کالا» در صورت نبودِ آن"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Update Price List Based On",
+    "translated_text": "به‌روزرسانیِ فهرستِ قیمت بر اساسِ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Rate",
+    "translated_text": "نرخ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Price List Rate",
+    "translated_text": "نرخِ فهرستِ قیمت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Update Existing Price List Rate",
+    "translated_text": "به‌روزرسانی نرخِ فهرستِ قیمتِ موجود"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Stock UOM Quantity",
+    "translated_text": "مقدار بر حسب «واحدِ سنجشِ انبار (UOM)»"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow to Edit Stock UOM Qty for Sales Documents",
+    "translated_text": "اجازهٔ ویرایشِ مقدار بر اساس «واحدِ انبار» در اسنادِ فروش"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow to Edit Stock UOM Qty for Purchase Documents",
+    "translated_text": "اجازهٔ ویرایشِ مقدار بر اساس «واحدِ انبار» در اسنادِ خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow UOM with Conversion Rate Defined in Item",
+    "translated_text": "اجازهٔ انتخابِ واحدِ اندازه‌گیری با «نرخِ تبدیل» تعریف‌شده در کالا"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "If enabled, the system will allow selecting UOMs in sales and purchase transactions only if the conversion rate is set in the item master.",
+    "translated_text": "در صورتِ فعال‌سازی، انتخابِ واحدهایِ اندازه‌گیری در خرید و فروش تنها زمانی مجاز است که نرخِ تبدیل در شناسنامهٔ کالا تعیین شده باشد."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Stock Validations",
+    "translated_text": "اعتبارسنجی‌های انبار"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Stock Transactions Settings",
+    "translated_text": "تنظیمات تراکنش‌های انبار"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "The percentage you are allowed to receive or deliver more against the quantity ordered. For example, if you have ordered 100 units, and your Allowance is 10%, then you are allowed to receive 110 units.",
+    "translated_text": "درصدی که مجازید بیش از مقدارِ سفارش‌شده دریافت یا تحویل دهید. مثال: اگر ۱۰۰ واحد سفارش داده‌اید و آستانه ۱۰٪ باشد، می‌توانید تا ۱۱۰ واحد دریافت/تحویل دهید."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Over Transfer Allowance",
+    "translated_text": "حدِ مجازِ انتقالِ اضافی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "The percentage you are allowed to transfer more against the quantity ordered. For example, if you have ordered 100 units, and your Allowance is 10%, then you are allowed transfer 110 units.",
+    "translated_text": "درصدی که مجازید بیش از مقدارِ سفارش‌شده انتقال دهید. مثال: اگر ۱۰۰ واحد سفارش داده‌اید و آستانه ۱۰٪ باشد، می‌توانید ۱۱۰ واحد انتقال دهید."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Over Picking Allowance",
+    "translated_text": "حدِ مجازِ برداشتِ اضافی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "The percentage you are allowed to pick more items in the pick list than the ordered quantity.",
+    "translated_text": "درصدِ مجاز برای برداشتِ بیش از مقدارِ سفارش‌شده در «لیست برداشت»."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Role Allowed to Over Deliver/Receive",
+    "translated_text": "نقشِ مجاز برای تحویل/دریافتِ اضافی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Users with this role are allowed to over deliver/receive against orders above the allowance percentage",
+    "translated_text": "کاربرانِ دارای این نقش می‌توانند فراتر از درصدِ آستانه، نسبت به سفارش‌ها تحویل/دریافتِ اضافی انجام دهند."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Show Barcode Field in Stock Transactions",
+    "translated_text": "نمایش فیلد بارکد در تراکنش‌های انبار"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Convert Item Description to Clean HTML in Transactions",
+    "translated_text": "تبدیلِ شرحِ کالا به «زبانِ نشانه‌گذاریِ ابرمتن (HTML)» تمیز در تراکنش‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Internal Transfers at Arm's Length Price",
+    "translated_text": "اجازهٔ انتقالاتِ داخلی با «قیمتِ بین اشخاصِ مستقل (Arm's Length)»"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "If enabled, the item rate won't adjust to the valuation rate during internal transfers, but accounting will still use the valuation rate.",
+    "translated_text": "در صورتِ فعال‌سازی، نرخِ کالا در انتقال‌هایِ داخلی با «نرخِ ارزیابی» تنظیم نمی‌شود؛ با این حال، حسابداری همچنان از نرخِ ارزیابی استفاده می‌کند."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Quality Inspection Settings",
+    "translated_text": "تنظیمات بازرسی کیفیت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Action If Quality Inspection Is Not Submitted",
+    "translated_text": "اقدام در صورتِ عدم ارسالِ بازرسیِ کیفیت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Action If Quality Inspection Is Rejected",
+    "translated_text": "اقدام در صورتِ رد شدنِ بازرسیِ کیفیت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Stock Reservation",
+    "translated_text": "رزرو موجودی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Enable Stock Reservation",
+    "translated_text": "فعال‌سازیِ رزروِ موجودی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allows to keep aside a specific quantity of inventory for a particular order.",
+    "translated_text": "امکان کنار گذاشتنِ مقدار مشخصی از موجودی برای یک سفارشِ مشخص را فراهم می‌کند."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Partial Reservation",
+    "translated_text": "اجازهٔ رزروِ جزئی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Partial stock can be reserved. For example, If you have a Sales Order of 100 units and the Available Stock is 90 units then a Stock Reservation Entry will be created for 90 units.",
+    "translated_text": "رزروِ بخشی از موجودی امکان‌پذیر است. مثال: اگر سفارش فروش ۱۰۰ واحدی دارید اما موجودیِ قابل‌استفاده ۹۰ واحد است، «ثبتِ رزرو موجودی» برای ۹۰ واحد ایجاد می‌شود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Auto Reserve Stock for Sales Order on Purchase",
+    "translated_text": "رزرو خودکارِ موجودی برای «سفارش فروش» هنگام خرید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Serial and Batch Reservation",
+    "translated_text": "رزرو سریال و پارت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Auto Reserve Serial and Batch Nos",
+    "translated_text": "رزروِ خودکارِ شماره‌هایِ سریال و پارت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Serial & Batch Item",
+    "translated_text": "کالای دارای سریال و پارت (Serial & Batch)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Serial & Batch Item Settings",
+    "translated_text": "تنظیماتِ کالای دارای سریال و پارت (Serial & Batch)"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow existing Serial No to be Manufactured/Received again",
+    "translated_text": "اجازهٔ تولید یا دریافتِ دوباره برای شمارهٔ سریالِ موجود"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Do Not Use Batch-wise Valuation",
+    "translated_text": "از ارزش‌گذاریِ به‌تفکیکِ پارت استفاده نشود"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "If enabled, the system will use the moving average valuation method to calculate the valuation rate for the batched items and will not consider the individual batch-wise incoming rate.",
+    "translated_text": "در صورتِ فعال‌سازی، سامانه برای اقلامِ پارت‌دار از روشِ «میانگینِ متحرک» جهتِ محاسبهٔ نرخِ ارزیابی استفاده می‌کند و نرخِ ورودیِ هر پارت را به‌صورتِ جداگانه در نظر نمی‌گیرد."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Auto Create Serial and Batch Bundle For Outward",
+    "translated_text": "ایجادِ خودکارِ «بستهٔ سریال و پارت» برای خروجی‌ها"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Pick Serial / Batch Based On",
+    "translated_text": "انتخابِ سریال/پارت بر اساسِ"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Expiry",
+    "translated_text": "انقضا"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Disable Serial No And Batch Selector",
+    "translated_text": "غیرفعال‌سازیِ انتخاب‌گرِ «شمارهٔ سریال» و «پارت»"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Use Serial / Batch Fields",
+    "translated_text": "از «فیلدهای سریال/پارت» استفاده کن"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "On submission of the stock transaction, system will auto create the Serial and Batch Bundle based on the Serial No / Batch fields.",
+    "translated_text": "با ثبتِ تراکنشِ انبار، سامانه بر اساسِ فیلدهای «شمارهٔ سریال/پارت»، «بستهٔ سریال و پارت» را به‌صورتِ خودکار ایجاد می‌کند."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Do Not Update Serial / Batch on Creation of Auto Bundle",
+    "translated_text": "هنگامِ ایجادِ «بستهٔ خودکارِ سریال/پارت»، مقادیرِ سریال/پارت به‌روزرسانی نشوند"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "If enabled, do not update serial / batch values in the stock transactions on creation of auto Serial \n / Batch Bundle.",
+    "translated_text": "اگر فعال شود، هنگامِ ایجادِ بستهٔ خودکارِ سریال/بَچ، مقادیرِ سریال/بَچ در تراکنش‌هایِ موجودی به‌روزرسانی نمی‌شوند."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Serial and Batch Bundle",
+    "translated_text": "بستهٔ سریال و پارت"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Set Serial and Batch Bundle Naming Based on Naming Series",
+    "translated_text": "نام‌گذاریِ بستهٔ سریال و پارت را بر اساسِ سری نام‌گذاری تنظیم کنید"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Have Default Naming Series for Batch ID?",
+    "translated_text": "برای «شناسهٔ پارت»، سریِ شماره‌گذاریِ پیش‌فرض داشته باشد؟"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Naming Series Prefix",
+    "translated_text": "پیشوندِ سریِ نام‌گذاری"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow to Make Quality Inspection after Purchase / Delivery",
+    "translated_text": "اجازهٔ انجامِ بازرسیِ کیفیت پس از خرید یا تحویل"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Stock Planning",
+    "translated_text": "برنامه‌ریزی موجودی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Auto Material Request",
+    "translated_text": "درخواستِ موادِ خودکار"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Raise Material Request When Stock Reaches Re-order Level",
+    "translated_text": "هنگام رسیدن موجودی به «سطحِ سفارش‌مجدد»، «درخواستِ کالا» صادر شود"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Notify by Email on Creation of Automatic Material Request",
+    "translated_text": "در هنگامِ ایجادِ خودکارِ «درخواستِ مواد»، با ایمیل اطلاع بده"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Inter Warehouse Transfer Settings",
+    "translated_text": "تنظیمات انتقال بین‌انبار"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Material Transfer from Delivery Note to Sales Invoice",
+    "translated_text": "اجازهٔ انتقالِ مواد از «حوالهٔ تحویل» به «فاکتور فروش»"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Allow Material Transfer from Purchase Receipt to Purchase Invoice",
+    "translated_text": "اجازهٔ انتقالِ مواد از «رسید خرید» به «فاکتور خرید»"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Stock Closing",
+    "translated_text": "بستن دورهٔ موجودی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Control Historical Stock Transactions",
+    "translated_text": "کنترلِ تراکنش‌هایِ گذشتهٔ موجودی"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Stock Frozen Upto",
+    "translated_text": "انجماد موجودی تا تاریخ مشخص"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "No stock transactions can be created or modified before this date.",
+    "translated_text": "پیش از این تاریخ هیچ تراکنشِ انباری قابلِ ایجاد یا ویرایش نیست."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Freeze Stocks Older Than (Days)",
+    "translated_text": "موجودی‌هایِ قدیمی‌تر از (روز) قفل شوند"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Stock transactions that are older than the mentioned days cannot be modified.",
+    "translated_text": "تراکنش‌های انبار که قدیمی‌تر از تعداد روزِ تعیین‌شده باشند، قابل ویرایش نیستند."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Role Allowed to Create/Edit Back-dated Transactions",
+    "translated_text": "نقشِ مجاز برای ایجاد/ویرایش تراکنش‌های تاریخ‌گذشته"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "If mentioned, the system will allow only the users with this Role to create or modify any stock transaction earlier than the latest stock transaction for a specific item and warehouse. If set as blank, it allows all users to create/edit back-dated transactions.",
+    "translated_text": "در صورتِ تعیین، فقط کاربرانِ دارایِ این نقش می‌توانند پیش از آخرین تراکنشِ ثبت‌شده برای یک «کالا» و «انبارِ» مشخص، تراکنشِ موجودی ایجاد یا ویرایش کنند. اگر خالی باشد، همهٔ کاربران مجاز به ایجاد/ویرایشِ تراکنش‌های تاریخ‌گذشته خواهند بود."
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "Role Allowed to Edit Frozen Stock",
+    "translated_text": "نقشِ مجاز برای ویرایش موجودی منجمد"
+  },
+  {
+    "doctype": "Translation",
+    "language": "fa",
+    "source_text": "The users with this Role are allowed to create/modify a stock transaction, even though the transaction is frozen.",
+    "translated_text": "کاربرانِ دارای این نقش، حتی در صورت منجمد بودنِ تراکنش، مجاز به ایجاد/ویرایش تراکنشِ انبار هستند."
+  }
+]

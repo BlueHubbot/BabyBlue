@@ -1,0 +1,20 @@
+group,value_en
+number_card,Total Active Items
+number_card,Total Incoming Bills
+number_card,Total Incoming Payment
+number_card,Total Outgoing Bills
+number_card,Total Outgoing Payment
+number_card,Total Stock Value
+number_card,Total Warehouses
+chart,Asset Value Analytics
+chart,Attendance Count
+chart,Department Wise Openings
+chart,Expense Claims
+chart,Hiring vs Attrition Count
+chart,Open Projects
+chart,Outgoing Salary
+chart,Profit and Loss
+chart,Purchase Order Trends
+chart,Sales Order Trends
+chart,Territory Wise Sales
+chart,Warehouse wise Stock Value
