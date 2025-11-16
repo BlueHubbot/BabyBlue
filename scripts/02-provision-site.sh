@@ -1,24 +1,34 @@
 #!/usr/bin/env bash
 set -euo pipefail
-cd /tmp/BabyBlue
-if [ -f .env ]; then
-  set -o allexport
-  . .env
-  set +o allexport
-fi
 
+# همیشه از روت ریپو کار کن
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_DIR"
 
+# --- .env الزامی است ---
 if [[ ! -f .env ]]; then
   echo ".env not found; copy .env.example and edit first" >&2
   exit 1
 fi
 
+# --- بارگذاری متغیرها از .env ---
 set -o allexport
 # shellcheck disable=SC1091
 source .env
 set +o allexport
+
+# دیفالت‌های امن
+FRAPPE_USER="${FRAPPE_USER:-frappe}"
+BENCH_HOME="${BENCH_HOME:-/home/$FRAPPE_USER/frappe-bench}"
+
+DB_NAME="${DB_NAME:-${SITE//./_}}"
+DB_PASS="${DB_PASS:?DB_PASS must be set in .env}"
+DB_ROOT_USER="${DB_ROOT_USER:-root}"
+DB_ROOT_PASS="${DB_ROOT_PASS:?DB_ROOT_PASS must be set in .env}"
+ADMIN_PASS="${ADMIN_PASS:?ADMIN_PASS must be set in .env}"
+ENCRYPTION_KEY="${ENCRYPTION_KEY:?ENCRYPTION_KEY must be set in .env}"
+
+APPS_ARTIFACTS="${APPS_ARTIFACTS:-$REPO_DIR/artifacts/apps}"
 
 ########################################
 # 1) common_site_config.json (db_host + redis روی 6379)
@@ -89,7 +99,7 @@ PY
 '
 
 ########################################
-# 3) ریستور DB + فایل‌ها + migrate/build/cache
+# 3) ریستور DB + فایل‌ها + نصب اپ‌ها از artifacts + migrate/build/cache
 ########################################
 echo ">>> restoring DB + files (if artifacts present) ..."
 sudo -u "$FRAPPE_USER" -H bash -lc '
@@ -102,6 +112,7 @@ sudo -u "$FRAPPE_USER" -H bash -lc '
   DB_ROOT_PASS_ENV="'"$DB_ROOT_PASS"'"
   ADMIN_PASS_ENV="'"$ADMIN_PASS"'"
   REPO_DIR_ENV="'"$REPO_DIR"'"
+  APPS_ARTIFACTS_ENV="'"$APPS_ARTIFACTS"'"
 
   cd "$BENCH_HOME_ENV"
 
@@ -124,6 +135,30 @@ sudo -u "$FRAPPE_USER" -H bash -lc '
     echo ">>> restoring private files ..."
     tar xf "$PRIV_TAR" -C "$BENCH_HOME_ENV/sites"
   fi
+
+  # --- نصب اپ‌ها از artifacts/apps به‌صورت کاملاً آفلاین ---
+  ensure_local_app() {
+    local app="$1"
+    local src="$APPS_ARTIFACTS_ENV/$app"
+
+    if [[ ! -d "$src" ]]; then
+      echo ">>> [WARN] no local artifacts for app '\''$app'\'' in $APPS_ARTIFACTS_ENV – skipping"
+      return 0
+    fi
+
+    if [[ -d "$BENCH_HOME_ENV/apps/$app" ]]; then
+      echo ">>> app '\''$app'\'' already present in $BENCH_HOME_ENV/apps – ok"
+      return 0
+    fi
+
+    echo ">>> installing app '\''$app'\'' from local path: $src"
+    bench get-app "$src"
+  }
+
+  echo ">>> ensuring local apps (erpnext, hrms, cal_boot) are present in bench ..."
+  ensure_local_app erpnext
+  ensure_local_app hrms
+  ensure_local_app cal_boot
 
   echo ">>> migrate + build + clear cache ..."
   bench --site "$SITE_ENV" migrate
