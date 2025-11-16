@@ -1,34 +1,24 @@
 #!/usr/bin/env bash
 set -euo pipefail
+cd /tmp/BabyBlue
+if [ -f .env ]; then
+  set -o allexport
+  . .env
+  set +o allexport
+fi
 
-# همیشه از روت ریپو کار کن
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_DIR"
 
-# --- .env الزامی است ---
 if [[ ! -f .env ]]; then
   echo ".env not found; copy .env.example and edit first" >&2
   exit 1
 fi
 
-# --- بارگذاری متغیرها از .env ---
 set -o allexport
 # shellcheck disable=SC1091
 source .env
 set +o allexport
-
-# دیفالت‌های امن
-FRAPPE_USER="${FRAPPE_USER:-frappe}"
-BENCH_HOME="${BENCH_HOME:-/home/$FRAPPE_USER/frappe-bench}"
-
-DB_NAME="${DB_NAME:-${SITE//./_}}"
-DB_PASS="${DB_PASS:?DB_PASS must be set in .env}"
-DB_ROOT_USER="${DB_ROOT_USER:-root}"
-DB_ROOT_PASS="${DB_ROOT_PASS:?DB_ROOT_PASS must be set in .env}"
-ADMIN_PASS="${ADMIN_PASS:?ADMIN_PASS must be set in .env}"
-ENCRYPTION_KEY="${ENCRYPTION_KEY:?ENCRYPTION_KEY must be set in .env}"
-
-APPS_ARTIFACTS="${APPS_ARTIFACTS:-$REPO_DIR/artifacts/apps}"
 
 ########################################
 # 1) common_site_config.json (db_host + redis روی 6379)
@@ -72,7 +62,7 @@ sudo -u "$FRAPPE_USER" -H bash -lc '
   DB_ROOT_USER_ENV="'"$DB_ROOT_USER"'"
   DB_ROOT_PASS_ENV="'"$DB_ROOT_PASS"'"
   ADMIN_PASS_ENV="'"$ADMIN_PASS"'"
-  ENC_KEY_ENV="'"$ENCRYPTION_KEY"'"
+  ENC_KEY_ENV="'"$ENCRYPTION_KEY"'"  # فقط برای وضوح
 
   cd "$BENCH_HOME_ENV"
 
@@ -99,7 +89,7 @@ PY
 '
 
 ########################################
-# 3) ریستور DB + فایل‌ها + نصب اپ‌ها از artifacts + migrate/build/cache
+# 3) ریستور DB + فایل‌ها + اطمینان از وجود اپ‌ها + migrate/build/cache
 ########################################
 echo ">>> restoring DB + files (if artifacts present) ..."
 sudo -u "$FRAPPE_USER" -H bash -lc '
@@ -112,7 +102,6 @@ sudo -u "$FRAPPE_USER" -H bash -lc '
   DB_ROOT_PASS_ENV="'"$DB_ROOT_PASS"'"
   ADMIN_PASS_ENV="'"$ADMIN_PASS"'"
   REPO_DIR_ENV="'"$REPO_DIR"'"
-  APPS_ARTIFACTS_ENV="'"$APPS_ARTIFACTS"'"
 
   cd "$BENCH_HOME_ENV"
 
@@ -136,23 +125,28 @@ sudo -u "$FRAPPE_USER" -H bash -lc '
     tar xf "$PRIV_TAR" -C "$BENCH_HOME_ENV/sites"
   fi
 
-  # --- نصب اپ‌ها از artifacts/apps به‌صورت کاملاً آفلاین ---
+  # اطمینان از وجود اپ‌های لوکال (erpnext, hrms, cal_boot) بدون bench get-app
+  APPS_ARTIFACTS_ENV="$REPO_DIR_ENV/artifacts/apps"
+
   ensure_local_app() {
     local app="$1"
     local src="$APPS_ARTIFACTS_ENV/$app"
 
     if [[ ! -d "$src" ]]; then
-      echo ">>> [WARN] no local artifacts for app '\''$app'\'' in $APPS_ARTIFACTS_ENV – skipping"
-      return 0
+      echo ">>> WARN: local app source not found: $src (skipping $app)" >&2
+      return
     fi
 
-    if [[ -d "$BENCH_HOME_ENV/apps/$app" ]]; then
-      echo ">>> app '\''$app'\'' already present in $BENCH_HOME_ENV/apps – ok"
-      return 0
+    if [[ ! -d "$BENCH_HOME_ENV/apps/$app" ]]; then
+      echo ">>> copying app '$app' into bench/apps ..."
+      mkdir -p "$BENCH_HOME_ENV/apps/$app"
+      cp -a "$src/." "$BENCH_HOME_ENV/apps/$app/"
+    else
+      echo ">>> app '$app' already present in bench/apps"
     fi
 
-    echo ">>> installing app '\''$app'\'' from local path: $src"
-    bench get-app "$src"
+    # مطمئن شو پکیج پایتون اپ در env نصب/در دسترس است
+    "$BENCH_HOME_ENV/env/bin/python" -m pip install --quiet -e "$BENCH_HOME_ENV/apps/$app" || true
   }
 
   echo ">>> ensuring local apps (erpnext, hrms, cal_boot) are present in bench ..."
