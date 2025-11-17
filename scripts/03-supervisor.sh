@@ -3,13 +3,13 @@ set -euo pipefail
 
 echo ">>> 03-supervisor: configure supervisor for frappe bench"
 
-# باید با روت اجرا شود
+# 0) باید با روت اجرا شود
 if [ "${EUID:-$(id -u)}" -ne 0 ]; then
   echo "ERROR: this script must be run as root" >&2
   exit 1
 fi
 
-# بارگذاری متغیرها از .env (اگر موجود است)
+# 1) بارگذاری متغیرها از .env (اگر موجود است)
 if [ -f .env ]; then
   set -o allexport
   # shellcheck disable=SC1091
@@ -28,24 +28,38 @@ if [ ! -d "${BENCH_HOME}" ]; then
   exit 1
 fi
 
-# 1) تولید/آپدیت supervisor.conf با یوزر frappe
+# 2) مطمئن شو supervisor نصب است (اگر نباشد، نصب می‌کنیم)
+if ! command -v supervisorctl >/dev/null 2>&1; then
+  echo ">>> installing supervisor package (apt-get)..."
+  apt-get update -y
+  DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor
+fi
+
+# 3) تولید/آپدیت supervisor.conf با یوزر frappe
 echo ">>> running: bench setup supervisor --yes (as ${FRAPPE_USER})"
 sudo -u "${FRAPPE_USER}" -H bash -lc "
+  set -euo pipefail
   export PATH=\"\$HOME/bench-venv/bin:\$HOME/.local/bin:\$PATH\"
   cd \"${BENCH_HOME}\"
   bench setup supervisor --yes
 "
 
-# 2) لینک به /etc/supervisor/conf.d
+# 4) لینک به /etc/supervisor/conf.d
 echo ">>> linking ${BENCH_HOME}/config/supervisor.conf -> /etc/supervisor/conf.d/frappe-bench.conf"
 mkdir -p /etc/supervisor/conf.d
-ln -sfn \"${BENCH_HOME}/config/supervisor.conf\" /etc/supervisor/conf.d/frappe-bench.conf
+ln -sfn "${BENCH_HOME}/config/supervisor.conf" /etc/supervisor/conf.d/frappe-bench.conf
 
-# 3) اطمینان از فعال بودن سرویس supervisor
+# 5) فعال و راه‌اندازی سرویس supervisor
 echo ">>> enabling and restarting supervisor service"
-systemctl enable --now supervisor >/dev/null 2>&1 || systemctl restart supervisor
+systemctl enable supervisor >/dev/null 2>&1 || true
+systemctl restart supervisor
 
-# 4) نمایش وضعیت پروسس‌های bench زیر supervisor
+# 6) sync کانفیگ‌ها و بالا آوردن پروسه‌های bench
+echo ">>> supervisorctl reread / update / restart all"
+supervisorctl reread || true
+supervisorctl update || true
+supervisorctl restart all || true
+
 echo "=== supervisor status (if any) ==="
 if supervisorctl status >/dev/null 2>&1; then
   supervisorctl status
