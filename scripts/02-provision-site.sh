@@ -1,15 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
-cd /tmp/BabyBlue
-if [ -f .env ]; then
-  set -o allexport
-  . .env
-  set +o allexport
-fi
 
+# همیشه از روت ریپو اجرا شو
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_DIR"
 
+# .env حتما باید وجود داشته باشد
 if [[ ! -f .env ]]; then
   echo ".env not found; copy .env.example and edit first" >&2
   exit 1
@@ -20,28 +16,45 @@ set -o allexport
 source .env
 set +o allexport
 
+# متغیرهای پایه (با پیش‌فرض برای FRAPPE_USER/BENCH_HOME)
+: "${FRAPPE_USER:=frappe}"
+: "${BENCH_HOME:=/home/${FRAPPE_USER}/frappe-bench}"
+: "${SITE:?SITE not set in .env}"
+: "${DB_NAME:?DB_NAME not set in .env}"
+: "${DB_PASS:?DB_PASS not set in .env}"
+: "${DB_ROOT_USER:?DB_ROOT_USER not set in .env}"
+: "${DB_ROOT_PASS:?DB_ROOT_PASS not set in .env}"
+: "${ADMIN_PASS:?ADMIN_PASS not set in .env}"
+: "${ENCRYPTION_KEY:?ENCRYPTION_KEY not set in .env}"
+
 ########################################
 # 1) common_site_config.json (db_host + redis روی 6379)
 ########################################
 echo ">>> creating / updating common_site_config.json (db_host + redis)..."
+
 sudo -u "$FRAPPE_USER" -H bash -lc '
   set -euo pipefail
   BENCH_HOME_ENV="'"$BENCH_HOME"'"
+
   cd "$BENCH_HOME_ENV"
 
   python3 - <<PY
 import json, os
+
 bench = os.getcwd()
 path = os.path.join(bench, "sites", "common_site_config.json")
 os.makedirs(os.path.dirname(path), exist_ok=True)
+
 data = {}
 if os.path.exists(path):
     with open(path) as f:
         data = json.load(f)
+
 data.setdefault("db_host", "127.0.0.1")
 data["redis_cache"]    = "redis://127.0.0.1:6379"
 data["redis_queue"]    = "redis://127.0.0.1:6379"
 data["redis_socketio"] = "redis://127.0.0.1:6379"
+
 with open(path, "w") as f:
     json.dump(data, f, indent=2)
 PY
@@ -51,6 +64,7 @@ PY
 # 2) ساخت سایت (اگر وجود ندارد) + encryption_key
 ########################################
 echo ">>> creating site (if missing)..."
+
 sudo -u "$FRAPPE_USER" -H bash -lc '
   set -euo pipefail
   export PATH="$HOME/bench-venv/bin:$HOME/.local/bin:$PATH"
@@ -62,7 +76,7 @@ sudo -u "$FRAPPE_USER" -H bash -lc '
   DB_ROOT_USER_ENV="'"$DB_ROOT_USER"'"
   DB_ROOT_PASS_ENV="'"$DB_ROOT_PASS"'"
   ADMIN_PASS_ENV="'"$ADMIN_PASS"'"
-  ENC_KEY_ENV="'"$ENCRYPTION_KEY"'"  # فقط برای وضوح
+  ENC_KEY_ENV="'"$ENCRYPTION_KEY"'"
 
   cd "$BENCH_HOME_ENV"
 
@@ -73,25 +87,30 @@ sudo -u "$FRAPPE_USER" -H bash -lc '
       --admin-password "$ADMIN_PASS_ENV" --no-mariadb-socket
   fi
 
-  # اعمال encryption_key
+  # اعمال encryption_key روی site_config.json
   python3 - <<PY
 import json, os
+
 bench = r"'"$BENCH_HOME"'"
 site  = r"'"$SITE"'"
 enc   = r"'"$ENCRYPTION_KEY"'"
+
 path = os.path.join(bench, "sites", site, "site_config.json")
 with open(path) as f:
     data = json.load(f)
+
 data["encryption_key"] = enc
+
 with open(path, "w") as f:
     json.dump(data, f, indent=2)
 PY
 '
 
 ########################################
-# 3) ریستور DB + فایل‌ها + اطمینان از وجود اپ‌ها + migrate/build/cache
+# 3) ریستور DB + فایل‌ها + نصب اپ‌ها + migrate/build/cache
 ########################################
 echo ">>> restoring DB + files (if artifacts present) ..."
+
 sudo -u "$FRAPPE_USER" -H bash -lc '
   set -euo pipefail
   export PATH="$HOME/bench-venv/bin:$HOME/.local/bin:$PATH"
@@ -120,39 +139,86 @@ sudo -u "$FRAPPE_USER" -H bash -lc '
     echo ">>> restoring public files ..."
     tar xf "$PUB_TAR" -C "$BENCH_HOME_ENV/sites"
   fi
+
   if [[ -f "$PRIV_TAR" ]]; then
     echo ">>> restoring private files ..."
     tar xf "$PRIV_TAR" -C "$BENCH_HOME_ENV/sites"
   fi
 
-  # اطمینان از وجود اپ‌های لوکال (erpnext, hrms, cal_boot) بدون bench get-app
-  APPS_ARTIFACTS_ENV="$REPO_DIR_ENV/artifacts/apps"
+  echo ">>> ensuring local apps (erpnext, hrms, cal_boot) are present in bench ..."
 
-  ensure_local_app() {
-    local app="$1"
-    local src="$APPS_ARTIFACTS_ENV/$app"
-
-    if [[ ! -d "$src" ]]; then
-      echo ">>> WARN: local app source not found: $src (skipping $app)" >&2
-      return
+  # کمک‌تابع: پیدا کردن ریشهٔ واقعی پکیج (جایی که pyproject.toml یا setup.py هست)
+  find_project_root() {
+    local base="$1"
+    if [[ -f "$base/pyproject.toml" || -f "$base/setup.py" ]]; then
+      echo "$base"
+      return 0
     fi
-
-    if [[ ! -d "$BENCH_HOME_ENV/apps/$app" ]]; then
-      echo ">>> copying app '$app' into bench/apps ..."
-      mkdir -p "$BENCH_HOME_ENV/apps/$app"
-      cp -a "$src/." "$BENCH_HOME_ENV/apps/$app/"
-    else
-      echo ">>> app '$app' already present in bench/apps"
-    fi
-
-    # مطمئن شو پکیج پایتون اپ در env نصب/در دسترس است
-    "$BENCH_HOME_ENV/env/bin/python" -m pip install --quiet -e "$BENCH_HOME_ENV/apps/$app" || true
+    local d
+    for d in "$base"/*; do
+      if [[ -d "$d" && ( -f "$d/pyproject.toml" || -f "$d/setup.py" ) ]]; then
+        echo "$d"
+        return 0
+      fi
+    done
+    return 1
   }
 
-  echo ">>> ensuring local apps (erpnext, hrms, cal_boot) are present in bench ..."
-  ensure_local_app erpnext
-  ensure_local_app hrms
-  ensure_local_app cal_boot
+  ensure_local_app() {
+    local app_name="$1"
+    local src_dir="$REPO_DIR_ENV/artifacts/apps/$app_name"
+    local dst_dir="$BENCH_HOME_ENV/apps/$app_name"
+    local project_root=""
+
+    # 1) اگر از قبل در apps/ هست، استفاده‌اش کن
+    if [[ -d "$dst_dir" ]]; then
+      echo "  - app '\''$app_name'\'' already exists in apps/, trying to use it"
+      if project_root="$(find_project_root "$dst_dir")"; then
+        echo "  - pip install -e $project_root"
+        "$BENCH_HOME_ENV/env/bin/pip" install --quiet --upgrade -e "$project_root"
+        return 0
+      fi
+      echo "  - WARNING: no setup.py/pyproject.toml found for $app_name under $dst_dir"
+    fi
+
+    # 2) تلاش برای کپی از artifacts اگر ساختار درست باشد
+    if [[ -d "$src_dir" ]]; then
+      echo "  - copying $src_dir -> $dst_dir"
+      rm -rf "$dst_dir"
+      cp -a "$src_dir" "$dst_dir"
+
+      if project_root="$(find_project_root "$dst_dir")"; then
+        echo "  - pip install -e $project_root"
+        "$BENCH_HOME_ENV/env/bin/pip" install --quiet --upgrade -e "$project_root"
+        return 0
+      fi
+
+      echo "  - WARNING: artifacts for $app_name do not contain setup.py/pyproject.toml"
+    else
+      echo "  - WARNING: artifacts/apps/$app_name not found"
+    fi
+
+    # 3) فallback آنلاین برای erpnext و hrms
+    if [[ "$app_name" == "erpnext" ]]; then
+      echo "  - falling back to bench get-app erpnext from GitHub (online)..."
+      rm -rf "$dst_dir"
+      bench get-app --branch version-15 https://github.com/frappe/erpnext
+      return 0
+    elif [[ "$app_name" == "hrms" ]]; then
+      echo "  - falling back to bench get-app hrms from GitHub (online)..."
+      rm -rf "$dst_dir"
+      bench get-app --branch version-15 https://github.com/frappe/hrms
+      return 0
+    else
+      echo "  - ERROR: cannot install local app '\''$app_name'\''; no valid local project and no online fallback." >&2
+      return 1
+    fi
+  }
+
+  apps=(erpnext hrms cal_boot)
+  for app_name in "${apps[@]}"; do
+    ensure_local_app "$app_name"
+  done
 
   echo ">>> migrate + build + clear cache ..."
   bench --site "$SITE_ENV" migrate
@@ -169,6 +235,7 @@ sudo -u "$FRAPPE_USER" -H bash -lc '
 # 4) supervisor برای bench
 ########################################
 echo ">>> setting up supervisor for bench ..."
+
 sudo -u "$FRAPPE_USER" -H bash -lc '
   set -euo pipefail
   export PATH="$HOME/bench-venv/bin:$HOME/.local/bin:$PATH"
@@ -177,11 +244,13 @@ sudo -u "$FRAPPE_USER" -H bash -lc '
 '
 
 ln -sfn "$BENCH_HOME/config/supervisor.conf" /etc/supervisor/conf.d/frappe-bench.conf
-supervisorctl reread
-supervisorctl update
+supervisorctl reread || true
+supervisorctl update || true
 
 ########################################
 # 5) دسترسی nginx به assets
 ########################################
 chmod 755 "/home/$FRAPPE_USER"
 chmod -R o+rX "$BENCH_HOME/sites/assets"
+
+echo ">>> 02-provision-site: DONE"
