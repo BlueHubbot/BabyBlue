@@ -9,7 +9,7 @@ if [ "${EUID:-$(id -u)}" -ne 0 ]; then
   exit 1
 fi
 
-# 1) بارگذاری متغیرها از .env (اگر هست)
+# ۱) بارگذاری متغیرها از .env (اگر هست)
 if [ -f .env ]; then
   set -o allexport
   # shellcheck disable=SC1091
@@ -20,32 +20,24 @@ fi
 FRAPPE_USER="${FRAPPE_USER:-frappe}"
 BENCH_HOME="${BENCH_HOME:-/home/${FRAPPE_USER}/frappe-bench}"
 
-if [ ! -d "${BENCH_HOME}" ]; then
-  echo "ERROR: bench dir not found: ${BENCH_HOME}" >&2
-  exit 1
-fi
-
-# 2) تعیین SITE_NAME (نام سایت Frappe)
+# ۲) تشخیص SITE_NAME
 SITE_NAME="${SITE_NAME:-}"
 
-# اگر صریح در .env نبود، از متغیرهای دیگر حدس بزن
-if [ -z "${SITE_NAME}" ]; then
-  for v in ERP_SITE ERP_SITE_NAME ERP_FQDN ERP_DOMAIN PRIMARY_SITE; do
-    eval "val=\${$v:-}"
-    if [ -n "${val}" ]; then
-      SITE_NAME="${val}"
-      break
-    fi
-  done
+# اولویت با SITE در .env
+if [ -n "${SITE:-}" ]; then
+  SITE_NAME="${SITE}"
 fi
 
 # اگر هنوز خالی است، از currentsite.txt بخوان
-if [ -z "${SITE_NAME}" ] && [ -f "${BENCH_HOME}/sites/currentsite.txt" ]; then
-  SITE_NAME="$(<"${BENCH_HOME}/sites/currentsite.txt")"
+if [ -z "${SITE_NAME}" ]; then
+  CFILE="${BENCH_HOME}/sites/currentsite.txt"
+  if [ -f "${CFILE}" ]; then
+    SITE_NAME="$(head -n1 "${CFILE}" | tr -d '[:space:]')"
+  fi
 fi
 
 if [ -z "${SITE_NAME}" ]; then
-  echo "ERROR: SITE_NAME is not set and could not be inferred" >&2
+  echo "ERROR: SITE / SITE_NAME not set and currentsite.txt not found" >&2
   exit 1
 fi
 
@@ -53,20 +45,42 @@ echo ">>> using FRAPPE_USER=${FRAPPE_USER}"
 echo ">>> using BENCH_HOME=${BENCH_HOME}"
 echo ">>> using SITE_NAME=${SITE_NAME}"
 
-# 3) migrate + build + cache clear + restart با یوزر frappe
+# ۳) چک پیش‌نیازهای مسیر
+if [ ! -d "${BENCH_HOME}" ]; then
+  echo "ERROR: bench dir not found: ${BENCH_HOME}" >&2
+  exit 1
+fi
+
+if [ ! -d "${BENCH_HOME}/sites/${SITE_NAME}" ]; then
+  echo "ERROR: site dir not found: ${BENCH_HOME}/sites/${SITE_NAME}" >&2
+  exit 1
+fi
+
+# ۴) مطمئن شو مسیرهای لاگ وجود دارند (برای خطای FileNotFound در logger)
+mkdir -p \
+  "${BENCH_HOME}/logs" \
+  "${BENCH_HOME}/sites/${SITE_NAME}/logs"
+
+chown -R "${FRAPPE_USER}:${FRAPPE_USER}" \
+  "${BENCH_HOME}/logs" \
+  "${BENCH_HOME}/sites/${SITE_NAME}/logs"
+
+# ۵) اجرای migrate + build + cache clear + restart به‌عنوان یوزر frappe
 sudo -u "${FRAPPE_USER}" -H bash -lc "
   set -e
-  export PATH=\"\$HOME/bench-venv/bin:\$HOME/.local/bin:\$PATH\"
+  export PATH=\"\$HOME/bench-venv/bin:\$HOME/bench-venv/bin:\$HOME/.local/bin:\$PATH\"
   cd \"${BENCH_HOME}\"
 
-  echo '>>> bench migrate ...'
+  echo '>>> bench --site ${SITE_NAME} migrate ...'
   bench --site \"${SITE_NAME}\" migrate
 
-  echo '>>> bench build (all apps) ...'
+  echo '>>> bench build (all apps, including cal_boot if present) ...'
   bench build
 
-  echo '>>> clear cache ...'
+  echo '>>> bench --site ${SITE_NAME} clear-cache ...'
   bench --site \"${SITE_NAME}\" clear-cache
+
+  echo '>>> bench --site ${SITE_NAME} clear-website-cache ...'
   bench --site \"${SITE_NAME}\" clear-website-cache
 
   echo '>>> bench restart ...'
