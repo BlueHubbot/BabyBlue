@@ -1,0 +1,205 @@
+# blue_jdate/utils.py
+
+from __future__ import annotations
+
+import datetime
+from typing import Any, Optional
+
+from functools import lru_cache
+from pathlib import Path
+import csv
+
+import frappe
+from frappe.utils import get_datetime
+
+import jdatetime  # از requirements نصب شده است
+
+
+# --- تبدیل ورودی به datetime (بدون دردسر timezone) ---
+
+def _to_user_datetime(value: Any) -> Optional[datetime.datetime]:
+    """هر چیزی (str / date / datetime) را به datetime تبدیل می‌کند."""
+    if not value:
+        return None
+
+    # date → datetime
+    if isinstance(value, datetime.date) and not isinstance(value, datetime.datetime):
+        value = datetime.datetime(
+            value.year, value.month, value.day, 0, 0, 0, 0
+        )
+
+    try:
+        dt = get_datetime(value)
+    except Exception:
+        return None
+
+    return dt
+
+
+# --- فرمت‌دهی تاریخ جلالی به‌صورت اعداد لاتین ---
+
+def _format_jdate(jdate: jdatetime.date, fmt: str) -> str:
+    fmt = fmt or "YYYY-MM-DD"
+
+    if "%" in fmt:
+        # استفاده مستقیم از strftime jdatetime
+        return jdate.strftime(fmt)
+
+    if fmt == "YYYY-MM-DD":
+        return f"{jdate.year:04d}-{jdate.month:02d}-{jdate.day:02d}"
+
+    if fmt == "YYYY/MM/DD":
+        return f"{jdate.year:04d}/{jdate.month:02d}/{jdate.day:02d}"
+
+    if fmt == "YYYY-MM":
+        return f"{jdate.year:04d}-{jdate.month:02d}"
+
+    if fmt == "YYYY/MM":
+        return f"{jdate.year:04d}/{jdate.month:02d}"
+
+    # پیش‌فرض
+    return f"{jdate.year:04d}-{jdate.month:02d}-{jdate.day:02d}"
+
+
+# --- فیلترهای Jinja ---
+
+def as_jdate(value: Any, fmt: str = "YYYY-MM-DD") -> str:
+    """تاریخ جلالی بدون زمان."""
+    dt = _to_user_datetime(value)
+    if not dt:
+        return ""
+
+    jdate = jdatetime.date.fromgregorian(date=dt.date())
+    return _format_jdate(jdate, fmt)
+
+
+def as_jdatetime(value: Any, fmt: str = "YYYY-MM-DD HH:mm") -> str:
+    """تاریخ/زمان جلالی."""
+    dt = _to_user_datetime(value)
+    if not dt:
+        return ""
+
+    jdt = jdatetime.datetime.fromgregorian(
+        year=dt.year, month=dt.month, day=dt.day,
+        hour=dt.hour, minute=dt.minute, second=dt.second,
+        microsecond=dt.microsecond,
+    )
+
+    if "%" in fmt:
+        return jdt.strftime(fmt)
+
+    # فقط تاریخ؟
+    if "H" not in fmt and "h" not in fmt:
+        return _format_jdate(jdt.date(), fmt)
+
+    if fmt == "YYYY-MM-DD HH:mm":
+        return (
+            f"{jdt.year:04d}-{jdt.month:02d}-{jdt.day:02d} "
+            f"{jdt.hour:02d}:{jdt.minute:02d}"
+        )
+
+    if fmt == "YYYY/MM/DD HH:mm":
+        return (
+            f"{jdt.year:04d}/{jdt.month:02d}/{jdt.day:02d} "
+            f"{jdt.hour:02d}:{jdt.minute:02d}"
+        )
+
+    # پیش‌فرض
+    return (
+        f"{jdt.year:04d}-{jdt.month:02d}-{jdt.day:02d} "
+        f"{jdt.hour:02d}:{jdt.minute:02d}"
+    )
+
+
+def jinja_filters():
+    """فیلترهایی که در Jinja استفاده می‌کنیم."""
+    return {
+        "as_jdate": as_jdate,
+        "as_jdatetime": as_jdatetime,
+    }
+
+
+def create_so_jdate_test_print_format():
+    """ساخت/آپدیت Print Format تستی برای Sales Order."""
+    import frappe
+
+    NAME = "SO JDate Test"
+    DOCTYPE = "Sales Order"
+
+    HTML = """
+<h2>تست جلالی (Sales Order)</h2>
+
+<p>تاریخ سند (خام): {{ doc.transaction_date }}</p>
+<p>تاریخ سند (جلالی): {{ doc.transaction_date | as_jdate("YYYY/MM/DD") }}</p>
+
+<p>ایجاد شده در (خام): {{ doc.creation }}</p>
+<p>ایجاد شده در (جلالی): {{ doc.creation | as_jdatetime("YYYY/MM/DD HH:mm") }}</p>
+    """.strip()
+
+    existing = frappe.db.exists("Print Format", NAME)
+    if existing:
+        pf = frappe.get_doc("Print Format", existing)
+        pf.doc_type = DOCTYPE
+        pf.print_format_type = "Jinja"
+        pf.custom_format = 1
+        pf.disabled = 0
+        pf.html = HTML
+        pf.save()
+    else:
+        pf = frappe.get_doc({
+            "doctype": "Print Format",
+            "name": NAME,
+            "doc_type": DOCTYPE,
+            "print_format_type": "Jinja",
+            "custom_format": 1,
+            "disabled": 0,
+            "html": HTML,
+        })
+        pf.insert(ignore_permissions=True)
+
+    frappe.db.commit()
+    print("PRINT FORMAT:", pf.name, "created/updated.")
+
+
+# --- JDate policy loader (CSV-based) ---
+
+_POLICY_FILE = Path(__file__).resolve().parent / "config" / "jdate_policy_core_global.csv"
+
+
+@lru_cache(maxsize=1)
+def load_jdate_policy() -> list[dict[str, str]]:
+    """بارگذاری ردیف‌های Policy JDate از CSV.
+
+    خروجی:
+        لیستی از dict با کلیدهای:
+        domain_code,functional_area,object_type,object_name,
+        output_type,audience,jdate_rule,blue_template_key,enabled
+    """
+    rows: list[dict[str, str]] = []
+
+    try:
+        path = _POLICY_FILE
+        if not path.is_file():
+            frappe.log_error(
+                f"JDate policy file not found: {path}",
+                "blue_jdate.load_jdate_policy",
+            )
+            return rows
+
+        with path.open(mode="r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                clean_row = {
+                    k: (v.strip() if isinstance(v, str) else "")
+                    for k, v in row.items()
+                }
+                rows.append(clean_row)
+
+    except Exception:
+        frappe.log_error(
+            title="blue_jdate.load_jdate_policy failed",
+            message=frappe.get_traceback(),
+        )
+        return []
+
+    return rows

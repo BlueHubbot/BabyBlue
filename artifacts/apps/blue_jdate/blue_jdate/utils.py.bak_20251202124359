@@ -1,0 +1,452 @@
+# blue_jdate/utils.py
+
+from __future__ import annotations
+
+import datetime
+from typing import Any, Optional
+
+from functools import lru_cache
+from pathlib import Path
+import csv
+
+import frappe
+from frappe.utils import get_datetime
+
+import jdatetime  # از requirements نصب شده است
+
+
+# --- تبدیل ورودی به datetime (بدون دردسر timezone) ---
+
+def _to_user_datetime(value: Any) -> Optional[datetime.datetime]:
+    """هر چیزی (str / date / datetime) را به datetime تبدیل می‌کند."""
+    if not value:
+        return None
+
+    # date → datetime
+    if isinstance(value, datetime.date) and not isinstance(value, datetime.datetime):
+        value = datetime.datetime(
+            value.year, value.month, value.day, 0, 0, 0, 0
+        )
+
+    try:
+        dt = get_datetime(value)
+    except Exception:
+        return None
+
+    return dt
+
+
+# --- فرمت‌دهی تاریخ جلالی به‌صورت اعداد لاتین ---
+
+def _format_jdate(jdate: jdatetime.date, fmt: str) -> str:
+    fmt = fmt or "YYYY-MM-DD"
+
+    if "%" in fmt:
+        # استفاده مستقیم از strftime jdatetime
+        return jdate.strftime(fmt)
+
+    if fmt == "YYYY-MM-DD":
+        return f"{jdate.year:04d}-{jdate.month:02d}-{jdate.day:02d}"
+
+    if fmt == "YYYY/MM/DD":
+        return f"{jdate.year:04d}/{jdate.month:02d}/{jdate.day:02d}"
+
+    if fmt == "YYYY-MM":
+        return f"{jdate.year:04d}-{jdate.month:02d}"
+
+    if fmt == "YYYY/MM":
+        return f"{jdate.year:04d}/{jdate.month:02d}"
+
+    # پیش‌فرض
+    return f"{jdate.year:04d}-{jdate.month:02d}-{jdate.day:02d}"
+
+
+# --- فیلترهای Jinja ---
+
+def as_jdate(value: Any, fmt: str = "YYYY-MM-DD") -> str:
+    """تاریخ جلالی بدون زمان."""
+    dt = _to_user_datetime(value)
+    if not dt:
+        return ""
+
+    jdate = jdatetime.date.fromgregorian(date=dt.date())
+    return _format_jdate(jdate, fmt)
+
+
+def as_jdatetime(value: Any, fmt: str = "YYYY-MM-DD HH:mm") -> str:
+    """تاریخ/زمان جلالی."""
+    dt = _to_user_datetime(value)
+    if not dt:
+        return ""
+
+    jdt = jdatetime.datetime.fromgregorian(
+        year=dt.year, month=dt.month, day=dt.day,
+        hour=dt.hour, minute=dt.minute, second=dt.second,
+        microsecond=dt.microsecond,
+    )
+
+    if "%" in fmt:
+        return jdt.strftime(fmt)
+
+    # فقط تاریخ؟
+    if "H" not in fmt and "h" not in fmt:
+        return _format_jdate(jdt.date(), fmt)
+
+    if fmt == "YYYY-MM-DD HH:mm":
+        return (
+            f"{jdt.year:04d}-{jdt.month:02d}-{jdt.day:02d} "
+            f"{jdt.hour:02d}:{jdt.minute:02d}"
+        )
+
+    if fmt == "YYYY/MM/DD HH:mm":
+        return (
+            f"{jdt.year:04d}/{jdt.month:02d}/{jdt.day:02d} "
+            f"{jdt.hour:02d}:{jdt.minute:02d}"
+        )
+
+    # پیش‌فرض
+    return (
+        f"{jdt.year:04d}-{jdt.month:02d}-{jdt.day:02d} "
+        f"{jdt.hour:02d}:{jdt.minute:02d}"
+    )
+
+
+def jinja_filters():
+    """فیلترهایی که در Jinja استفاده می‌کنیم."""
+    return {
+        "as_jdate": as_jdate,
+        "as_jdatetime": as_jdatetime,
+    }
+
+
+def create_so_jdate_test_print_format():
+    """ساخت/آپدیت Print Format تستی برای Sales Order."""
+    import frappe
+
+    NAME = "SO JDate Test"
+    DOCTYPE = "Sales Order"
+
+    HTML = """
+<h2>تست جلالی (Sales Order)</h2>
+
+<p>تاریخ سند (خام): {{ doc.transaction_date }}</p>
+<p>تاریخ سند (جلالی): {{ doc.transaction_date | as_jdate("YYYY/MM/DD") }}</p>
+
+<p>ایجاد شده در (خام): {{ doc.creation }}</p>
+<p>ایجاد شده در (جلالی): {{ doc.creation | as_jdatetime("YYYY/MM/DD HH:mm") }}</p>
+    """.strip()
+
+    existing = frappe.db.exists("Print Format", NAME)
+    if existing:
+        pf = frappe.get_doc("Print Format", existing)
+        pf.doc_type = DOCTYPE
+        pf.print_format_type = "Jinja"
+        pf.custom_format = 1
+        pf.disabled = 0
+        pf.html = HTML
+        pf.save()
+    else:
+        pf = frappe.get_doc({
+            "doctype": "Print Format",
+            "name": NAME,
+            "doc_type": DOCTYPE,
+            "print_format_type": "Jinja",
+            "custom_format": 1,
+            "disabled": 0,
+            "html": HTML,
+        })
+        pf.insert(ignore_permissions=True)
+
+    frappe.db.commit()
+    print("PRINT FORMAT:", pf.name, "created/updated.")
+
+
+# --- JDate policy loader (CSV-based) ---
+
+_POLICY_FILE = Path(__file__).resolve().parent / "config" / "jdate_policy_core_global.csv"
+
+
+@lru_cache(maxsize=1)
+def load_jdate_policy() -> list[dict[str, str]]:
+    """بارگذاری ردیف‌های Policy JDate از CSV.
+
+    خروجی:
+        لیستی از dict با کلیدهای:
+        domain_code,functional_area,object_type,object_name,
+        output_type,audience,jdate_rule,blue_template_key,enabled
+    """
+    rows: list[dict[str, str]] = []
+
+    try:
+        path = _POLICY_FILE
+        if not path.is_file():
+            frappe.log_error(
+                f"JDate policy file not found: {path}",
+                "blue_jdate.load_jdate_policy",
+            )
+            return rows
+
+        with path.open(mode="r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                clean_row = {
+                    k: (v.strip() if isinstance(v, str) else "")
+                    for k, v in row.items()
+                }
+                rows.append(clean_row)
+
+    except Exception:
+        frappe.log_error(
+            title="blue_jdate.load_jdate_policy failed",
+            message=frappe.get_traceback(),
+        )
+        return []
+
+    return rows
+
+
+# --- POLICY QUERY HELPERS ---
+
+def find_jdate_policies(
+    domain_code: str,
+    object_type: str,
+    object_name: str,
+    output_type: str | None = None,
+) -> list[dict[str, str]]:
+    """برگشت همهٔ ردیف‌های Policy که با پارامترها match می‌شوند.
+
+    Args:
+        domain_code: مثل CORE_GLOBAL، MANUFACTURING_BASIC، RETAIL_POS و ...
+        object_type: DocType / Report / PortalPage / ...
+        object_name: نام DocType یا Report دقیقاً طبق ERPNext
+        output_type: مثل DOC_PRINT / REPORT_PRINT / REPORT_EXPORT / POS_THERMAL / PORTAL_PAGE
+
+    Returns:
+        list[dict]: ردیف‌های فعال (enabled) که match هستند.
+    """
+    rows = load_jdate_policy()
+    result: list[dict[str, str]] = []
+
+    for row in rows:
+        if row.get("domain_code") != domain_code:
+            continue
+        if row.get("object_type") != object_type:
+            continue
+        if row.get("object_name") != object_name:
+            continue
+        if output_type and row.get("output_type") != output_type:
+            continue
+
+        enabled = (row.get("enabled") or "").strip().lower()
+        if enabled not in ("1", "true", "yes", "y"):
+            continue
+
+        result.append(row)
+
+    return result
+
+
+def get_jdate_rule(
+    domain_code: str,
+    object_type: str,
+    object_name: str,
+    output_type: str,
+) -> Optional[str]:
+    """برگشت اولین jdate_rule برای آبجکت موردنظر.
+
+    اگر Policy پیدا نشود، None برمی‌گرداند.
+    """
+    matches = find_jdate_policies(
+        domain_code=domain_code,
+        object_type=object_type,
+        object_name=object_name,
+        output_type=output_type,
+    )
+    if not matches:
+        return None
+
+    rule = (matches[0].get("jdate_rule") or "").strip()
+    return rule or None
+
+def create_blue_pos_sales_invoice_v1():
+    """ساخت/آپدیت Print Format خرده‌فروشی برای Sales Invoice با تاریخ جلالی."""
+    import frappe
+
+    NAME = "BLUE_POS_SALES_INVOICE_V1"
+    DOCTYPE = "Sales Invoice"
+
+    HTML = """
+<div style="direction: rtl; text-align: right; font-family: Tahoma, Vazirmatn, sans-serif; font-size: 11pt;">
+
+  <h2 style="text-align: center; margin-bottom: 8px;">
+    فاکتور فروش (نسخه خرده‌فروشی - جلالی)
+  </h2>
+
+  <p style="text-align: center; margin-top: 0; font-size: 9pt;">
+    {{ doc.company }}
+  </p>
+
+  <hr/>
+
+  <table style="width: 100%; margin-bottom: 8px;">
+    <tr>
+      <td style="width: 50%; vertical-align: top;">
+        <strong>شماره فاکتور:</strong> {{ doc.name }}<br/>
+        <strong>مشتری:</strong> {{ doc.customer_name }}<br/>
+        {% if doc.customer_address %}
+          <strong>آدرس:</strong> {{ doc.address_display or doc.customer_address }}<br/>
+        {% endif %}
+      </td>
+      <td style="width: 50%; vertical-align: top; text-align: left;">
+        <strong>تاریخ (میلادی):</strong> {{ doc.posting_date }}<br/>
+        <strong>تاریخ (جلالی):</strong> {{ doc.posting_date | as_jdate("YYYY/MM/DD") }}<br/>
+        {% if doc.due_date %}
+          <strong>سررسید (جلالی):</strong> {{ doc.due_date | as_jdate("YYYY/MM/DD") }}<br/>
+        {% endif %}
+      </td>
+    </tr>
+  </table>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 4px;" border="1">
+    <thead>
+      <tr>
+        <th style="padding: 4px;">ردیف</th>
+        <th style="padding: 4px;">شرح کالا / خدمت</th>
+        <th style="padding: 4px;">تعداد</th>
+        <th style="padding: 4px;">نرخ</th>
+        <th style="padding: 4px;">مبلغ</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in doc.items %}
+      <tr>
+        <td style="padding: 4px; text-align: center;">{{ loop.index }}</td>
+        <td style="padding: 4px;">
+          {{ row.item_name }}
+          {% if row.description and row.description != row.item_name %}
+            <br/><span style="font-size: 8pt; color: #666;">{{ row.description }}</span>
+          {% endif %}
+        </td>
+        <td style="padding: 4px; text-align: center;">{{ row.qty }}</td>
+        <td style="padding: 4px; text-align: left;">{{ row.get_formatted("rate") }}</td>
+        <td style="padding: 4px; text-align: left;">{{ row.get_formatted("amount") }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <table style="width: 100%; margin-top: 8px;">
+    <tr>
+      <td style="width: 50%; vertical-align: top;">
+        {% if doc.remarks %}
+          <strong>توضیحات:</strong><br/>
+          <div style="font-size: 9pt; white-space: pre-line;">
+            {{ doc.remarks }}
+          </div>
+        {% endif %}
+      </td>
+      <td style="width: 50%; vertical-align: top;">
+        <table style="width: 100%; border-collapse: collapse;" border="0">
+          <tr>
+            <td style="padding: 2px;">جمع مبلغ اقلام:</td>
+            <td style="padding: 2px; text-align: left;">{{ doc.get_formatted("total") }}</td>
+          </tr>
+          <tr>
+            <td style="padding: 2px;">جمع تخفیف:</td>
+            <td style="padding: 2px; text-align: left;">{{ doc.get_formatted("discount_amount") }}</td>
+          </tr>
+          <tr>
+            <td style="padding: 2px;">جمع مالیات:</td>
+            <td style="padding: 2px; text-align: left;">{{ doc.get_formatted("total_taxes_and_charges") }}</td>
+          </tr>
+          <tr>
+            <td style="padding: 2px;"><strong>مبلغ نهایی قابل پرداخت:</strong></td>
+            <td style="padding: 2px; text-align: left;"><strong>{{ doc.get_formatted("grand_total") }}</strong></td>
+          </tr>
+          <tr>
+            <td style="padding: 2px;">ارز:</td>
+            <td style="padding: 2px; text-align: left;">{{ doc.currency }}</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <hr style="margin-top: 12px;"/>
+
+  <table style="width: 100%; margin-top: 8px; font-size: 9pt;">
+    <tr>
+      <td style="width: 33%; text-align: center;">
+        امضاء صادرکننده
+      </td>
+      <td style="width: 33%; text-align: center;">
+        امضاء حسابداری
+      </td>
+      <td style="width: 33%; text-align: center;">
+        امضاء مشتری
+      </td>
+    </tr>
+  </table>
+
+</div>
+""".strip()
+
+    existing = frappe.db.exists("Print Format", NAME)
+    if existing:
+        pf = frappe.get_doc("Print Format", existing)
+        pf.doc_type = DOCTYPE
+        pf.print_format_type = "Jinja"
+        pf.custom_format = 1
+        pf.disabled = 0
+        pf.html = HTML
+        pf.save()
+    else:
+        pf = frappe.get_doc({
+            "doctype": "Print Format",
+            "name": NAME,
+            "doc_type": DOCTYPE,
+            "print_format_type": "Jinja",
+            "custom_format": 1,
+            "disabled": 0,
+            "html": HTML,
+        })
+        pf.insert(ignore_permissions=True)
+
+    frappe.db.commit()
+    print("PRINT FORMAT:", pf.name, "created/updated.")
+
+def export_print_formats_to_tmp():
+    """Export all Print Format records HTML + meta to /tmp/blue_print_gallery/db."""
+    import json
+    from pathlib import Path
+    import frappe
+
+    base = Path("/tmp/blue_print_gallery/db")
+    base.mkdir(parents=True, exist_ok=True)
+
+    pfs = frappe.get_all(
+        "Print Format",
+        fields=["name", "doc_type", "module", "print_format_type", "custom_format", "disabled"],
+        order_by="module asc, doc_type asc, name asc",
+    )
+
+    count = 0
+
+    for pf in pfs:
+        module = (pf.get("module") or "Core").replace(" ", "_")
+        doctype = (pf.get("doc_type") or "Unknown").replace(" ", "_")
+        name = pf["name"].replace(" ", "_")
+        slug = f"{module}__{doctype}__{name}"
+
+        meta_path = base / f"{slug}.meta.json"
+        html_path = base / f"{slug}.html"
+
+        doc = frappe.get_doc("Print Format", pf["name"])
+
+        meta_path.write_text(json.dumps(pf, ensure_ascii=False, indent=2), encoding="utf-8")
+        html_path.write_text(doc.html or "", encoding="utf-8")
+
+        count += 1
+
+    print("EXPORTED PF COUNT (from utils):", count)
+    return count
