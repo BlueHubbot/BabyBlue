@@ -1,7 +1,0 @@
-source,fa
-"If checked, Stock will be reserved on <b>Submit</b>",
-"Learn about <a href=""https://docs.erpnext.com/docs/v13/user/manual/en/accounts/articles/common_party_accounting#:~:text=Common%20Party%20Accounting%20in%20ERPNext,Invoice%20against%20a%20primary%20Supplier."">Common Party</a>",
-"System will do an implicit conversion using the pegged currency. <br>
-Ex: Instead of AED -&gt; INR, system will do AED -&gt; USD -&gt; INR using the pegged exchange rate of AED against USD.",
-Stock will be reserved on submission of <b>Purchase Receipt</b> created against Material Request for Sales Order.,
-Serial and Batch Nos will be auto-reserved based on <b>Pick Serial / Batch Based On</b>,

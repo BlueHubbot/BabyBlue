@@ -1,23 +1,22 @@
 # hooks.py
+from . import __version__ as app_version
+
 app_name = "cal_boot"
 app_title = "CAL Boot"
-app_publisher = "Sarmad"
-app_description = "Global Jalali boot for Desk"
-app_email = "sarmad.afzali@gmail.com"
-license = "MIT"
+app_publisher = "BlueHesab"
+app_description = "Global Jalali helpers (baseline)"
+app_email = "desk@bluehesab.ir"
+app_license = "MIT"
 
-# فایل‌هایی که توی دسک ERPNext لود می‌شن
 app_include_js = [
+    "/assets/cal_boot/js/cal_lite_trap.js",
+    "/assets/cal_boot/js/blue_jalali_picker.js",
+    "/assets/cal_boot/js/blue_jalali_range.js",
     "/assets/cal_boot/js/cal_boot.js",
-    "/assets/cal_boot/js/cal_format.js",
-    "/assets/cal_boot/js/cal_charts.js",
+    "/assets/cal_boot/js/blue_overlay_dom_patches.js",
     "/assets/blueapi_help.js",
-    # پچ انتخاب بازه‌ٔ زمانی شمسی (از مسیر سایت)
-    "/files/cal-date-range.js",
-    # دقت کن: اینجا دیگه /blueapi_boot.js نداریم
 ]
 
-# فیکسچر ترجمه‌های فارسی
 fixtures = [
     {"dt": "Translation", "filters": [["language", "=", "fa"]]}
 ]
