@@ -1,3 +1,4 @@
+#01-setup-bench.sh
 #!/usr/bin/env bash
 set -euo pipefail
 cd /tmp/BabyBlue
@@ -113,6 +114,7 @@ frappe
 erpnext
 hrms
 cal_boot
+blue_jdate
 EOT
 
   bench setup requirements

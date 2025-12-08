@@ -1,3 +1,4 @@
+#02-provision-site.sh
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -124,13 +125,26 @@ sudo -u "$FRAPPE_USER" -H bash -lc '
 
   cd "$BENCH_HOME_ENV"
 
-  DB_DUMP="$REPO_DIR_ENV/artifacts/data/site-database.sql.gz"
-  if [[ -f "$DB_DUMP" ]]; then
+  # اولویت با offline/db/initial.sql.gz، بعد artifacts/data/site-database.sql.gz
+  DB_DUMP_1="$REPO_DIR_ENV/offline/db/initial.sql.gz"
+  DB_DUMP_2="$REPO_DIR_ENV/artifacts/data/site-database.sql.gz"
+  DB_DUMP=""
+
+  if [[ -f "$DB_DUMP_1" ]]; then
+    DB_DUMP="$DB_DUMP_1"
+  elif [[ -f "$DB_DUMP_2" ]]; then
+    DB_DUMP="$DB_DUMP_2"
+  fi
+
+  if [[ -n "$DB_DUMP" ]]; then
     echo ">>> restoring database from $DB_DUMP ..."
     bench --site "$SITE_ENV" restore "$DB_DUMP" \
       --db-root-username "$DB_ROOT_USER_ENV" --db-root-password "$DB_ROOT_PASS_ENV" \
       --force --admin-password "$ADMIN_PASS_ENV"
+  else
+    echo ">>> WARNING: no DB dump found (offline/db/initial.sql.gz یا artifacts/data/site-database.sql.gz). Skipping restore." >&2
   fi
+
 
   PUB_TAR="$REPO_DIR_ENV/artifacts/data/site-public-files.tar"
   PRIV_TAR="$REPO_DIR_ENV/artifacts/data/site-private-files.tar"
@@ -145,7 +159,7 @@ sudo -u "$FRAPPE_USER" -H bash -lc '
     tar xf "$PRIV_TAR" -C "$BENCH_HOME_ENV/sites"
   fi
 
-  echo ">>> ensuring local apps (erpnext, hrms, cal_boot) are present in bench ..."
+  echo ">>> ensuring local apps (erpnext, hrms, cal_boot, blue_jdate) are present in bench ..."
 
   # کمک‌تابع: پیدا کردن ریشهٔ واقعی پکیج (جایی که pyproject.toml یا setup.py هست)
   find_project_root() {
@@ -215,10 +229,11 @@ sudo -u "$FRAPPE_USER" -H bash -lc '
     fi
   }
 
-  apps=(erpnext hrms cal_boot)
+  apps=(erpnext hrms cal_boot blue_jdate)
   for app_name in "${apps[@]}"; do
     ensure_local_app "$app_name"
   done
+
 
   echo ">>> migrate + build + clear cache ..."
   bench --site "$SITE_ENV" migrate

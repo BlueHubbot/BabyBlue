@@ -1,3 +1,4 @@
+#05-cal-boot-rebuild.sh
 #!/usr/bin/env bash
 #
 # 05-cal-boot-rebuild.sh

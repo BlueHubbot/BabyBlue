@@ -1,3 +1,4 @@
+#00-bootstrap.sh
 #!/usr/bin/env bash
 set -euo pipefail
 cd /tmp/BabyBlue

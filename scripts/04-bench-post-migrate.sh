@@ -1,3 +1,4 @@
+#04-bench-post-migrate.sh
 #!/usr/bin/env bash
 set -euo pipefail
 
