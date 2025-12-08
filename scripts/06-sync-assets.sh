@@ -1,4 +1,3 @@
-#06-sync-assets.sh
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -11,13 +10,16 @@ fi
 
 FRAPPE_USER="${FRAPPE_USER:-frappe}"
 BENCH_HOME="${BENCH_HOME:-/home/frappe/frappe-bench}"
+SITE="${SITE:-}"
 
 SRC_SRV_BLUEDOC="${SRC_SRV_BLUEDOC:-artifacts/srv-bluedoc}"
 SRC_VAR_WWW_HTML="${SRC_VAR_WWW_HTML:-artifacts/var-www-html}"
 SRC_BENCH_ASSETS="${SRC_BENCH_ASSETS:-artifacts/bench-assets}"
 SRC_SITE_ASSETS="${SRC_SITE_ASSETS:-artifacts/site-assets}"
+# overlay فایل‌های public اختصاصی سایت (بدون files/)
+SRC_SITE_PUBLIC_OVERLAY="${SRC_SITE_PUBLIC_OVERLAY:-artifacts/site-public-overlay}"
 
-echo ">>> 06-sync-assets: sync docs + www + bench assets"
+echo ">>> 06-sync-assets: sync docs + www + bench assets + site public overlay"
 
 sync_dir() {
   local src="$1" dst="$2" label="$3" owner="$4"
@@ -42,6 +44,16 @@ sync_dir "$SRC_BENCH_ASSETS" "$BENCH_HOME/assets" "bench-assets" "${FRAPPE_USER}
 
 # 4) BENCH_HOME/sites/assets  (manifest + blueapi_*.js و غیره)
 sync_dir "$SRC_SITE_ASSETS" "$BENCH_HOME/sites/assets" "site-assets" "${FRAPPE_USER}:${FRAPPE_USER}"
+
+# 5) overlay روی BENCH_HOME/sites/$SITE/public (فایل‌های دستی، نه files/)
+if [ -n "$SITE" ] && [ -d "$SRC_SITE_PUBLIC_OVERLAY" ]; then
+  echo ">>> OVERLAY site-public: $SRC_SITE_PUBLIC_OVERLAY -> $BENCH_HOME/sites/$SITE/public"
+  mkdir -p "$BENCH_HOME/sites/$SITE/public"
+  rsync -a "$SRC_SITE_PUBLIC_OVERLAY"/ "$BENCH_HOME/sites/$SITE/public"/
+  chown -R "${FRAPPE_USER}:${FRAPPE_USER}" "$BENCH_HOME/sites/$SITE/public"
+else
+  echo ">>> SKIP site-public overlay: source '$SRC_SITE_PUBLIC_OVERLAY' missing or SITE not set"
+fi
 
 echo ">>> 06-sync-assets: nginx reload"
 if nginx -t; then

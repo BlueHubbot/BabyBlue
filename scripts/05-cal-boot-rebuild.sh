@@ -1,17 +1,15 @@
-#05-cal-boot-rebuild.sh
 #!/usr/bin/env bash
 #
 # 05-cal-boot-rebuild.sh
 #
 # هدف:
 # - اطمینان از وجود symlink پایدار برای assets اپ cal_boot
-# - تلاش برای bench build --apps cal_boot (غیر کشنده / non-fatal)
+# - اجرای bench build --apps cal_boot (الان EXPECT می‌کنیم موفق شود)
 # - clear-cache / clear-website-cache / bench restart برای سایت هدف
-# - بدون نیاز به دستکاری دستی PATH بیرونی، همه چیز زیر کاربر frappe
 
 set -euo pipefail
 
-echo ">>> 05-cal-boot-rebuild: best-effort cal_boot assets + cache clear"
+echo ">>> 05-cal-boot-rebuild: cal_boot assets + build + cache clear"
 
 # -----------------------------
 # ۱) ورودی‌ها و مقادیر پیش‌فرض
@@ -23,6 +21,7 @@ BENCH_HOME="${BENCH_HOME:-/home/frappe/frappe-bench}"
 SITE_NAME="${SITE_NAME:-}"
 : "${SITE_NAME:=${SITE:-}}"
 
+# اگر از مسیر ریپو اجرا می‌شود و .env هست، از آن SITE را بخوان
 if [[ -z "${SITE_NAME}" && -f ".env" ]]; then
   SITE_NAME="$(grep -E '^SITE=' .env | tail -n1 | cut -d= -f2- | tr -d '\"' || true)"
 fi
@@ -79,16 +78,13 @@ sudo -u "${FRAPPE_USER}" -H bash -lc "
     echo 'WARNING: cal_boot public path not found: ${CAL_BOOT_PUBLIC_PATH}' >&2
   fi
 
-  echo '>>> bench build --apps cal_boot (non-fatal, best-effort) ...'
-  if ! bench build --apps cal_boot; then
-    echo '!!! WARNING: bench build --apps cal_boot failed (likely esbuild quirk on this app).' >&2
-    echo '!!! WARNING: Continuing because static assets are already linked via symlink.' >&2
-  fi
+  echo '>>> bench build --apps cal_boot ...'
+  bench build --apps cal_boot
 
   echo '>>> clear cache + restart on ${SITE_NAME} ...'
-  bench --site \"${SITE_NAME}\" clear-cache || echo 'WARN: clear-cache failed' >&2
-  bench --site \"${SITE_NAME}\" clear-website-cache || echo 'WARN: clear-website-cache failed' >&2
-  bench restart || echo 'WARN: bench restart failed' >&2
+  bench --site \"${SITE_NAME}\" clear-cache
+  bench --site \"${SITE_NAME}\" clear-website-cache
+  bench restart
 "
 
 echo ">>> 05-cal-boot-rebuild: done."

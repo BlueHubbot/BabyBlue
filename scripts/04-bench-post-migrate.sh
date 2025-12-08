@@ -1,8 +1,7 @@
-#04-bench-post-migrate.sh
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo ">>> 04-bench-post-migrate: migrate + build + cache clear + restart"
+echo ">>> 04-bench-post-migrate: migrate + (optional) build + cache clear + restart"
 
 # باید با روت اجرا شود
 if [ "${EUID:-$(id -u)}" -ne 0 ]; then
@@ -20,6 +19,7 @@ fi
 
 FRAPPE_USER="${FRAPPE_USER:-frappe}"
 BENCH_HOME="${BENCH_HOME:-/home/${FRAPPE_USER}/frappe-bench}"
+SKIP_BENCH_BUILD="${SKIP_BENCH_BUILD:-0}"
 
 # ۲) تشخیص SITE_NAME
 SITE_NAME="${SITE_NAME:-}"
@@ -45,6 +45,7 @@ fi
 echo ">>> using FRAPPE_USER=${FRAPPE_USER}"
 echo ">>> using BENCH_HOME=${BENCH_HOME}"
 echo ">>> using SITE_NAME=${SITE_NAME}"
+echo ">>> SKIP_BENCH_BUILD=${SKIP_BENCH_BUILD}"
 
 # ۳) چک پیش‌نیازهای مسیر
 if [ ! -d "${BENCH_HOME}" ]; then
@@ -57,7 +58,7 @@ if [ ! -d "${BENCH_HOME}/sites/${SITE_NAME}" ]; then
   exit 1
 fi
 
-# ۴) مطمئن شو مسیرهای لاگ وجود دارند (برای خطای FileNotFound در logger)
+# ۴) مطمئن شو مسیرهای لاگ وجود دارند
 mkdir -p \
   "${BENCH_HOME}/logs" \
   "${BENCH_HOME}/sites/${SITE_NAME}/logs"
@@ -66,7 +67,7 @@ chown -R "${FRAPPE_USER}:${FRAPPE_USER}" \
   "${BENCH_HOME}/logs" \
   "${BENCH_HOME}/sites/${SITE_NAME}/logs"
 
-# ۵) اجرای migrate + build + cache clear + restart به‌عنوان یوزر frappe
+# ۵) اجرای migrate + (اختیاری) build + cache clear + restart به‌عنوان یوزر frappe
 sudo -u "${FRAPPE_USER}" -H bash -lc "
   set -e
   export PATH=\"\$HOME/bench-venv/bin:\$HOME/bench-venv/bin:\$HOME/.local/bin:\$PATH\"
@@ -75,8 +76,15 @@ sudo -u "${FRAPPE_USER}" -H bash -lc "
   echo '>>> bench --site ${SITE_NAME} migrate ...'
   bench --site \"${SITE_NAME}\" migrate
 
-  echo '>>> bench build (all apps, including cal_boot if present) ...'
-  bench build
+  if [ \"${SKIP_BENCH_BUILD}\" = \"1\" ]; then
+    echo '>>> SKIP_BENCH_BUILD=1 → skipping bench build (using prebuilt assets from artifacts)'
+  else
+    echo '>>> bench build (all apps, including hrms/cal_boot if present) ...'
+    if ! bench build; then
+      echo '!!! WARNING: bench build failed (likely HRMS frontend OOM or cal_boot esbuild).' >&2
+      echo '!!! WARNING: Continuing with existing assets.' >&2
+    fi
+  fi
 
   echo '>>> bench --site ${SITE_NAME} clear-cache ...'
   bench --site \"${SITE_NAME}\" clear-cache
