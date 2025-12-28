@@ -1,0 +1,39 @@
+name: BH GitHub Release
+
+on:
+  push:
+    tags:
+      - "BH-*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ensure release notes exist
+        run: |
+          NOTES="releases/${GITHUB_REF_NAME}.md"
+          if [ ! -f "$NOTES" ]; then
+            mkdir -p releases
+            {
+              echo "# ${GITHUB_REF_NAME}"
+              echo ""
+              echo "- Auto-generated: missing ${NOTES} in repo."
+            } > "$NOTES"
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          body_path: releases/${{ github.ref_name }}.md
+          draft: false
+          prerelease: false
