@@ -1,0 +1,179 @@
+{
+  "doctype": "DocType",
+  "name": "BH VAT Profile",
+  "module": "Blue Hesab",
+  "custom": 0,
+  "istable": 0,
+  "editable_grid": 0,
+  "is_submittable": 0,
+  "track_changes": 1,
+  "allow_import": 1,
+  "allow_rename": 1,
+  "autoname": "field:vat_code",
+  "engine": "InnoDB",
+  "field_order": [
+    "vat_code",
+    "title",
+    "active",
+    "section_behavior",
+    "vat_type",
+    "applies_on",
+    "is_export",
+    "is_goods",
+    "is_service",
+    "section_rates",
+    "sales_vat_rate",
+    "sales_vat_account",
+    "purchase_vat_rate",
+    "purchase_vat_account",
+    "section_legal",
+    "ttms_group_code",
+    "ttms_description",
+    "modian_invoice_type",
+    "notes"
+  ],
+  "fields": [
+    {
+      "fieldname": "vat_code",
+      "fieldtype": "Data",
+      "label": "کد پروفایل VAT",
+      "reqd": 1,
+      "unique": 1,
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "bold": 1
+    },
+    {
+      "fieldname": "title",
+      "fieldtype": "Data",
+      "label": "عنوان پروفایل",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "active",
+      "fieldtype": "Check",
+      "label": "فعال",
+      "default": "1",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "section_behavior",
+      "fieldtype": "Section Break",
+      "label": "رفتار VAT / نوع معامله"
+    },
+    {
+      "fieldname": "vat_type",
+      "fieldtype": "Select",
+      "label": "نوع VAT",
+      "reqd": 1,
+      "options": "STANDARD_9\nZERO_RATE\nEXEMPT\nMIXED\nOUT_OF_SCOPE",
+      "description": "کد داخلی: استاندارد ۹٪، صفر درصد، معاف، ترکیبی، خارج از شمول"
+    },
+    {
+      "fieldname": "applies_on",
+      "fieldtype": "Select",
+      "label": "اعمال بر",
+      "options": "Sales\nPurchase\nBoth",
+      "default": "Both"
+    },
+    {
+      "fieldname": "is_export",
+      "fieldtype": "Check",
+      "label": "صادرات / معاف ماده ۱۳"
+    },
+    {
+      "fieldname": "is_goods",
+      "fieldtype": "Check",
+      "label": "کالا"
+    },
+    {
+      "fieldname": "is_service",
+      "fieldtype": "Check",
+      "label": "خدمت"
+    },
+    {
+      "fieldname": "section_rates",
+      "fieldtype": "Section Break",
+      "label": "نرخ‌ها و حساب‌ها"
+    },
+    {
+      "fieldname": "sales_vat_rate",
+      "fieldtype": "Float",
+      "label": "نرخ VAT فروش (%)",
+      "precision": "2"
+    },
+    {
+      "fieldname": "sales_vat_account",
+      "fieldtype": "Link",
+      "label": "حساب VAT فروش",
+      "options": "Account"
+    },
+    {
+      "fieldname": "purchase_vat_rate",
+      "fieldtype": "Float",
+      "label": "نرخ VAT خرید (%)",
+      "precision": "2"
+    },
+    {
+      "fieldname": "purchase_vat_account",
+      "fieldtype": "Link",
+      "label": "حساب VAT خرید",
+      "options": "Account"
+    },
+    {
+      "fieldname": "section_legal",
+      "fieldtype": "Section Break",
+      "label": "کدها و توضیحات قانونی (TTMS / مودیان)"
+    },
+    {
+      "fieldname": "ttms_group_code",
+      "fieldtype": "Data",
+      "label": "کد گروه TTMS",
+      "description": "در صورت نیاز برای طبقه‌بندی معاملات فصلی"
+    },
+    {
+      "fieldname": "ttms_description",
+      "fieldtype": "Data",
+      "label": "شرح TTMS"
+    },
+    {
+      "fieldname": "modian_invoice_type",
+      "fieldtype": "Select",
+      "label": "نوع صورتحساب در مودیان",
+      "options": "\n1\n2\n3\n4\n5",
+      "description": "در صورت استفاده برای مودیان، نوع صورتحساب (۱، ۲، ...)"
+    },
+    {
+      "fieldname": "notes",
+      "fieldtype": "Small Text",
+      "label": "یادداشت"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1,
+      "share": 1,
+      "print": 1,
+      "email": 1,
+      "export": 1,
+      "report": 1
+    },
+    {
+      "role": "Accounts Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 0,
+      "share": 0,
+      "print": 1,
+      "email": 1,
+      "export": 1,
+      "report": 1
+    }
+  ]
+}

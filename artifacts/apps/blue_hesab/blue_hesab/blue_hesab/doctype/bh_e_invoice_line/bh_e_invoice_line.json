@@ -1,0 +1,157 @@
+{
+  "actions": [],
+  "allow_import": 0,
+  "autoname": "autoincrement",
+  "beta": 0,
+  "creation": "2025-01-01 00:00:00.000000",
+  "custom": 0,
+  "doctype": "DocType",
+  "editable_grid": 1,
+  "engine": "InnoDB",
+  "field_order": [
+    "idx",
+    "item_code",
+    "item_name",
+    "item_group",
+    "vat_category",
+    "modian_item_code",
+    "section_qty_price",
+    "qty",
+    "uom",
+    "unit_price",
+    "discount_amount",
+    "taxable_amount",
+    "vat_rate",
+    "vat_amount",
+    "duties_amount",
+    "total_amount",
+    "section_extra",
+    "note",
+    "extra_json"
+  ],
+  "fields": [
+    {
+      "fieldname": "idx",
+      "label": "Row",
+      "fieldtype": "Int",
+      "in_list_view": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "item_code",
+      "label": "Item Code",
+      "fieldtype": "Link",
+      "options": "Item",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "item_name",
+      "label": "Item Name",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "item_group",
+      "label": "Item Group",
+      "fieldtype": "Link",
+      "options": "Item Group"
+    },
+    {
+      "fieldname": "vat_category",
+      "label": "VAT Category",
+      "fieldtype": "Link",
+      "options": "BH VAT Category"
+    },
+    {
+      "fieldname": "modian_item_code",
+      "label": "Modian Item Code",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "section_qty_price",
+      "label": "Quantity & Price",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "qty",
+      "label": "Qty",
+      "fieldtype": "Float",
+      "reqd": 1
+    },
+    {
+      "fieldname": "uom",
+      "label": "UOM",
+      "fieldtype": "Link",
+      "options": "UOM"
+    },
+    {
+      "fieldname": "unit_price",
+      "label": "Unit Price",
+      "fieldtype": "Currency",
+      "reqd": 1
+    },
+    {
+      "fieldname": "discount_amount",
+      "label": "Discount Amount",
+      "fieldtype": "Currency"
+    },
+    {
+      "fieldname": "taxable_amount",
+      "label": "Taxable Amount",
+      "fieldtype": "Currency",
+      "reqd": 1
+    },
+    {
+      "fieldname": "vat_rate",
+      "label": "VAT Rate (%)",
+      "fieldtype": "Float"
+    },
+    {
+      "fieldname": "vat_amount",
+      "label": "VAT Amount",
+      "fieldtype": "Currency"
+    },
+    {
+      "fieldname": "duties_amount",
+      "label": "Duties / Surcharges",
+      "fieldtype": "Currency"
+    },
+    {
+      "fieldname": "total_amount",
+      "label": "Total Amount",
+      "fieldtype": "Currency",
+      "reqd": 1
+    },
+    {
+      "fieldname": "section_extra",
+      "label": "Extra",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "note",
+      "label": "Note",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "extra_json",
+      "label": "Extra JSON",
+      "fieldtype": "Code"
+    }
+  ],
+  "has_web_view": 0,
+  "idx": 0,
+  "is_submittable": 0,
+  "issingle": 0,
+  "istable": 1,
+  "max_attachments": 0,
+  "modified": "2025-01-01 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Blue Hesab",
+  "name": "BH E-Invoice Line",
+  "owner": "Administrator",
+  "permissions": [],
+  "quick_entry": 0,
+  "sort_field": "modified",
+  "sort_order": "ASC",
+  "track_changes": 1
+}

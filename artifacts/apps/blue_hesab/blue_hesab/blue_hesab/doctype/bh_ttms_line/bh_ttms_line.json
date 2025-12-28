@@ -1,0 +1,224 @@
+{
+  "actions": [],
+  "allow_import": 0,
+  "autoname": "autoincrement",
+  "beta": 0,
+  "creation": "2025-01-01 00:00:00.000000",
+  "custom": 0,
+  "doctype": "DocType",
+  "editable_grid": 1,
+  "engine": "InnoDB",
+  "field_order": [
+    "row_type",
+    "party_type",
+    "party_name",
+    "national_id",
+    "economic_code",
+    "registration_no",
+    "postal_code",
+    "province",
+    "city",
+    "section_invoice",
+    "invoice_no",
+    "invoice_date",
+    "fiscal_period",
+    "reference_doctype",
+    "reference_name",
+    "section_amounts",
+    "currency",
+    "conversion_rate",
+    "base_amount",
+    "exempt_amount",
+    "vat_amount",
+    "duties_amount",
+    "total_amount",
+    "section_flags",
+    "is_below_threshold",
+    "threshold_reason",
+    "modian_invoice_id",
+    "modian_status",
+    "note",
+    "extra_json"
+  ],
+  "fields": [
+    {
+      "fieldname": "row_type",
+      "label": "Row Type",
+      "fieldtype": "Select",
+      "options": "Sales\nPurchase\nContract\nFee/Commission",
+      "reqd": 1
+    },
+    {
+      "fieldname": "party_type",
+      "label": "Party Type",
+      "fieldtype": "Select",
+      "options": "حقیقی\nحقوقی",
+      "reqd": 1
+    },
+    {
+      "fieldname": "party_name",
+      "label": "Party Name",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "national_id",
+      "label": "National ID / TIN",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "economic_code",
+      "label": "Economic Code",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "registration_no",
+      "label": "Registration No",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "postal_code",
+      "label": "Postal Code",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "province",
+      "label": "Province",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "city",
+      "label": "City",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "section_invoice",
+      "label": "Invoice",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "invoice_no",
+      "label": "Invoice No",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "invoice_date",
+      "label": "Invoice Date",
+      "fieldtype": "Date",
+      "reqd": 1
+    },
+    {
+      "fieldname": "fiscal_period",
+      "label": "Fiscal Period Label",
+      "fieldtype": "Data",
+      "description": "مثال: 1404Q1"
+    },
+    {
+      "fieldname": "reference_doctype",
+      "label": "Reference Doctype",
+      "fieldtype": "Link",
+      "options": "DocType"
+    },
+    {
+      "fieldname": "reference_name",
+      "label": "Reference Name",
+      "fieldtype": "Dynamic Link",
+      "options": "reference_doctype"
+    },
+    {
+      "fieldname": "section_amounts",
+      "label": "Amounts",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "currency",
+      "label": "Currency",
+      "fieldtype": "Link",
+      "options": "Currency"
+    },
+    {
+      "fieldname": "conversion_rate",
+      "label": "Conversion Rate",
+      "fieldtype": "Float",
+      "default": "1"
+    },
+    {
+      "fieldname": "base_amount",
+      "label": "Taxable Amount",
+      "fieldtype": "Currency",
+      "reqd": 1
+    },
+    {
+      "fieldname": "exempt_amount",
+      "label": "Exempt Amount",
+      "fieldtype": "Currency"
+    },
+    {
+      "fieldname": "vat_amount",
+      "label": "VAT Amount",
+      "fieldtype": "Currency"
+    },
+    {
+      "fieldname": "duties_amount",
+      "label": "Duties / Surcharges",
+      "fieldtype": "Currency"
+    },
+    {
+      "fieldname": "total_amount",
+      "label": "Total Amount",
+      "fieldtype": "Currency"
+    },
+    {
+      "fieldname": "section_flags",
+      "label": "Flags",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "is_below_threshold",
+      "label": "Below Threshold",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "threshold_reason",
+      "label": "Threshold Reason",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "modian_invoice_id",
+      "label": "Modian Invoice ID",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "modian_status",
+      "label": "Modian Status",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "note",
+      "label": "Note",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "extra_json",
+      "label": "Extra JSON",
+      "fieldtype": "Code"
+    }
+  ],
+  "has_web_view": 0,
+  "idx": 0,
+  "is_submittable": 0,
+  "issingle": 0,
+  "istable": 1,
+  "max_attachments": 0,
+  "modified": "2025-01-01 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Blue Hesab",
+  "name": "BH TTMS Line",
+  "owner": "Administrator",
+  "permissions": [],
+  "quick_entry": 0,
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "track_changes": 1
+}

@@ -1,0 +1,15 @@
+[pre_model_sync]
+# Patches added in this section will be executed before doctypes are migrated
+# Read docs to understand patches: https://frappeframework.com/docs/v14/user/en/database-migrations
+
+[post_model_sync]
+# Patches added in this section will be executed after doctypes are migrated
+blue_hesab.patches.v1_0.rename_accounts_workspace_to_blue_hesab
+blue_hesab.patches.v1_0.rename_accounting_workspace_to_blue_hesab_v2
+blue_hesab.patches.v1_0.fix_blue_hesab_workspace_route
+blue_hesab.patches.v1_0.reset_accounting_workspace_label
+blue_hesab.patches.v1_0.create_bh_vat_profile_fields
+blue_hesab.patches.v1_0.seed_bh_vat_profiles
+blue_hesab.patches.vat_0001_item_bh_vat_profile
+blue_hesab.patches.vat_0002_item_bh_item_tax_template
+blue_hesab.patches.vat_0011_vat_ui_mode_lock

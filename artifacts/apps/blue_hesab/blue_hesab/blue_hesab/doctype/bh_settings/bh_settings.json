@@ -1,0 +1,330 @@
+{
+  "actions": [],
+  "allow_import": 0,
+  "autoname": "",
+  "beta": 0,
+  "creation": "2025-01-01 00:00:00.000000",
+  "custom": 0,
+  "doctype": "DocType",
+  "editable_grid": 0,
+  "engine": "InnoDB",
+  "field_order": [
+    "section_core",
+    "enable_iran_mode",
+    "default_company",
+    "country",
+    "base_currency",
+    "currency_display_mode",
+    "default_fiscal_year",
+    "section_vat",
+    "enable_vat",
+    "default_vat_category",
+    "default_sales_vat_account",
+    "default_purchase_vat_account",
+    "default_sales_vat_rate",
+    "default_purchase_vat_rate",
+    "section_ttms",
+    "enable_ttms",
+    "ttms_company_national_id",
+    "ttms_economic_code",
+    "ttms_threshold_amount",
+    "section_modian",
+    "enable_modian",
+    "modian_base_url",
+    "modian_device_id",
+    "modian_profile_id",
+    "modian_client_id",
+    "modian_client_secret",
+    "modian_is_test_mode",
+    "section_payroll",
+    "enable_payroll_legal_exports",
+    "insurance_branch_code",
+    "tax_office_code",
+    "default_insurance_export_doctype",
+    "default_payroll_tax_export_doctype",
+    "section_financial",
+    "enable_financial_statements",
+    "coa_mapping_profile",
+    "default_bs_profile",
+    "default_pl_profile",
+    "default_cf_profile",
+    "section_extra",
+    "notes",
+    "extra_json"
+  ],
+  "fields": [
+    {
+      "fieldname": "section_core",
+      "label": "هسته ایران / Core",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "enable_iran_mode",
+      "label": "فعال‌سازی حالت ایران (BlueHesab)",
+      "fieldtype": "Check",
+      "reqd": 1,
+      "default": "1"
+    },
+    {
+      "fieldname": "default_company",
+      "label": "شرکت پیش‌فرض",
+      "fieldtype": "Link",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "country",
+      "label": "کشور پیش‌فرض",
+      "fieldtype": "Link",
+      "options": "Country",
+      "default": "Iran"
+    },
+    {
+      "fieldname": "base_currency",
+      "label": "واحد پول پایه",
+      "fieldtype": "Link",
+      "options": "Currency",
+      "reqd": 1
+    },
+    {
+      "fieldname": "currency_display_mode",
+      "label": "نمایش پول (ریال/تومان)",
+      "fieldtype": "Select",
+      "options": "Toman\nRial",
+      "default": "Toman"
+    },
+    {
+      "fieldname": "default_fiscal_year",
+      "label": "سال مالی پیش‌فرض",
+      "fieldtype": "Link",
+      "options": "Fiscal Year"
+    },
+    {
+      "fieldname": "section_vat",
+      "label": "مالیات و ارزش افزوده",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "enable_vat",
+      "label": "فعال‌سازی VAT ایران",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "default_vat_category",
+      "label": "دسته مالیاتی پیش‌فرض",
+      "fieldtype": "Link",
+      "options": "BH VAT Category"
+    },
+    {
+      "fieldname": "default_sales_vat_account",
+      "label": "حساب VAT فروش پیش‌فرض",
+      "fieldtype": "Link",
+      "options": "Account"
+    },
+    {
+      "fieldname": "default_purchase_vat_account",
+      "label": "حساب VAT خرید پیش‌فرض",
+      "fieldtype": "Link",
+      "options": "Account"
+    },
+    {
+      "fieldname": "default_sales_vat_rate",
+      "label": "نرخ VAT فروش پیش‌فرض (%)",
+      "fieldtype": "Float"
+    },
+    {
+      "fieldname": "default_purchase_vat_rate",
+      "label": "نرخ VAT خرید پیش‌فرض (%)",
+      "fieldtype": "Float"
+    },
+    {
+      "fieldname": "auto_vat_on_sales",
+      "label": "افزودن خودکار VAT روی فاکتور فروش",
+      "fieldtype": "Check",
+      "default": "1",
+      "insert_after": "default_purchase_vat_rate"
+    },
+    {
+      "fieldname": "auto_vat_on_purchase",
+      "label": "افزودن خودکار VAT روی فاکتور خرید",
+      "fieldtype": "Check",
+      "default": "1",
+      "insert_after": "auto_vat_on_sales"
+    },
+    {
+      "fieldname": "section_ttms",
+      "label": "TTMS / معاملات فصلی",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "enable_ttms",
+      "label": "فعال‌سازی TTMS",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "ttms_company_national_id",
+      "label": "شناسه/کدملی شرکت برای TTMS",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "ttms_economic_code",
+      "label": "کد اقتصادی برای TTMS",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "ttms_threshold_amount",
+      "label": "حد نصاب معاملات (ریال)",
+      "fieldtype": "Currency",
+      "options": "base_currency"
+    },
+    {
+      "fieldname": "section_modian",
+      "label": "سامانه مودیان / صورتحساب الکترونیکی",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "enable_modian",
+      "label": "فعال‌سازی مودیان",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "modian_base_url",
+      "label": "آدرس سرور مودیان",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "modian_device_id",
+      "label": "شناسه پایانه/دستگاه",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "modian_profile_id",
+      "label": "شناسه پروفایل مودیان",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "modian_client_id",
+      "label": "Client ID مودیان",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "modian_client_secret",
+      "label": "Client Secret مودیان",
+      "fieldtype": "Password"
+    },
+    {
+      "fieldname": "modian_is_test_mode",
+      "label": "حالت تست (Sandbox)",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "section_payroll",
+      "label": "حقوق و دستمزد / بیمه / مالیات حقوق",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "enable_payroll_legal_exports",
+      "label": "فعال‌سازی خروجی‌های قانونی Payroll",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "insurance_branch_code",
+      "label": "کد شعبه تأمین اجتماعی",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "tax_office_code",
+      "label": "کد اداره مالیات حقوق",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "default_insurance_export_doctype",
+      "label": "DocType پیش‌فرض لیست بیمه",
+      "fieldtype": "Link",
+      "options": "BH Insurance Export"
+    },
+    {
+      "fieldname": "default_payroll_tax_export_doctype",
+      "label": "DocType پیش‌فرض مالیات حقوق",
+      "fieldtype": "Link",
+      "options": "BH Payroll Tax Export"
+    },
+    {
+      "fieldname": "section_financial",
+      "label": "صورت‌های مالی رسمی",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "enable_financial_statements",
+      "label": "فعال‌سازی صورت‌های مالی ایران",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "coa_mapping_profile",
+      "label": "پروفایل نگاشت کدینگ (BH)",
+      "fieldtype": "Link",
+      "options": "BH Account Mapping Profile"
+    },
+    {
+      "fieldname": "default_bs_profile",
+      "label": "پروفایل پیش‌فرض ترازنامه",
+      "fieldtype": "Link",
+      "options": "BH Financial Statement Profile"
+    },
+    {
+      "fieldname": "default_pl_profile",
+      "label": "پروفایل پیش‌فرض سود و زیان",
+      "fieldtype": "Link",
+      "options": "BH Financial Statement Profile"
+    },
+    {
+      "fieldname": "default_cf_profile",
+      "label": "پروفایل پیش‌فرض جریان وجوه نقد",
+      "fieldtype": "Link",
+      "options": "BH Financial Statement Profile"
+    },
+    {
+      "fieldname": "section_extra",
+      "label": "سایر",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "notes",
+      "label": "یادداشت داخلی",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "extra_json",
+      "label": "تنظیمات اضافه (JSON)",
+      "fieldtype": "Code"
+    }
+  ],
+  "has_web_view": 0,
+  "idx": 0,
+  "is_submittable": 0,
+  "issingle": 1,
+  "max_attachments": 0,
+  "modified": "2025-01-01 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Blue Hesab",
+  "name": "BH Settings",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ],
+  "quick_entry": 0,
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "track_changes": 1
+}

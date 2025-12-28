@@ -1,0 +1,253 @@
+{
+  "actions": [],
+  "allow_import": 0,
+  "autoname": "format:BH-TTMS-.YYYY.-.#####",
+  "beta": 0,
+  "creation": "2025-01-01 00:00:00.000000",
+  "custom": 0,
+  "doctype": "DocType",
+  "editable_grid": 0,
+  "engine": "InnoDB",
+  "field_order": [
+    "title",
+    "company",
+    "fiscal_year",
+    "period_type",
+    "quarter",
+    "from_date",
+    "to_date",
+    "ttms_sheet_type",
+    "status",
+    "section_summary",
+    "total_rows",
+    "below_threshold_count",
+    "base_sum",
+    "exempt_sum",
+    "vat_sum",
+    "duties_sum",
+    "total_sum",
+    "section_export",
+    "export_file",
+    "export_format",
+    "export_generated_at",
+    "export_note",
+    "section_submission",
+    "submitted_to_ttms",
+    "submission_date",
+    "submission_ref_no",
+    "submission_status",
+    "section_lines",
+    "lines",
+    "section_extra",
+    "extra_json"
+  ],
+  "fields": [
+    {
+      "fieldname": "title",
+      "label": "Title",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "company",
+      "label": "Company",
+      "fieldtype": "Link",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "fiscal_year",
+      "label": "Fiscal Year",
+      "fieldtype": "Link",
+      "options": "Fiscal Year",
+      "reqd": 1
+    },
+    {
+      "fieldname": "period_type",
+      "label": "Period Type",
+      "fieldtype": "Select",
+      "options": "Quarter\nMonth",
+      "reqd": 1
+    },
+    {
+      "fieldname": "quarter",
+      "label": "Quarter",
+      "fieldtype": "Select",
+      "options": "1\n2\n3\n4",
+      "depends_on": "eval:doc.period_type==\"Quarter\""
+    },
+    {
+      "fieldname": "from_date",
+      "label": "From Date",
+      "fieldtype": "Date",
+      "reqd": 1
+    },
+    {
+      "fieldname": "to_date",
+      "label": "To Date",
+      "fieldtype": "Date",
+      "reqd": 1
+    },
+    {
+      "fieldname": "ttms_sheet_type",
+      "label": "TTMS Sheet Type",
+      "fieldtype": "Select",
+      "options": "Sales\nPurchases\nContracts\nFees/Commissions",
+      "reqd": 1
+    },
+    {
+      "fieldname": "status",
+      "label": "Status",
+      "fieldtype": "Select",
+      "options": "Draft\nGenerated\nExported\nSubmitted",
+      "default": "Draft",
+      "read_only": 1
+    },
+    {
+      "fieldname": "section_summary",
+      "label": "Summary",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "total_rows",
+      "label": "Total Rows",
+      "fieldtype": "Int",
+      "read_only": 1
+    },
+    {
+      "fieldname": "below_threshold_count",
+      "label": "Below Threshold Count",
+      "fieldtype": "Int",
+      "read_only": 1
+    },
+    {
+      "fieldname": "base_sum",
+      "label": "Total Taxable",
+      "fieldtype": "Currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "exempt_sum",
+      "label": "Total Exempt",
+      "fieldtype": "Currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "vat_sum",
+      "label": "Total VAT",
+      "fieldtype": "Currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "duties_sum",
+      "label": "Total Duties",
+      "fieldtype": "Currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "total_sum",
+      "label": "Total Amount",
+      "fieldtype": "Currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "section_export",
+      "label": "Export",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "export_file",
+      "label": "Export File",
+      "fieldtype": "Attach"
+    },
+    {
+      "fieldname": "export_format",
+      "label": "Export Format",
+      "fieldtype": "Select",
+      "options": "CSV\nXLSX\nTXT"
+    },
+    {
+      "fieldname": "export_generated_at",
+      "label": "Export Generated At",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "export_note",
+      "label": "Export Note",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "section_submission",
+      "label": "Submission",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "submitted_to_ttms",
+      "label": "Submitted to TTMS",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "submission_date",
+      "label": "Submission Date",
+      "fieldtype": "Datetime"
+    },
+    {
+      "fieldname": "submission_ref_no",
+      "label": "Submission Ref No",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "submission_status",
+      "label": "Submission Status",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "section_lines",
+      "label": "Lines",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "lines",
+      "label": "Lines",
+      "fieldtype": "Table",
+      "options": "BH TTMS Line"
+    },
+    {
+      "fieldname": "section_extra",
+      "label": "Extra",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "extra_json",
+      "label": "Extra JSON",
+      "fieldtype": "Code"
+    }
+  ],
+  "has_web_view": 0,
+  "idx": 0,
+  "is_submittable": 1,
+  "issingle": 0,
+  "istable": 0,
+  "max_attachments": 0,
+  "modified": "2025-01-01 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Blue Hesab",
+  "name": "BH TTMS Document",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "System Manager",
+      "submit": 1,
+      "cancel": 1,
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ],
+  "quick_entry": 0,
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "track_changes": 1
+}

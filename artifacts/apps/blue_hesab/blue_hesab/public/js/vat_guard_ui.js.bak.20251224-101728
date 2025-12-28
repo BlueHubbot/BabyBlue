@@ -1,0 +1,314 @@
+// apps/blue_hesab/blue_hesab/public/js/vat_guard_ui.js
+(function () {
+  "use strict";
+
+  // Debug flag (for browser console)
+  window.__BH_VAT19_GUARD_UI__ = 1;
+
+  function norm(s) {
+    return (s || "").toString().trim();
+  }
+
+  function modeToAxis(mode) {
+    const m = norm(mode).toLowerCase();
+    return m.includes("incl") ? "INCL" : "EXCL";
+  }
+
+  function tplAxis(tpl) {
+    const s = norm(tpl).toUpperCase();
+    if (s.includes("(INCL)")) return "INCL";
+    if (s.includes("(EXCL)")) return "EXCL";
+    if (s.includes(" INCL ")) return "INCL";
+    if (s.includes(" EXCL ")) return "EXCL";
+    return null;
+  }
+
+  function isMixedTemplate(kind, tpl) {
+    const t = norm(tpl).toLowerCase();
+    if (!t) return false;
+    if (kind === "sales") return t.includes("bh vat mixed sales");
+    if (kind === "purchase") return t.includes("bh vat mixed purchase");
+    return t.includes("bh vat mixed");
+  }
+
+  function localSuggest(curTpl, expectedAxis) {
+    const tpl = norm(curTpl);
+    if (!tpl) return "";
+    if (expectedAxis === "INCL" && tpl.includes("(EXCL)")) return tpl.replace("(EXCL)", "(INCL)");
+    if (expectedAxis === "EXCL" && tpl.includes("(INCL)")) return tpl.replace("(INCL)", "(EXCL)");
+    return "";
+  }
+
+  // Prefer dashboard headline (harder to overwrite) → fallback to intro
+  function setNotice(frm, html, color) {
+    try {
+      const txt = norm(html)
+        .replace(/<br\s*\/?>/gi, "\n")
+        .replace(/<[^>]*>/g, "")
+        .trim();
+
+      if (!txt) {
+        try { frm.dashboard && frm.dashboard.clear_headline && frm.dashboard.clear_headline(); } catch (e) {}
+        try { frm.set_intro && frm.set_intro("", "blue"); } catch (e) {}
+        return;
+      }
+
+      try {
+        if (frm.dashboard && frm.dashboard.set_headline_alert) {
+          frm.dashboard.set_headline_alert(txt, color || "orange");
+          return;
+        }
+      } catch (e) {}
+
+      try { frm.set_intro && frm.set_intro(html, color || "orange"); } catch (e) {}
+    } catch (e) {}
+  }
+
+  async function getExpectedFromServer(kind, axis, company) {
+    try {
+      const r = await frappe.call({
+        method: "blue_hesab.bh_core.vat_pipeline.vat19_expected_mixed_template",
+        args: { kind, axis, company: company || null }
+      });
+      return (r && r.message && r.message.expected) ? r.message.expected : "";
+    } catch (e) {
+      return "";
+    }
+  }
+
+  // ---- VAT-20: inject "Apply suggested template" into existing VAT lock dialog ----
+function vat20_install_observer_once() {
+  if (window.__BH_VAT20_OBS__) return;
+  window.__BH_VAT20_OBS__ = 1;
+
+  const likelyVatModal = (m) => {
+    const t = (m.innerText || "");
+    if (!t) return false;
+    return /Taxes\s*&\s*Charges|VAT|Template|قفل|مالیات/i.test(t) || t.includes("BH VAT");
+  };
+
+  const tryInject = async () => {
+    try {
+      const frm = window.cur_frm;
+      if (!frm || !frm.doc) return;
+      if ((frm.doc.docstatus || 0) !== 0) return;
+
+      const kind = (frm.doctype === "Sales Invoice") ? "sales" :
+                   (frm.doctype === "Purchase Invoice") ? "purchase" : null;
+      if (!kind) return;
+
+      const curTpl = norm(frm.doc.taxes_and_charges);
+      if (!isMixedTemplate(kind, curTpl)) return;
+
+      const axis = modeToAxis(frm.doc.bh_vat_price_mode);
+      const curAxis = tplAxis(curTpl);
+      if (!curAxis) return;
+
+      // only when mismatch
+      if (axis === curAxis) return;
+
+      const modals = Array.from(document.querySelectorAll(".modal.show"));
+      if (!modals.length) return;
+
+      for (const m of modals) {
+        if (!likelyVatModal(m) && modals.length > 1) continue; // اگر چند مودال بازه، فقط مودال‌های مرتبط
+        if (m.querySelector("#bh-vat20-apply-btn")) continue;
+
+        let footer = m.querySelector(".modal-footer");
+        if (!footer) {
+          footer = document.createElement("div");
+          footer.className = "modal-footer";
+          (m.querySelector(".modal-content") || m).appendChild(footer);
+        }
+
+        const btn = document.createElement("button");
+        btn.id = "bh-vat20-apply-btn";
+        btn.type = "button";
+        btn.className = "btn btn-primary";
+        btn.textContent = "اعمال قالب پیشنهادی";
+
+        btn.addEventListener("click", async () => {
+          try {
+            const frm2 = window.cur_frm;
+            if (!frm2 || !frm2.doc) return;
+
+            const kind2 = (frm2.doctype === "Sales Invoice") ? "sales" : "purchase";
+            const axis2 = modeToAxis(frm2.doc.bh_vat_price_mode);
+            const cur2 = norm(frm2.doc.taxes_and_charges);
+
+            let expected = localSuggest(cur2, axis2);
+            if (!expected || expected === cur2) {
+              expected = await getExpectedFromServer(kind2, axis2, frm2.doc.company);
+            }
+            expected = norm(expected);
+
+            if (!expected) {
+              frappe.msgprint("BH VAT: قالب پیشنهادی پیدا نشد.");
+              return;
+            }
+            if (expected === cur2) {
+              frappe.show_alert({ message: "قالب همین الان هم صحیح است.", indicator: "green" });
+              return;
+            }
+
+            await frm2.set_value("taxes_and_charges", expected);
+            frappe.show_alert({ message: `قالب صحیح اعمال شد: ${expected}`, indicator: "green" });
+
+            const closeBtn = m.querySelector('[data-dismiss="modal"], .modal-header .close, .btn-close');
+            if (closeBtn) closeBtn.click();
+          } catch (e) {
+            frappe.msgprint({ title: "BH VAT", message: (e && e.message) ? e.message : String(e), indicator: "red" });
+          }
+        });
+
+        footer.insertBefore(btn, footer.firstChild);
+      }
+    } catch (e) {}
+  };
+
+  const obs = new MutationObserver(() => tryInject());
+  obs.observe(document.body, { childList: true, subtree: true });
+
+  try { frappe.router.on("change", () => setTimeout(tryInject, 250)); } catch (e) {}
+  setTimeout(tryInject, 400);
+}
+
+
+  function ensureFixButton(frm) {
+    if (frm.__bh_vat19_btn_added) return;
+    frm.__bh_vat19_btn_added = true;
+
+    const label = "اصلاح قالب مالیات (BH VAT)";
+
+    const fixNow = async () => {
+      try {
+        const kind = (frm.doctype === "Sales Invoice") ? "sales" : "purchase";
+        const axis = modeToAxis(frm.doc.bh_vat_price_mode);
+        const cur = norm(frm.doc.taxes_and_charges);
+
+        if (!isMixedTemplate(kind, cur)) {
+          frappe.msgprint("این دکمه فقط برای قالب‌های BH VAT MIXED کاربرد دارد.");
+          return;
+        }
+
+        // 1) local best-effort
+        let expected = localSuggest(cur, axis);
+
+        // 2) server canonical expected
+        if (!expected || expected === cur) {
+          expected = await getExpectedFromServer(kind, axis, frm.doc.company);
+        }
+
+        if (expected && expected !== cur) {
+          await frm.set_value("taxes_and_charges", expected);
+          frappe.show_alert({ message: `قالب صحیح اعمال شد: ${expected}`, indicator: "green" });
+        } else {
+          frappe.msgprint("قالب صحیح قابل تشخیص نبود یا همین الان هم درست است.");
+        }
+      } catch (e) {
+        frappe.msgprint({ title: "BH VAT", message: (e && e.message) ? e.message : String(e), indicator: "red" });
+      }
+    };
+
+    // Custom button (top buttons area)
+    try { frm.add_custom_button(label, fixNow); } catch (e) {}
+
+    // Actions menu item
+    try {
+      if (frm.page && frm.page.add_action_item) {
+        frm.page.add_action_item(label, fixNow);
+      }
+    } catch (e) {}
+
+    frm.__bh_vat19_fixNow = fixNow;
+  }
+
+  async function guard(frm) {
+    try {
+      // Only draft
+      if ((frm.doc.docstatus || 0) !== 0) {
+        if (frm.__bh_vat19_sig) setNotice(frm, "", "blue");
+        frm.__bh_vat19_sig = "";
+        return;
+      }
+
+      const kind = (frm.doctype === "Sales Invoice") ? "sales" : "purchase";
+      const curTpl = norm(frm.doc.taxes_and_charges);
+
+      if (!isMixedTemplate(kind, curTpl)) {
+        if (frm.__bh_vat19_sig) setNotice(frm, "", "blue");
+        frm.__bh_vat19_sig = "";
+        return;
+      }
+
+      const axis = modeToAxis(frm.doc.bh_vat_price_mode);
+      const curAxis = tplAxis(curTpl);
+      if (!curAxis) return;
+
+      // Prevent repeats
+      const sig = `${axis}::${curAxis}::${curTpl}`;
+      if (sig === frm.__bh_vat19_sig) return;
+      frm.__bh_vat19_sig = sig;
+
+      ensureFixButton(frm);
+
+      if (axis === curAxis) {
+        setNotice(frm, "", "blue");
+        // clear suggestion (no mismatch)
+        window.__BH_VAT20_SUGGESTED = null;
+        return;
+      }
+
+      let expected = localSuggest(curTpl, axis);
+      if (!expected || expected === curTpl) {
+        expected = await getExpectedFromServer(kind, axis, frm.doc.company);
+      }
+
+      // VAT-20: store suggestion for modal injection
+      window.__BH_VAT20_SUGGESTED = {
+        doctype: frm.doctype,
+        name: frm.doc.name,
+        kind,
+        axis,
+        current: curTpl,
+        expected: expected || ""
+      };
+      vat20_install_observer_once();
+
+      const axisFa = (axis === "INCL") ? "شامل مالیات (Inclusive)" : "خارج از مالیات (Exclusive)";
+      const curAxisFa = (curAxis === "INCL") ? "INCL" : "EXCL";
+
+      const html =
+        `<b>BH VAT:</b> عدم تطابق نوع قیمت‌گذاری مالیات با قالب مالیات.<br>` +
+        `mode: <b>${axisFa}</b> | template: <b>${curTpl}</b> (محسوب: ${curAxisFa})<br>` +
+        (expected ? `قالب پیشنهادی: <b>${expected}</b><br>` : ``) +
+        `قبل از Submit، قالب را اصلاح کنید (دکمه/Actions یا داخل دیالوگ).`;
+
+      setNotice(frm, html, "red");
+
+      // one lightweight toast
+      if (!frm.__bh_vat19_toast_once) {
+        frm.__bh_vat19_toast_once = 1;
+        frappe.show_alert({
+          message: "BH VAT: عدم تطابق mode با قالب مالیات. قبل از Submit اصلاح کنید.",
+          indicator: "orange"
+        });
+      }
+    } catch (e) {
+      // never break the form
+    }
+  }
+
+  function install(doctype) {
+    frappe.ui.form.on(doctype, {
+      refresh(frm) { guard(frm); },
+      taxes_and_charges(frm) { guard(frm); },
+      bh_vat_price_mode(frm) { guard(frm); },
+    });
+  }
+
+  install("Sales Invoice");
+  install("Purchase Invoice");
+})();
+
+vat20_install_observer_once();

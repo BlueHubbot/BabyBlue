@@ -1,0 +1,137 @@
+{
+  "actions": [],
+  "allow_import": 0,
+  "autoname": "field:code",
+  "beta": 0,
+  "creation": "2025-01-01 00:00:00.000000",
+  "custom": 0,
+  "doctype": "DocType",
+  "editable_grid": 0,
+  "engine": "InnoDB",
+  "field_order": [
+    "code",
+    "name_fa",
+    "name_en",
+    "category_type",
+    "is_default",
+    "applies_to_sales",
+    "applies_to_purchase",
+    "modian_code",
+    "ttms_code",
+    "section_rates",
+    "rates",
+    "section_control",
+    "block_manual_change",
+    "section_extra",
+    "extra_json"
+  ],
+  "fields": [
+    {
+      "fieldname": "code",
+      "label": "Code",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "unique": 1
+    },
+    {
+      "fieldname": "name_fa",
+      "label": "Title (FA)",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "name_en",
+      "label": "Title (EN)",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "category_type",
+      "label": "Category Type",
+      "fieldtype": "Select",
+      "options": "Standard 9%\nExempt\nZero Rated\nMixed\nOther",
+      "reqd": 1
+    },
+    {
+      "fieldname": "is_default",
+      "label": "Is Default",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "applies_to_sales",
+      "label": "Applies to Sales",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "applies_to_purchase",
+      "label": "Applies to Purchase",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "modian_code",
+      "label": "Modian Code",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "ttms_code",
+      "label": "TTMS Code",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "section_rates",
+      "label": "Rates",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "rates",
+      "label": "Rates",
+      "fieldtype": "Table",
+      "options": "BH VAT Rate Line"
+    },
+    {
+      "fieldname": "section_control",
+      "label": "Control",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "block_manual_change",
+      "label": "Block Manual Tax Change",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "section_extra",
+      "label": "Extra",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "extra_json",
+      "label": "Extra JSON",
+      "fieldtype": "Code"
+    }
+  ],
+  "has_web_view": 0,
+  "idx": 0,
+  "is_submittable": 0,
+  "issingle": 0,
+  "istable": 0,
+  "max_attachments": 0,
+  "modified": "2025-01-01 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Blue Hesab",
+  "name": "BH VAT Category",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ],
+  "quick_entry": 0,
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "track_changes": 1
+}

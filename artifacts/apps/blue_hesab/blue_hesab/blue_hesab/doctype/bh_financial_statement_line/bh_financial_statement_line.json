@@ -1,0 +1,171 @@
+{
+  "actions": [],
+  "allow_import": 0,
+  "autoname": "autoincrement",
+  "beta": 0,
+  "creation": "2025-01-01 00:00:00.000000",
+  "custom": 0,
+  "doctype": "DocType",
+  "editable_grid": 1,
+  "engine": "InnoDB",
+  "field_order": [
+    "row_index",
+    "label_fa",
+    "label_en",
+    "row_type",
+    "sign",
+    "section_mapping",
+    "mapping_profile",
+    "bh_code_filter",
+    "account_filter",
+    "section_formula",
+    "expression_type",
+    "expression",
+    "section_format",
+    "bold",
+    "italic",
+    "underline",
+    "indent_level",
+    "page_break_after",
+    "section_extra",
+    "note",
+    "extra_json"
+  ],
+  "fields": [
+    {
+      "fieldname": "row_index",
+      "label": "Row Index",
+      "fieldtype": "Int",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "label_fa",
+      "label": "Label (FA)",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "label_en",
+      "label": "Label (EN)",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "row_type",
+      "label": "Row Type",
+      "fieldtype": "Select",
+      "options": "Header\nData\nSubtotal\nBlank",
+      "reqd": 1
+    },
+    {
+      "fieldname": "sign",
+      "label": "Sign / Normal Balance",
+      "fieldtype": "Select",
+      "options": "Auto\nDebit\nCredit"
+    },
+    {
+      "fieldname": "section_mapping",
+      "label": "Mapping",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "mapping_profile",
+      "label": "Account Mapping Profile",
+      "fieldtype": "Link",
+      "options": "BH Account Mapping Profile"
+    },
+    {
+      "fieldname": "bh_code_filter",
+      "label": "BH Code Filter",
+      "fieldtype": "Data",
+      "description": "e.g. ASSET*, REV-*, 1101,1102"
+    },
+    {
+      "fieldname": "account_filter",
+      "label": "Account Filter (optional)",
+      "fieldtype": "Small Text",
+      "description": "Comma-separated account codes or patterns"
+    },
+    {
+      "fieldname": "section_formula",
+      "label": "Formula",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "expression_type",
+      "label": "Expression Type",
+      "fieldtype": "Select",
+      "options": "Sum Mapping\nFormula\nManual",
+      "default": "Sum Mapping"
+    },
+    {
+      "fieldname": "expression",
+      "label": "Expression",
+      "fieldtype": "Small Text",
+      "description": "Optional formula: e.g. R10 - R20"
+    },
+    {
+      "fieldname": "section_format",
+      "label": "Format",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "bold",
+      "label": "Bold",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "italic",
+      "label": "Italic",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "underline",
+      "label": "Underline",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "indent_level",
+      "label": "Indent Level",
+      "fieldtype": "Int",
+      "default": "0"
+    },
+    {
+      "fieldname": "page_break_after",
+      "label": "Page Break After",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "section_extra",
+      "label": "Extra",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "note",
+      "label": "Note",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "extra_json",
+      "label": "Extra JSON",
+      "fieldtype": "Code"
+    }
+  ],
+  "has_web_view": 0,
+  "idx": 0,
+  "is_submittable": 0,
+  "issingle": 0,
+  "istable": 1,
+  "max_attachments": 0,
+  "modified": "2025-01-01 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Blue Hesab",
+  "name": "BH Financial Statement Line",
+  "owner": "Administrator",
+  "permissions": [],
+  "quick_entry": 0,
+  "sort_field": "row_index",
+  "sort_order": "ASC",
+  "track_changes": 1
+}
