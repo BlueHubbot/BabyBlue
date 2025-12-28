@@ -857,4 +857,433 @@ Attachments:
 
 Immutability:
 
+
+# BLUEHESAB — Iran Compliance Master Roadmap & PRD (MASTER)
+Last update: 2025-12-28  
+Target: baba.bluehesab.ir  
+Repo: BlueHubbot/BabyBlue  
+Branches: repro-v1 (platform baseline), nightly/baba (server sync)  
+Schema source of truth: Git Tag (BH-YYYYMMDD.N)  
+Doc scope: Financial Core + Tax/VAT/TTMS/Modian + Payroll/Insurance/Payroll Tax + Inventory/Sales/Purchase/POS + Fixed Assets + Official Statements + Governance
+
+---
+
+## 0) Non-negotiables (اگر این‌ها سفت نباشد، محصول “قانونی” نیست)
+
+### 0.1 مرز قانونی = Company
+- تمام خروجی‌های قانونی (VAT/TTMS/مودیان/بیمه/مالیات حقوق/صورت‌های رسمی) **Per-Company**.
+- هر Company باید **Legal Profile مستقل** داشته باشد (اقتصادی/شناسه ملی/کدپستی/کارگاه/حافظه مالیاتی/کلیدها/…).
+- BH Settings فقط سوئیچ/پیش‌فرض‌ها؛ «داده قانونی» در Legal Profile و Schema Packs ذخیره شود.
+
+### 0.2 Versioned + Reproducible + Auditable (برای همه خروجی‌های قانونی)
+برای هر خروجی (فایل/JSON/Excel/PDF):
+- schema_version = Git Tag (BH-YYYYMMDD.N)
+- schema_pack_id = شناسه بسته‌ی قالب/اسکیما (مثلاً MODIAN_vX_Y, TTMS_vZ, INSURANCE_vN)
+- source_hash = هش ورودی‌ها (لیست اسناد + مقادیر + نرخ‌ها + طرف حساب‌ها + پارامترها)
+- payload_hash = هش خروجی تولیدشده
+- generated_by / generated_at / generator_build (commit/tag)
+- Immutable بعد از Submit/ارسال/قفل (هر اصلاح = نسخه جدید با لینک به نسخه قبلی)
+
+### 0.3 Dimensions از روز اول (برای هر سند GL-posting)
+- Branch / Cost Center / Project اجباری (Policy قابل تنظیم، اما enforcement باید سخت باشد)
+- تفصیلی شناور واقعی (Line-level) جدا از Customer/Supplier
+- خروجی گزارش‌ها باید بتواند روی هر Dimension فیلتر/گروه‌بندی بدهد.
+
+### 0.4 UI فارسی + جلالی، خروجی داده‌ای استاندارد
+- UI و Print انسانی: فارسی + جلالی (J1/J2)
+- خروجی داده‌ای/قانونی: میلادی استاندارد (J3) + اعداد لاتین (برای آپلود سامانه‌ها)
+
+---
+
+## 1) GitOps / Release Policy (اجرایی و غیرقابل مذاکره)
+
+### 1.1 Nightly sync (server → repo)
+- Source: bench/apps/blue_hesab
+- Destination: BabyBlue/artifacts/apps/blue_hesab (vendored, بدون gitlink)
+- Branch: nightly/baba
+- VERSION file: artifacts/apps/blue_hesab/VERSION = BH-YYYYMMDD.N
+- Release notes: releases/<TAG>.md
+- Git Tag: BH-YYYYMMDD.N (schema_version)
+
+### 1.2 Promotion model (خیلی مهم)
+- nightly/baba = جریان تغییرات سرور (واقعی/روزانه)
+- repro-v1 = baseline پایدار (برای استقرار/تکرارپذیری)
+- Promotion به repro-v1 فقط وقتی انجام شود که:
+  - regression suite PASS
+  - خروجی‌های قانونی موردنظر “immutable + auditable” شده باشند
+  - سپس Tag platform (مثل repro-v3.6) زده شود
+
+### 1.3 Golden snapshot (مثل repro-v3.5)
+- repro-v3.5 را نگه دار؛ آن “پلتفرم” است.
+- BH-* Tagها “قانون/اسکیما/خروجی” هستند، نه پلتفرم.
+- قاطی‌شان نکن. این تمایز بعداً نجاتت می‌دهد.
+
+---
+
+## 2) System Architecture (تقسیم‌کار درست)
+
+### 2.1 Core Layers
+- L0: Platform (Frappe/ERPNext/HRMS + cal_boot + blue_jdate)
+- L1: BlueHesab Core (Accounting/Tax/Payroll/Inventory/FixedAssets)
+- L2: Legal Outputs (VAT/TTMS/Modian/Insurance/PayrollTax/Official FS) = “Immutable Artifacts”
+- L3: Integrations (API, export packs, later: submission)
+
+### 2.2 “Schema Packs” (کلید موفقیت)
+هر سامانه/قالب رسمی باید یک Schema Pack داشته باشد:
+- pack_id, pack_version, authority, effective_from/to
+- template file(s) + validation rules
+- mapping definitions (field mapping)
+- test vectors (نمونه ورودی/خروجی)
+این Packها باید در repo ذخیره شوند تا خروجی‌ها reproducible شوند.
+
+---
+
+## 3) Data Model (DocTypes و فیلدهای حداقلی)
+
+### 3.1 BH Company Legal Profile (NEW — mandatory)
+Per Company:
+- identity: national_id, economic_code, registration_no, postal_code(10), address, phone
+- VAT: vat_registration_no (if applicable)
+- TTMS: default_person_type, default_id_type
+- Insurance: workshop_code, insurance_branch, employer_id
+- Modian: tax_memory_id, certificate/public_key refs, issuer info
+- policy: default_calendar_mode (UI), default_output_calendar (J3 for legal)
+- audit: created_by/at, updated_by/at
+
+### 3.2 Period & Locks
+- BH Fiscal Year + BH Period (ماه/فصل)
+- BH Period Lock:
+  - lock_type: VAT_CLOSE / TTMS_CLOSE / PAYROLL_CLOSE / YEAR_CLOSE
+  - locked_until
+  - locked_by/at
+  - rationale + attachment
+
+### 3.3 Legal Output Base Fields (برای همه خروجی‌ها)
+برای DocTypeهای خروجی:
+- company
+- period / from_date / to_date
+- schema_version (BH tag)
+- schema_pack_id
+- source_hash
+- payload_hash
+- generated_by / generated_at / generator_build
+- status: Draft/Generated/Sent/Accepted/Rejected/Cancelled
+- immutable_after: Generated or Sent (policy)
+- attachments: output file(s), logs
+
+---
+
+## 4) Financial Core — در حد سپیدار/راهکاران + بهتر
+
+### FIN-01 Chart of Accounts (۴–۵ سطح واقعی ایرانی)
+**Goal:** کدینگ استاندارد ایرانی + کنترل‌ها + Templateها  
+Must have:
+- Group (۱–۲ رقم) / کل (۴) / معین (۶–۷)
+- تفصیلی شناور 1 و 2 (اختیاری ولی strongly recommended)
+- Posting-level enforcement: گروه/کل non-posting، معین posting
+- Rule engine برای طول/الگو + جلوگیری از کد تکراری/غلط
+- Templates:
+  - بازرگانی
+  - خدماتی
+  - (تولیدی فاز بعد)
+- Mapping table:
+  - حساب‌ها → ردیف‌های ترازنامه/سودوزیان/اظهارنامه عملکرد
+
+Acceptance:
+- ایجاد/ویرایش کد با طول غلط غیرممکن
+- گزارش‌ها بر اساس Root Type درست گروه‌بندی شوند
+
+### FIN-02 Vouchers / Journal (DNA نرم‌افزارهای ایرانی)
+Must have:
+- انواع سند: عمومی، افتتاحیه، اختتامیه، بستن موقت، اصلاحی/معکوس
+- شماره‌گذاری قابل تنظیم: سالانه/ماهانه/سراسری + Prefix فارسی/لاتین
+- Draft vs Posted (ثبت موقت/قطعی)
+- پیوست اجباری برای برخی نوع سندها
+- line-level dimensions + tafsili
+- کنترل‌های سخت:
+  - تراز Dr/Cr (تلورانس رُندینگ)
+  - ممنوعیت دوره قفل‌شده
+  - هشدار اختلاف تاریخ سند با دوره مالی
+
+### FIN-03 Closing / Opening Automation
+- بستن حساب‌های موقت → انتقال به سود(زیان) انباشته
+- سند اختتامیه + افتتاحیه سال بعد
+- Cut-off dates + قفل سال بعد از closing
+
+### FIN-04 Core Reports (حداقل بازار ایران)
+- دفتر روزنامه / کل / معین / تفصیلی
+- تراز آزمایشی ۲/۴/۶ ستونی
+- مانده اشخاص/بانک/صندوق/تنخواه
+- Aging بدهکاران/بستانکاران (مهم و غیرقابل حذف)
+- خروجی Excel با اعداد لاتین + تاریخ میلادی (اختیاری در export)
+
+---
+
+## 5) Treasury (خزانه‌داری) — عامل فروش واقعی در SMB ایران
+
+### TRE-01 Receipt/Payment + Petty Cash
+- صندوق/بانک/تنخواه چندگانه
+- سقف تنخواه + تسویه تنخواه
+- لینک به فاکتور/قرارداد/سند حسابداری
+
+### TRE-02 Cheque Lifecycle (کامل)
+States:
+- دریافتنی: InHand → Deposited → Cleared / Returned
+- پرداختنی: Issued → Paid / Cancelled
+Fields:
+- سررسید، بانک/شعبه، شماره صیادی(در صورت پیاده‌سازی)، تصویر چک
+Accounting:
+- حساب واسط چک در جریان وصول + اثر هر وضعیت
+
+### TRE-03 Bank Reconciliation
+- Import گردش بانک (CSV/Excel)
+- تطبیق نیمه‌اتومات
+- ثبت اختلافات (کارمزد/جرائم/بهره) با سند خودکار
+
+---
+
+## 6) VAT (MIXED) — Production-grade + Reconciliation
+> VAT باید line-level باشد و snapshot نرخ/قواعد در زمان صدور را نگه دارد.
+
+### VAT-01 Accounts & Templates
+- حساب‌های مجزا (فروش/خرید) + حساب‌های واسط تسویه
+- Tax Categories: STD_9 / ZERO / EXEMPT / EXPORT_0 (+ future)
+- چاپ فاکتور رسمی: مالیات و عوارض جدا (اگر policy گفت)
+
+### VAT-02 Calculation Rules (Line-level)
+- محاسبه روی مبلغ بعد از تخفیف
+- ذخیره جزئیات محاسبه برای audit (item-wise detail)
+- Inclusive/Exclusive intent lock (UI + server validation)
+
+### VAT-03 Period VAT Report + GL Reconciliation
+- فروش: مشمول/معاف/صفر/صادرات
+- خرید: مشمول/معاف
+- VAT فروش/خرید + خالص پرداختی/استردادی
+- Reconciliation:
+  - اختلاف؟ دقیقاً کدام سند/ردیف
+
+### VAT-04 Legal Output Artifact
+- تولید خروجی VAT دوره‌ای به عنوان DocType immutable
+- schema_pack_id = VAT_RETURN_vX
+- attachment: فایل خروجی + گزارش reconcile
+
+---
+
+## 7) TTMS (ماده 169) — Generator + Validator + Audit
+> TTMS در عمل قالب/نسخه‌های مختلف دارد؛ باید schema_pack نسخه‌مند داشته باشد. 
+
+### TTMS-01 Data Capture (حداقل فیلدهای لازم)
+Per transaction:
+- نوع گزارش: خرید/فروش/قرارداد/حق‌الزحمه
+- نوع شخص: حقیقی/حقوقی
+- نوع شناسه: کدملی/شناسه ملی/کداقتصادی
+- شناسه طرف + نام + کدپستی(۱۰ رقم) + شماره ثبت (در صورت نیاز)
+- شماره/تاریخ فاکتور
+- مبلغ ناخالص/تخفیف/خالص + مالیات/عوارض
+- زیر حد نصاب: flag + aggregation policy
+
+### TTMS-02 Validator (قبل از خروجی)
+- کنترل طول/فرمت کدملی/شناسه ملی/کدپستی
+- فاکتور بدون شماره/تاریخ
+- تاریخ خارج از دوره
+- زیرحدنصاب: تجمیع/پرچم‌گذاری طبق policy
+- duplicate detection + fix suggestions
+
+### TTMS-03 Generator (Excel/CSV)
+- انتخاب دوره (فصل/سال)
+- خروجی مطابق schema_pack_id (TTMS_vX)
+- audit: generated_by/at/build + hash
+
+### TTMS-04 Immutable Output DocType
+- ذخیره خروجی به عنوان artifact
+- امکان regenerate فقط با نسخه جدید (immutable rule)
+
+---
+
+## 8) Modian (E-Invoice) — Data Backbone + Payload Store + Status
+> الزام قانونی/حاکمیتی روشن است و تغییرات نسخه‌ای دارد.   
+> فعلاً “ارسال” می‌تواند فاز بعد باشد، اما backbone داده باید همین الان کامل باشد.
+
+### MOD-01 Mandatory Data Model
+Per Sales Invoice (official):
+- نوع صورتحساب + نسخه
+- اطلاعات فروشنده (از Legal Profile)
+- اطلاعات خریدار (identity کامل)
+- اقلام: کد/شرح/مقدار/واحد/مبلغ/تخفیف/مالیات/عوارض line-level
+- identifiers: unique_tax_id (if provided), internal sequence, fiscal memory refs
+- status: Not Sent / Sent / Accepted / Rejected + error payload
+
+### MOD-02 Payload Generator (JSON)
+- تولید JSON مطابق schema_pack_id = MODIAN_EINV_vX
+- payload_hash ذخیره شود
+- request/response log storage (حتی اگر ارسال manual باشد)
+
+### MOD-03 Immutability & Locking
+- بعد از Submit: نوع/نسخه صورتحساب و فیلدهای کلیدی قفل شوند
+- اصلاح = سند اصلاحی/برگشت + نسخه جدید
+
+---
+
+## 9) Payroll + Insurance + Payroll Tax (قابل دفاع و قابل ارسال)
+
+### PAY-01 Payroll Policy (Per Company, Per Year)
+- جداول معافیت/پلکان مالیات حقوق نسخه‌مند
+- ضرایب بیمه نسخه‌مند
+- اجزای حقوق رایج: پایه/مسکن/بن/اولاد/اضافه‌کار/شب‌کار/تعطیل‌کار/مأموریت/کارانه/عیدی…
+- کسورات: بیمه کارگر، مالیات، وام، بیمه تکمیلی، ...
+
+### PAY-02 Accounting Link
+- سند هزینه حقوق باید:
+  - به تفکیک cost center/department
+  - قابل reconcile با لیست حقوق باشد
+
+### INS-01 Social Security List Exports
+- تولید ریز لیست + خلاصه
+- schema_pack_id = INSURANCE_LIST_vN (نسخه‌مند)
+- خروجی‌ها باید با نرم‌افزار/فرمت‌های رسمی همخوان باشند. :contentReference[oaicite:6]{index=6}
+- audit + hash + immutable
+
+### TAXPAY-01 Payroll Tax Exports
+- محاسبه پلکانی پارامتریک
+- خروجی ماهانه + ریز هر فرد
+- schema_pack_id = PAYROLL_TAX_vY
+
+---
+
+## 10) Inventory / Sales / Purchase / POS — سبک بازار ایران، ولی تمیز و ERP-grade
+
+### INV-01 Stock & Kardex
+- چند انبار
+- Moving Average + FIFO
+- کارتکس کالا (ورود/خروج/سند/طرف حساب)
+- موجودی در راه + رزرو + نقطه سفارش
+- سریال/بچ (optional)
+
+### SAL-01 Sales Docs
+- پیش‌فاکتور / فاکتور عادی / فاکتور رسمی / برگشت / حواله خروج
+- تخفیف ردیفی و کلی
+- VAT ردیفی (برای MIXED)
+- کنترل سقف اعتبار + هشدار سررسید
+- Print Formats:
+  - A4 رسمی (الگوی ایرانی)
+  - A5
+  - رول POS
+
+### PUR-01 Purchase Docs
+- سفارش خرید / رسید / فاکتور خرید / برگشت
+- هزینه‌های جانبی (حمل/بیمه/گمرک) + توزیع روی اقلام (Landed Cost)
+
+---
+
+## 11) Fixed Assets (دارایی ثابت) — قابل دفاع برای ممیز
+
+### FA-01 Asset Register
+- گروه/محل/مسئول/تاریخ خرید/بهره‌برداری/بهای تمام‌شده
+- روش استهلاک: خط مستقیم (MVP) + نزولی (فاز بعد)
+- عمر مفید/نرخ + policy نسخه‌مند
+
+### FA-02 Depreciation Engine
+- محاسبه ماهانه/سالانه
+- سند استهلاک خودکار (با تفکیک مرکز هزینه/پروژه)
+- عملیات: انتقال/فروش/اسقاط + سود/زیان
+
+### FA-03 Reports
+- دفتر دارایی
+- جدول استهلاک
+- ارزش دفتری پایان دوره
+
+---
+
+## 12) Official Financial Statements (Layout سازمان حسابرسی) + Notes
+> خروجی “جنریک” کافی نیست؛ باید Template + Mapping + Lock داشته باشد. :contentReference[oaicite:7]{index=7}
+
+### FS-01 Statements
+- ترازنامه (سال جاری/قبل)
+- سود و زیان عملکردی (سال جاری/قبل)
+- سود و زیان انباشته
+- جریان وجوه نقد (فاز ۲، ولی طراحی از ابتدا)
+
+### FS-02 Notes (حداقل)
+- موجودی‌ها، دارایی ثابت، وام‌ها، ذخایر، حقوق صاحبان سهام،
+  رویدادهای بعد از تاریخ ترازنامه، اشخاص وابسته…
+
+### FS-03 Mapping to Performance Tax Return
+- نگاشت حساب‌ها → ردیف‌های اظهارنامه عملکرد (حداقل شرکت‌های رایج)
+
+---
+
+## 13) Governance / Security / Workflow / Audit
+
+### GOV-01 Role Model (حداقل)
+- CEO, CFO, Senior Accountant, Accountant, Sales, Storekeeper, HR, Payroll, SysMgr, SelfService
+- Access کنترل‌شده بر اساس Company/Branch/CostCenter
+
+### GOV-02 Workflows (نمونه‌های الزامی)
+- PO: Draft → Review → Approve
+- Journal/Payment: Draft → Review → Approval
+- Leave/Expense: Employee → Manager → HR/Finance
+
+### GOV-03 Audit & Security
+- 2FA برای SysMgr و CFO
+- IP restriction برای ماژول‌های حساس (optional)
+- Audit Trail تقویت‌شده برای:
+  - Role/Permission
+  - CoA changes
+  - Fiscal year/locks
+  - Tax templates / schema packs
+
+---
+
+## 14) Execution Plan (فازها + Definition of Done)
+
+### Phase A (Legal Boundary + Audit Backbone)
+DoD:
+- BH Company Legal Profile live
+- همه خروجی‌های قانونی دارای audit fields + immutable enforcement
+- schema_pack folder structure in repo
+
+### Phase B (Dimensions Enforcement)
+DoD:
+- هر سند GL-posting بدون dimensions fail شود (پیام فارسی)
+- گزارش‌ها dimension-aware
+
+### Phase C (VAT Production-grade)
+DoD:
+- VAT Mixed end-to-end + period report + reconcile
+- regression suite PASS + tag promotion-ready
+
+### Phase D (TTMS)
+DoD:
+- Generator + Validator + immutable output docs
+- export packs نسخه‌مند
+
+### Phase E (Modian backbone)
+DoD:
+- data completeness + payload generator + status/logs
+- آماده برای فاز ارسال
+
+### Phase F (Payroll/Insurance/PayrollTax)
+DoD:
+- policy per-year per-company + exports نسخه‌مند + audit
+
+### Phase G (Official FS)
+DoD:
+- templates locked + mapping stable + export artifacts
+
+---
+
+## 15) Daily Workflow (برای ادامه بدون سردرگمی)
+Start:
+- "Continue BabyBlue / STATUS"
+- آخرین BH tag + آخرین nightly sync + وضعیت CI
+End (Daily Delta):
+- Done ✅ (IDها)
+- Progress 🟡 (IDها + ۱ خط)
+- Blocked ⛔ (دلیل)
+- Next session (لیست فردا)
+- Changelog entry
+
+---
+
+
 بعد از “Sent/Submitted” فقط نسخه جدید
