@@ -1,0 +1,123 @@
+{
+  "actions": [],
+  "allow_import": 0,
+  "autoname": "field:profile_name",
+  "beta": 0,
+  "creation": "2025-01-01 00:00:00.000000",
+  "custom": 0,
+  "doctype": "DocType",
+  "editable_grid": 0,
+  "engine": "InnoDB",
+  "field_order": [
+    "profile_name",
+    "statement_type",
+    "company",
+    "fiscal_year",
+    "is_default",
+    "target_report",
+    "layout_version",
+    "section_rows",
+    "rows",
+    "section_extra",
+    "note",
+    "extra_json"
+  ],
+  "fields": [
+    {
+      "fieldname": "profile_name",
+      "label": "Profile Name",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "unique": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "statement_type",
+      "label": "Statement Type",
+      "fieldtype": "Select",
+      "options": "Balance Sheet\nProfit and Loss\nCash Flow\nRetained Earnings\nOther",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "company",
+      "label": "Company",
+      "fieldtype": "Link",
+      "options": "Company",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "fiscal_year",
+      "label": "Fiscal Year",
+      "fieldtype": "Link",
+      "options": "Fiscal Year"
+    },
+    {
+      "fieldname": "is_default",
+      "label": "Is Default",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "target_report",
+      "label": "Target Report (ERPNext)",
+      "fieldtype": "Link",
+      "options": "Report"
+    },
+    {
+      "fieldname": "layout_version",
+      "label": "Layout Version / Standard",
+      "fieldtype": "Data",
+      "description": "e.g. SAO Iran 1402"
+    },
+    {
+      "fieldname": "section_rows",
+      "label": "Rows",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "rows",
+      "label": "Rows",
+      "fieldtype": "Table",
+      "options": "BH Financial Statement Line"
+    },
+    {
+      "fieldname": "section_extra",
+      "label": "Extra",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "note",
+      "label": "Note",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "extra_json",
+      "label": "Extra JSON",
+      "fieldtype": "Code"
+    }
+  ],
+  "has_web_view": 0,
+  "idx": 0,
+  "is_submittable": 0,
+  "issingle": 0,
+  "istable": 0,
+  "max_attachments": 0,
+  "modified": "2025-01-01 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Blue Hesab",
+  "name": "BH Financial Statement Profile",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ],
+  "quick_entry": 0,
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "track_changes": 1
+}

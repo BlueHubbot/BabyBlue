@@ -1,0 +1,76 @@
+{
+  "actions": [],
+  "allow_import": 0,
+  "autoname": "autoincrement",
+  "beta": 0,
+  "creation": "2025-01-01 00:00:00.000000",
+  "custom": 0,
+  "doctype": "DocType",
+  "editable_grid": 1,
+  "engine": "InnoDB",
+  "field_order": [
+    "from_date",
+    "to_date",
+    "sales_rate",
+    "purchase_rate",
+    "surcharge_rate",
+    "note",
+    "active"
+  ],
+  "fields": [
+    {
+      "fieldname": "from_date",
+      "label": "From Date",
+      "fieldtype": "Date",
+      "reqd": 1
+    },
+    {
+      "fieldname": "to_date",
+      "label": "To Date",
+      "fieldtype": "Date"
+    },
+    {
+      "fieldname": "sales_rate",
+      "label": "Sales VAT Rate (%)",
+      "fieldtype": "Float",
+      "reqd": 1
+    },
+    {
+      "fieldname": "purchase_rate",
+      "label": "Purchase VAT Rate (%)",
+      "fieldtype": "Float"
+    },
+    {
+      "fieldname": "surcharge_rate",
+      "label": "Surcharge Rate (%)",
+      "fieldtype": "Float"
+    },
+    {
+      "fieldname": "note",
+      "label": "Note",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "active",
+      "label": "Active",
+      "fieldtype": "Check",
+      "default": "1"
+    }
+  ],
+  "has_web_view": 0,
+  "idx": 0,
+  "is_submittable": 0,
+  "issingle": 0,
+  "istable": 1,
+  "max_attachments": 0,
+  "modified": "2025-01-01 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Blue Hesab",
+  "name": "BH VAT Rate Line",
+  "owner": "Administrator",
+  "permissions": [],
+  "quick_entry": 0,
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "track_changes": 1
+}
