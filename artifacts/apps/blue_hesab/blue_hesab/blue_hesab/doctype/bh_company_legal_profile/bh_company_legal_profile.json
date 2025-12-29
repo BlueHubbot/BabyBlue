@@ -1,0 +1,130 @@
+{
+  "actions": [],
+  "allow_import": 0,
+  "autoname": "hash",
+  "beta": 0,
+  "creation": "2025-12-29 00:00:00.000000",
+  "custom": 0,
+  "doctype": "DocType",
+  "editable_grid": 0,
+  "engine": "InnoDB",
+  "field_order": [
+    "company",
+    "enable_vat",
+    "enforce_dimensions",
+    "section_vat_defaults",
+    "default_vat_category",
+    "default_sales_vat_account",
+    "default_sales_vat_rate",
+    "default_purchase_vat_account",
+    "default_purchase_vat_rate",
+    "auto_vat_on_sales",
+    "auto_vat_on_purchase",
+    "notes"
+  ],
+  "fields": [
+    {
+      "fieldname": "company",
+      "label": "Company",
+      "fieldtype": "Link",
+      "options": "Company",
+      "reqd": 1,
+      "unique": 1
+    },
+    {
+      "fieldname": "enable_vat",
+      "label": "Enable VAT",
+      "fieldtype": "Check",
+      "default": "0"
+    },
+    {
+      "fieldname": "enforce_dimensions",
+      "label": "Enforce Dimensions",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "section_vat_defaults",
+      "label": "VAT Defaults",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "default_vat_category",
+      "label": "Default VAT Category",
+      "fieldtype": "Link",
+      "options": "BH VAT Category"
+    },
+    {
+      "fieldname": "default_sales_vat_account",
+      "label": "Default Sales VAT Account",
+      "fieldtype": "Link",
+      "options": "Account"
+    },
+    {
+      "fieldname": "default_sales_vat_rate",
+      "label": "Default Sales VAT Rate (%)",
+      "fieldtype": "Float",
+      "default": "9"
+    },
+    {
+      "fieldname": "default_purchase_vat_account",
+      "label": "Default Purchase VAT Account",
+      "fieldtype": "Link",
+      "options": "Account"
+    },
+    {
+      "fieldname": "default_purchase_vat_rate",
+      "label": "Default Purchase VAT Rate (%)",
+      "fieldtype": "Float",
+      "default": "9"
+    },
+    {
+      "fieldname": "auto_vat_on_sales",
+      "label": "Auto VAT on Sales Invoice",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "auto_vat_on_purchase",
+      "label": "Auto VAT on Purchase Invoice",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "notes",
+      "label": "Notes",
+      "fieldtype": "Small Text"
+    }
+  ],
+  "has_web_view": 0,
+  "idx": 0,
+  "is_submittable": 0,
+  "issingle": 0,
+  "istable": 0,
+  "max_attachments": 0,
+  "modified": "2025-12-29 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Blue Hesab",
+  "name": "BH Company Legal Profile",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    },
+    {
+      "role": "Accounts Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 0
+    }
+  ],
+  "quick_entry": 0,
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "track_changes": 1
+}

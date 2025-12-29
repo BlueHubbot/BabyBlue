@@ -6,6 +6,12 @@ from blue_hesab.bh_core.errors import BH_VAT_E_GENERIC
 from blue_hesab.bh_core.exc import raise_bh_vat_error
 from frappe.utils import flt
 
+from blue_hesab.bh_core.company_legal import (
+    is_vat_enabled_for_company,
+    require_company_legal_profile,
+    get_vat_account_and_rate as _get_vat_acc_rate_by_company,
+)
+
 from . import get_bh_settings
 
 # Cache Item Tax Template -> item_tax_rate JSON
@@ -13,13 +19,12 @@ _TEMPLATE_RATE_CACHE: dict[str, str] = {}
 
 
 def _get_vat_account_and_rate(doc):
-    s = get_bh_settings()
+    company = getattr(doc, "company", None) or (doc.get("company") if hasattr(doc, "get") else None)
     if doc.doctype == "Sales Invoice":
-        return (s.get("default_sales_vat_account"), flt(s.get("default_sales_vat_rate") or 0))
+        return _get_vat_acc_rate_by_company(company, kind="sales")
     if doc.doctype == "Purchase Invoice":
-        return (s.get("default_purchase_vat_account"), flt(s.get("default_purchase_vat_rate") or 0))
+        return _get_vat_acc_rate_by_company(company, kind="purchase")
     return (None, 0.0)
-
 
 def _ensure_tax_row(doc, vat_account: str, default_rate: float):
     """Ensure a VAT tax row exists with charge_type=On Net Total for the given VAT account."""
@@ -187,9 +192,10 @@ def apply_sales_invoice_vat(doc, method=None):
     if doc.doctype != "Sales Invoice":
         return
 
-    s = get_bh_settings()
-    if not int(s.get("enable_vat") or 0):
+    company = getattr(doc, "company", None) or (doc.get("company") if hasattr(doc, "get") else None)
+    if not is_vat_enabled_for_company(company):
         return
+    require_company_legal_profile(company)
 
     vat_account, default_rate = _get_vat_account_and_rate(doc)
     vat_account = (vat_account or "").strip()
@@ -218,9 +224,10 @@ def apply_purchase_invoice_vat(doc, method=None):
     if doc.doctype != "Purchase Invoice":
         return
 
-    s = get_bh_settings()
-    if not int(s.get("enable_vat") or 0):
+    company = getattr(doc, "company", None) or (doc.get("company") if hasattr(doc, "get") else None)
+    if not is_vat_enabled_for_company(company):
         return
+    require_company_legal_profile(company)
 
     vat_account, default_rate = _get_vat_account_and_rate(doc)
     vat_account = (vat_account or "").strip()

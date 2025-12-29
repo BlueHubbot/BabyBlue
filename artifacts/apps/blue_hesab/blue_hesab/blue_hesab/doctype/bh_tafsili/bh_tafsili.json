@@ -1,0 +1,67 @@
+{
+  "actions": [],
+  "allow_import": 0,
+  "autoname": "field:title",
+  "beta": 0,
+  "creation": "2025-12-29 00:00:00.000000",
+  "custom": 0,
+  "doctype": "DocType",
+  "editable_grid": 0,
+  "engine": "InnoDB",
+  "field_order": [
+    "title",
+    "enabled",
+    "notes"
+  ],
+  "fields": [
+    {
+      "fieldname": "title",
+      "label": "عنوان تفصیلی",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "unique": 1
+    },
+    {
+      "fieldname": "enabled",
+      "label": "فعال",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "notes",
+      "label": "توضیحات",
+      "fieldtype": "Small Text"
+    }
+  ],
+  "has_web_view": 0,
+  "idx": 0,
+  "is_submittable": 0,
+  "issingle": 0,
+  "istable": 0,
+  "max_attachments": 0,
+  "modified": "2025-12-29 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Blue Hesab",
+  "name": "BH Tafsili",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    },
+    {
+      "role": "Accounts Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 0
+    }
+  ],
+  "quick_entry": 0,
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "track_changes": 1
+}

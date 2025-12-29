@@ -9,6 +9,8 @@ import frappe
 from frappe.exceptions import ValidationError
 from frappe.utils import escape_html
 
+from blue_hesab.bh_core.company_legal import is_vat_enabled_for_company
+from blue_hesab.bh_core.dimensions_policy import enforce_invoice_dimensions
 
 KIND_SALES = "sales"
 KIND_PURCHASE = "purchase"
@@ -150,26 +152,8 @@ BH_VAT_SERVER_REJECT_V2 = 1
 
 
 def _bh_vat_enforced(company: Optional[str] = None) -> bool:
-    """
-    Enforce only when BH Settings says Iran VAT is ON.
-    If default_company is set, enforce only for that company.
-    If settings are missing/unreadable, default to ENFORCE (safe).
-    """
-    try:
-        s = frappe.get_single("BH Settings")
-        if int(getattr(s, "enable_iran_mode", 0) or 0) != 1:
-            return False
-        if int(getattr(s, "enable_vat", 0) or 0) != 1:
-            return False
-
-        dc = (getattr(s, "default_company", None) or "").strip()
-        if dc and company and company != dc:
-            return False
-
-        return True
-    except Exception:
-        return True
-
+    """Per-company enforcement based on BH Company Legal Profile + global BH Settings switches."""
+    return is_vat_enabled_for_company(company)
 
 def _in_http_request() -> bool:
     # CLI/CI/bench execute => no request
@@ -326,6 +310,8 @@ def _apply_mixed_layer(doc, *, kind: str) -> None:
 def bh_before_validate_sales_invoice(doc, method=None):
     _bh_capture_pre_pipeline_snapshot(doc)
 
+    # NNG-03: mandatory dimensions (Branch/Cost Center/Project + Tafsili)\n    enforce_invoice_dimensions(doc)
+
     company = getattr(doc, "company", None) or (doc.get("company") if hasattr(doc, "get") else None)
     axis = _axis_from_doc(doc)
 
@@ -344,6 +330,8 @@ def bh_before_validate_sales_invoice(doc, method=None):
 
 def bh_before_validate_purchase_invoice(doc, method=None):
     _bh_capture_pre_pipeline_snapshot(doc)
+
+    # NNG-03: mandatory dimensions (Branch/Cost Center/Project + Tafsili)\n    enforce_invoice_dimensions(doc)
 
     company = getattr(doc, "company", None) or (doc.get("company") if hasattr(doc, "get") else None)
     axis = _axis_from_doc(doc)

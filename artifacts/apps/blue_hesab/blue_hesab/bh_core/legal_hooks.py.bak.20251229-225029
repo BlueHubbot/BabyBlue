@@ -1,0 +1,242 @@
+# -*- coding: utf-8 -*-
+"""
+LEGAL Hooks (LEGAL-05/06)
+
+این ماژول فقط «handler» های DocType را دارد (on_submit / on_cancel).
+- اینجا VAT محاسبه نمی‌شود.
+- اینجا intent تغییر نمی‌کند.
+- اینجا فقط خروجی قانونی ایجاد می‌شود.
+
+خروجی‌های قانونی باید:
+- Per-Company باشند
+- versioned باشند (schema_version + generator_build)
+- chain داشته باشند (ISSUE -> CANCEL -> AMEND)
+- idempotent باشند (اگر دوبار اجرا شد، خروجی تکراری ایجاد نکند)
+
+نکته مهم LEGAL-06:
+- برای اینکه Cancel سند اصلی توسط Frappe block نشود، فیلد reference_name در DocType
+  «BH Legal Output» نباید Dynamic Link باشد. باید Data باشد.
+  (پچ legal06_patch این را یکبار اعمال می‌کند.)
+"""
+# apps/blue_hesab/blue_hesab/bh_core/legal_hooks.py
+# Emit BH Legal Output for invoices (VAT chain: ISSUE -> CANCEL -> AMEND)
+
+from __future__ import annotations
+
+from typing import Any, Optional
+import frappe
+
+from .legal_output import create_legal_output
+
+OUTPUT_TYPE_VAT = "VAT_INVOICE"
+
+
+def _latest_output_name(
+    *,
+    company: str,
+    output_type: str,
+    reference_doctype: str,
+    reference_name: str,
+    correction_reason: Optional[str] = None,
+) -> Optional[str]:
+    """
+    Get latest BH Legal Output.name for given reference + type.
+    correction_reason:
+      - None => ISSUE (no reason)
+      - "CANCEL" / "AMEND"
+    """
+    rows = frappe.get_all(
+        "BH Legal Output",
+        filters={
+            "company": company,
+            "output_type": output_type,
+            "reference_doctype": reference_doctype,
+            "reference_name": reference_name,
+            "docstatus": 1,
+        },
+        fields=["name", "correction_reason", "modified"],
+        order_by="modified desc",
+        limit=50,
+    )
+
+    want = (correction_reason or "").strip().upper() if correction_reason else None
+    for r in rows:
+        got = (r.get("correction_reason") or "").strip().upper() or None
+        if want is None:
+            if got is None:
+                return r["name"]
+        else:
+            if got == want:
+                return r["name"]
+    return None
+
+
+def _invoice_source(doc, *, event: str, output_type: str, correction_reason: str | None, previous_output: str | None) -> dict[str, Any]:
+    return {
+        "event": event,
+        "doctype": doc.doctype,
+        "name": doc.name,
+        "company": doc.company,
+        "docstatus": doc.docstatus,
+        "amended_from": getattr(doc, "amended_from", None),
+        "output_type": output_type,
+        "correction_reason": correction_reason,
+        "previous_output": previous_output,
+        "posting_date": getattr(doc, "posting_date", None),
+        "transaction_date": getattr(doc, "transaction_date", None),
+        "modified": getattr(doc, "modified", None),
+    }
+
+
+def _invoice_payload_vat(doc) -> dict[str, Any]:
+    # Minimal-but-useful payload (later you can formalize schema per Company/version)
+    return {
+        "doctype": doc.doctype,
+        "name": doc.name,
+        "company": doc.company,
+        "customer": getattr(doc, "customer", None),
+        "supplier": getattr(doc, "supplier", None),
+        "taxes_and_charges": getattr(doc, "taxes_and_charges", None),
+        "bh_vat_price_mode": getattr(doc, "bh_vat_price_mode", None),
+        "currency": getattr(doc, "currency", None),
+        "conversion_rate": getattr(doc, "conversion_rate", None),
+        "net_total": getattr(doc, "net_total", None),
+        "total_taxes_and_charges": getattr(doc, "total_taxes_and_charges", None),
+        "grand_total": getattr(doc, "grand_total", None),
+        "items": [
+            {
+                "item_code": getattr(it, "item_code", None),
+                "item_name": getattr(it, "item_name", None),
+                "qty": getattr(it, "qty", None),
+                "rate": getattr(it, "rate", None),
+                "amount": getattr(it, "amount", None),
+                "item_tax_template": getattr(it, "item_tax_template", None),
+                "bh_item_tax_template": getattr(it, "bh_item_tax_template", None),
+                "bh_vat_profile": getattr(it, "bh_vat_profile", None),
+            }
+            for it in (getattr(doc, "items", None) or [])
+        ],
+        "taxes": [
+            {
+                "account_head": getattr(t, "account_head", None),
+                "rate": getattr(t, "rate", None),
+                "tax_amount": getattr(t, "tax_amount", None),
+                "total": getattr(t, "total", None),
+                "description": getattr(t, "description", None),
+                "item_wise_tax_detail": getattr(t, "item_wise_tax_detail", None),
+            }
+            for t in (getattr(doc, "taxes", None) or [])
+        ],
+    }
+
+
+def _set_invoice_legal_output(doc, legal_name: str) -> None:
+    if hasattr(doc, "legal_output"):
+        try:
+            # on_submit: doc already saved, so db_set is safe and avoids re-save loops
+            frappe.db.set_value(doc.doctype, doc.name, "legal_output", legal_name, update_modified=False)
+        except Exception:
+            # before_cancel: doc will be saved by cancel() anyway
+            try:
+                doc.legal_output = legal_name
+            except Exception:
+                pass
+
+
+def _emit_issue(doc, *, output_type: str) -> str:
+    company = doc.company
+    correction_reason = None
+    previous_output = None
+
+    if getattr(doc, "amended_from", None):
+        correction_reason = "AMEND"
+        # For AMEND, we REQUIRE CANCEL output of original invoice
+        prev = _latest_output_name(
+            company=company,
+            output_type=output_type,
+            reference_doctype=doc.doctype,
+            reference_name=doc.amended_from,
+            correction_reason="CANCEL",
+        )
+        if not prev:
+            frappe.throw("برای اصلاحیه، ابتدا باید خروجی CANCEL برای سند اصلی صادر شده باشد.", frappe.ValidationError)
+        previous_output = prev
+
+    source = _invoice_source(doc, event="SUBMIT", output_type=output_type, correction_reason=correction_reason, previous_output=previous_output)
+    payload = _invoice_payload_vat(doc)
+
+    name = create_legal_output(
+        company=company,
+        output_type=output_type,
+        reference_doctype=doc.doctype,
+        reference_name=doc.name,
+        correction_reason=correction_reason,
+        previous_output=previous_output,
+        source=source,
+        payload=payload,
+        event="SUBMIT",
+    )
+    _set_invoice_legal_output(doc, name)
+    return name
+
+
+def _emit_cancel(doc, *, output_type: str) -> str:
+    company = doc.company
+
+    # idempotent: if CANCEL already exists, reuse it
+    already = _latest_output_name(
+        company=company,
+        output_type=output_type,
+        reference_doctype=doc.doctype,
+        reference_name=doc.name,
+        correction_reason="CANCEL",
+    )
+    if already:
+        _set_invoice_legal_output(doc, already)
+        return already
+
+    # must have ISSUE output first
+    issue = _latest_output_name(
+        company=company,
+        output_type=output_type,
+        reference_doctype=doc.doctype,
+        reference_name=doc.name,
+        correction_reason=None,
+    )
+    if not issue:
+        frappe.throw("برای ابطال، ابتدا باید خروجی ISSUE برای این سند وجود داشته باشد.", frappe.ValidationError)
+
+    source = _invoice_source(doc, event="BEFORE_CANCEL", output_type=output_type, correction_reason="CANCEL", previous_output=issue)
+    payload = _invoice_payload_vat(doc)
+
+    name = create_legal_output(
+        company=company,
+        output_type=output_type,
+        reference_doctype=doc.doctype,
+        reference_name=doc.name,
+        correction_reason="CANCEL",
+        previous_output=issue,
+        source=source,
+        payload=payload,
+        event="BEFORE_CANCEL",
+    )
+    _set_invoice_legal_output(doc, name)
+    return name
+
+
+# ----------------- Hook entrypoints -----------------
+# apps/blue_hesab/blue_hesab/bh_core/legal_hooks.py
+
+def on_submit_sales_invoice(doc, method=None):
+    # ISSUE output (VAT_INVOICE) + chain enforcement for amendments
+    return _emit_issue(doc, output_type=OUTPUT_TYPE_VAT)
+
+def before_cancel_sales_invoice(doc, method=None):
+    # CANCEL output (VAT_INVOICE)
+    return _emit_cancel(doc, output_type=OUTPUT_TYPE_VAT)
+
+def on_submit_purchase_invoice(doc, method=None):
+    return _emit_issue(doc, output_type=OUTPUT_TYPE_VAT)
+
+def before_cancel_purchase_invoice(doc, method=None):
+    return _emit_cancel(doc, output_type=OUTPUT_TYPE_VAT)

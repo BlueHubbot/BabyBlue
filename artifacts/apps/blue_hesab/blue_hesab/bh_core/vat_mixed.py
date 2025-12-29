@@ -14,6 +14,7 @@ from blue_hesab.bh_core.errors import BH_VAT_E_TPL_NONSTR
 from blue_hesab.bh_core.exc import raise_bh_vat_error
 from blue_hesab.bh_core.vat_tpl_guard import guard_item_tax_template, BH_VAT_E_TPL_NONSTR
 from frappe.utils import flt
+from blue_hesab.bh_core.company_legal import get_vat_account_and_rate as _get_vat_acc_rate
 
 from blue_hesab.bh_core import get_bh_settings
 
@@ -50,17 +51,9 @@ def mixed_template_name(kind: str, company: str, axis: str) -> str:
 
 
 def get_vat_account_and_rate(doc, *, kind: str) -> Tuple[Optional[str], float]:
-    """Resolve VAT account + rate from BH Settings for the given kind."""
-    s = get_bh_settings()
-    if kind == "sales":
-        acc = getattr(s, "default_sales_vat_account", None)
-        rate = flt(getattr(s, "default_sales_vat_rate", 0) or 0)
-        return acc, rate
-    if kind == "purchase":
-        acc = getattr(s, "default_purchase_vat_account", None)
-        rate = flt(getattr(s, "default_purchase_vat_rate", 0) or 0)
-        return acc, rate
-    raise ValueError(f"Unknown kind: {kind}")
+    """Resolve VAT account + rate per-company (BH Company Legal Profile)."""
+    company = getattr(doc, "company", None) or (doc.get("company") if hasattr(doc, "get") else None)
+    return _get_vat_acc_rate(company, kind=kind)
 
 
 def _iter_tax_rows(doc):

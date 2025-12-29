@@ -13,3 +13,6 @@ blue_hesab.patches.v1_0.seed_bh_vat_profiles
 blue_hesab.patches.vat_0001_item_bh_vat_profile
 blue_hesab.patches.vat_0002_item_bh_item_tax_template
 blue_hesab.patches.vat_0011_vat_ui_mode_lock
+blue_hesab.patches.nng_0101_company_legal_profiles
+blue_hesab.patches.nng_0301_dimensions_custom_fields
+blue_hesab.patches.legal_0601_fix_bh_legal_output_reference_name_fieldtype
