@@ -14,7 +14,6 @@ def _dirpath() -> str:
 
 
 def append_line(filename: str, payload: Dict[str, Any]) -> Optional[str]:
-    """Append one JSON line into sites/<site>/private/files/bh_regress/<filename>."""
     try:
         d = _dirpath()
         os.makedirs(d, exist_ok=True)
@@ -40,16 +39,18 @@ def log_tamper(action: str, *, name: str, details: Optional[Dict[str, Any]] = No
     payload = {"action": action, "doctype": "BH Legal Output", "name": name}
     if details:
         payload["details"] = details
-    append_line("legal07_tamper.log", payload)
+    append_line("legal_tamper.log", payload)
 
 
 def log_chain(action: str, *, ref_doctype: str, ref_name: str, out_name: Optional[str] = None, details: Optional[Dict[str, Any]] = None) -> None:
-    payload = {
-        "action": action,
-        "ref_doctype": ref_doctype,
-        "ref_name": ref_name,
-        "out_name": out_name,
-    }
+    payload = {"action": action, "ref_doctype": ref_doctype, "ref_name": ref_name, "out_name": out_name}
     if details:
         payload["details"] = details
-    append_line("legal07_chain.log", payload)
+    append_line("legal_chain.log", payload)
+
+
+def log_policy(action: str, *, details: Optional[Dict[str, Any]] = None) -> None:
+    payload = {"action": action}
+    if details:
+        payload["details"] = details
+    append_line("legal_policy.log", payload)

@@ -9,6 +9,7 @@ from typing import Any, Dict, Optional
 import frappe
 
 from blue_hesab.bh_core.legal_meta import get_schema_version, get_generator_build
+from blue_hesab.bh_core.legal_audit import log_chain
 
 
 @contextmanager
@@ -191,6 +192,20 @@ def create_legal_output(
         except Exception:
             # if not submittable or submit blocked, leave inserted (docstatus=0)
             pass
+
+    try:
+        log_chain(
+            "emit",
+            ref_doctype=getattr(doc, "reference_doctype", None),
+            ref_name=getattr(doc, "reference_name", None),
+            out_name=doc.name,
+            details={
+                "output_type": getattr(doc, "output_type", None),
+                "correction_reason": getattr(doc, "correction_reason", None),
+            },
+        )
+    except Exception:
+        pass
 
     return doc.name
 
