@@ -9,8 +9,8 @@
 - Date (local): **2025-12-30**
 - Repo: `BlueHubbot/BabyBlue`
 - Branch: `nightly/baba`
-- Current schema_version (tag): **BH-20251230.2**
-- generator_build: **BH-20251230.2@955fabf3**
+- Current schema_version (tag): **BH-20251230.3**
+- generator_build: **BH-20251230.3@c1148929**
 
 > Reminder: Schema Version = Git Tag (BH-YYYYMMDD.N) و Release Note الزامی است. (طبق README)
 
