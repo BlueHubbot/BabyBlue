@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 import subprocess
+import datetime as _dt
 
 
 def _app_root() -> Path:
@@ -36,3 +37,21 @@ def get_generator_build() -> str:
     sv = get_schema_version()
     head = get_git_head_short()
     return f"{sv}@{head}" if head else sv
+
+def get_legal_meta(*, schema_version: str | None = None, generator_build: str | None = None) -> dict:
+    """
+    LEGAL meta helper used by legal_output.create_legal_output
+    Returns: {schema_version, generator_build, generated_at}
+    """
+    sv = (schema_version or "").strip() or get_schema_version()
+    if generator_build and str(generator_build).strip():
+        gb = str(generator_build).strip()
+    else:
+        head = get_git_head_short()
+        gb = f"{sv}@{head}" if head else sv
+
+    return {
+        "schema_version": sv,
+        "generator_build": gb,
+        "generated_at": str(_dt.datetime.utcnow()),
+    }

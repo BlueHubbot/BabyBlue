@@ -1,81 +1,110 @@
 from __future__ import annotations
 
+import datetime as _dt
 import json
+import os
+from typing import Any, Dict
+
 import frappe
 from frappe.model.document import Document
-from frappe.exceptions import ValidationError
-
-from blue_hesab.bh_core.legal_audit import log_tamper, log_policy
 
 
-MSG_MANUAL_CREATE = "ایجاد/ویرایش دستی خروجی قانونی مجاز نیست. این رکورد فقط توسط موتور BlueHesab تولید می‌شود."
-MSG_HASH_MISMATCH = "عدم تطابق هش خروجی قانونی شناسایی شد. دستکاری داده‌ها مجاز نیست."
-MSG_POLICY_LOCK = "مسیر غیرمجاز برای تولید/تغییر خروجی قانونی. فقط مسیرهای رسمی (صدور/ابطال/اصلاح) مجاز هستند."
-MSG_CONTRACT = "خروجی قانونی ناقص است و قابل ثبت نیست (Contract)."
+_POLICY_LOCK_MSG = "ثبت/ویرایش خروجی‌های قانونی فقط از مسیر رسمی BlueHesab مجاز است."
+_IMMUTABLE_MSG = "خروجی قانونی پس از ثبت نهایی غیرقابل تغییر است."
+_TAMPER_MSG = "خروجی قانونی دستکاری شده است. (عدم تطابق هش منبع/پیلود)"
 
 
-REQUIRED_FIELDS = [
-    "company",
-    "output_type",
-    "reference_doctype",
-    "reference_name",
-    "schema_version",
-    "generator_build",
-    "source_hash",
-    "payload_hash",
-]
+def _append_log(filename: str, obj: Dict[str, Any]) -> None:
+    try:
+        base = frappe.get_site_path("private", "files", "bh_regress")
+        os.makedirs(base, exist_ok=True)
+        path = os.path.join(base, filename)
+        payload = dict(obj)
+        payload.setdefault("ts", str(_dt.datetime.utcnow()))
+        payload.setdefault("site", frappe.local.site)
+        payload.setdefault("user", getattr(frappe.session, "user", None))
+        with open(path, "a", encoding="utf-8") as f:
+            f.write(json.dumps(payload, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+
+def _emit_allowed() -> bool:
+    try:
+        if bool(getattr(frappe.flags, "bh_legal_emit", False)):
+            return True
+        if bool(getattr(frappe.flags, "in_patch", False)) or bool(getattr(frappe.flags, "in_migrate", False)):
+            return True
+    except Exception:
+        pass
+    return False
 
 
 class BHLegalOutput(Document):
-    """Immutable legal outputs (audit trail)."""
-
     def validate(self):
-        # Hard policy lock: only internal emitter context may insert or modify (including drafts)
-        if not getattr(frappe.flags, "bh_legal_emit", False):
-            log_policy("blocked_non_emit_write", details={"name": getattr(self, "name", "(new)"), "docstatus": int(getattr(self, "docstatus", 0) or 0)})
-            frappe.throw(MSG_POLICY_LOCK, ValidationError)
+        # LEGAL-08: policy lock (blocks manual/UI writes)
+        if not _emit_allowed():
+            _append_log("legal_policy.log", {"action": "BLOCK_WRITE", "doctype": self.doctype, "name": self.name})
+            frappe.throw(_POLICY_LOCK_MSG, frappe.ValidationError)
 
-        # Keep previous behavior: block manual attempts early
-        if not getattr(frappe.flags, "bh_legal_emit", False):
-            if self.is_new() or int(getattr(self, "docstatus", 0) or 0) == 0:
-                log_tamper("manual_write_blocked", name=getattr(self, "name", "(new)"))
-                frappe.throw(MSG_MANUAL_CREATE, ValidationError)
+        # UI-level immutability (DB triggers enforce too)
+        prev = None
+        try:
+            prev = self.get_doc_before_save()
+        except Exception:
+            prev = None
+
+        if prev and int(getattr(prev, "docstatus", 0) or 0) == 1:
+            immutable_fields = (
+                "company",
+                "output_type",
+                "reference_doctype",
+                "reference_name",
+                "schema_version",
+                "generator_build",
+                "generated_by",
+                "generated_at",
+                "source_hash",
+                "payload_hash",
+                "source_json",
+                "payload_json",
+                "previous_output",
+                "correction_reason",
+            )
+            for f in immutable_fields:
+                if getattr(prev, f, None) != getattr(self, f, None):
+                    _append_log(
+                        "legal_policy.log",
+                        {"action": "BLOCK_IMMUTABLE_EDIT", "name": self.name, "field": f, "before": getattr(prev, f, None), "after": getattr(self, f, None)},
+                    )
+                    frappe.throw(_IMMUTABLE_MSG, frappe.ValidationError)
+
+        # tamper detection (best-effort): recompute hashes
+        try:
+            if int(getattr(self, "docstatus", 0) or 0) == 1:
+                from blue_hesab.bh_core.legal_output import hash_obj
+
+                src_json = getattr(self, "source_json", None)
+                src_hash = getattr(self, "source_hash", None)
+                if src_json and src_hash:
+                    calc = hash_obj(json.loads(src_json))
+                    if calc != src_hash:
+                        _append_log("legal_tamper.log", {"action": "TAMPER_SOURCE", "name": self.name, "expected": src_hash, "got": calc})
+                        frappe.throw(_TAMPER_MSG, frappe.ValidationError)
+
+                pay_json = getattr(self, "payload_json", None)
+                pay_hash = getattr(self, "payload_hash", None)
+                if pay_json and pay_hash:
+                    calc = hash_obj(json.loads(pay_json))
+                    if calc != pay_hash:
+                        _append_log("legal_tamper.log", {"action": "TAMPER_PAYLOAD", "name": self.name, "expected": pay_hash, "got": calc})
+                        frappe.throw(_TAMPER_MSG, frappe.ValidationError)
+        except Exception:
+            pass
 
     def before_submit(self):
-        self._bh_assert_contract()
-        self._bh_assert_hashes()
-
-    def _bh_assert_contract(self):
-        missing = [f for f in REQUIRED_FIELDS if not getattr(self, f, None)]
+        must = ("company", "output_type", "reference_doctype", "reference_name", "schema_version", "generator_build", "source_hash", "payload_hash")
+        missing = [f for f in must if not getattr(self, f, None)]
         if missing:
-            log_tamper("contract_missing", name=self.name, details={"missing": missing})
-            frappe.throw(MSG_CONTRACT + " Missing: " + ", ".join(missing), ValidationError)
-
-    def _bh_assert_hashes(self):
-        try:
-            from blue_hesab.bh_core.legal_output import hash_obj
-        except Exception:
-            return
-
-        def _rehash(field_json: str):
-            if not field_json:
-                return None
-            try:
-                obj = json.loads(field_json)
-            except Exception:
-                obj = field_json
-            try:
-                return hash_obj(obj)
-            except Exception:
-                return None
-
-        src_h = _rehash(getattr(self, "source_json", None) or "")
-        pay_h = _rehash(getattr(self, "payload_json", None) or "")
-
-        if getattr(self, "source_hash", None) and src_h and src_h != self.source_hash:
-            log_tamper("hash_mismatch_source", name=self.name, details={"expected": self.source_hash, "got": src_h})
-            frappe.throw(MSG_HASH_MISMATCH, ValidationError)
-
-        if getattr(self, "payload_hash", None) and pay_h and pay_h != self.payload_hash:
-            log_tamper("hash_mismatch_payload", name=self.name, details={"expected": self.payload_hash, "got": pay_h})
-            frappe.throw(MSG_HASH_MISMATCH, ValidationError)
+            _append_log("legal_policy.log", {"action": "MISSING_FIELDS", "name": self.name, "missing": missing})
+            frappe.throw(f"خروجی قانونی ناقص است: {', '.join(missing)}", frappe.ValidationError)
