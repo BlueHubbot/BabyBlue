@@ -7,17 +7,20 @@ cd "$REPO_DIR"
 TZNAME="${TZNAME:-Europe/Paris}"
 TODAY="$(TZ="$TZNAME" date +%F)"
 
-# schema tag discovery (prefer VERSION if present)
+# schema tag discovery:
+# prefer tag (git describe) so schema_version == tag; fallback to VERSION
 SCHEMA_TAG="${1:-}"
 if [ -z "$SCHEMA_TAG" ]; then
-  if [ -f "artifacts/apps/blue_hesab/VERSION" ]; then
-    SCHEMA_TAG="$(tr -d ' \t\r\n' < artifacts/apps/blue_hesab/VERSION)"
-  elif [ -f "apps/blue_hesab/VERSION" ]; then
-    SCHEMA_TAG="$(tr -d ' \t\r\n' < apps/blue_hesab/VERSION)"
-  else
-    SCHEMA_TAG="$(git describe --tags --abbrev=0 2>/dev/null || true)"
+  SCHEMA_TAG="$(git describe --tags --abbrev=0 2>/dev/null || true)"
+  if [ -z "$SCHEMA_TAG" ]; then
+    if [ -f "artifacts/apps/blue_hesab/VERSION" ]; then
+      SCHEMA_TAG="$(tr -d ' \t\r\n' < artifacts/apps/blue_hesab/VERSION)"
+    elif [ -f "apps/blue_hesab/VERSION" ]; then
+      SCHEMA_TAG="$(tr -d ' \t\r\n' < apps/blue_hesab/VERSION)"
+    fi
   fi
 fi
+[ -z "$SCHEMA_TAG" ] && SCHEMA_TAG="UNKNOWN"
 
 SHORT_SHA="$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")"
 GEN_BUILD="${SCHEMA_TAG}@${SHORT_SHA}"
@@ -68,7 +71,7 @@ EOT
 fi
 
 ENTRY="- ${TODAY} → \`daily/${TODAY}.md\`"
-if ! grep -Fqx "$ENTRY" "$INDEX"; then
+if ! grep -Fqx -- "$ENTRY" "$INDEX"; then
   tmp="$(mktemp)"
   awk -v entry="$ENTRY" '
     BEGIN{done=0}
@@ -78,7 +81,7 @@ if ! grep -Fqx "$ENTRY" "$INDEX"; then
   mv "$tmp" "$INDEX"
 fi
 
-# 3) STATUS.md: update only the 4 lines (no overwrite of the rest)
+# 3) STATUS.md: update only 4 lines (no overwrite of the rest)
 STATUS="STATUS.md"
 if [ ! -f "$STATUS" ]; then
   tmp="$(mktemp)"
@@ -102,10 +105,10 @@ if [ ! -f "$STATUS" ]; then
 EOT
   mv "$tmp" "$STATUS"
 else
-  sed -i -E "s#^- Date \\(local\\): \\*\\*.*\\*\\*#- Date (local): **${TODAY}**#m" "$STATUS" || true
-  sed -i -E "s#^- Current schema_version \\(tag\\): \\*\\*.*\\*\\*#- Current schema_version (tag): **${SCHEMA_TAG}**#m" "$STATUS" || true
-  sed -i -E "s#^- generator_build: \\*\\*.*\\*\\*#- generator_build: **${GEN_BUILD}**#m" "$STATUS" || true
-  sed -i -E "s#^- 📌 \\*\\*Today log:\\*\\* \\`status/daily/.*\\`#- 📌 **Today log:** \`status/daily/${TODAY}.md\`#m" "$STATUS" || true
+  sed -i -E 's#^- Date \(local\): \*\*.*\*\*#- Date (local): **'"$TODAY"'**#m' "$STATUS" || true
+  sed -i -E 's#^- Current schema_version \(tag\): \*\*.*\*\*#- Current schema_version (tag): **'"$SCHEMA_TAG"'**#m' "$STATUS" || true
+  sed -i -E 's#^- generator_build: \*\*.*\*\*#- generator_build: **'"$GEN_BUILD"'**#m' "$STATUS" || true
+  sed -i -E 's#^- 📌 \*\*Today log:\*\* `status/daily/.*`#- 📌 **Today log:** `status/daily/'"$TODAY"'.md`#m' "$STATUS" || true
 fi
 
 echo "OK: STATUS updated (tag=${SCHEMA_TAG}, build=${GEN_BUILD}, daily=${DAILY})"
