@@ -3,6 +3,8 @@ from __future__ import annotations
 import frappe
 from frappe.exceptions import ValidationError
 
+from blue_hesab.bh_core.legal_audit import log_tamper
+
 
 MSG_EDIT = "خروجی قانونی پس از «ثبت قطعی» غیرقابل تغییر است. برای اصلاح، خروجی جدید با «علت اصلاح» و ارجاع به خروجی قبلی صادر کنید."
 MSG_CANCEL = "ابطال خروجی قانونی مجاز نیست. برای اصلاح/ابطال، خروجی اصلاحی جدید صادر کنید."
@@ -15,11 +17,27 @@ def _throw(msg: str) -> None:
 
 def on_update_after_submit(doc, method=None):
     # Any edit after submit must be blocked (UI/API).
+    try:
+        log_tamper(
+            "update_after_submit",
+            name=getattr(doc, "name", "?"),
+            details={"docstatus": int(getattr(doc, "docstatus", 0) or 0)},
+        )
+    except Exception:
+        pass
     _throw(MSG_EDIT)
 
 
 def on_cancel(doc, method=None):
     # Cancelling a legal output is never allowed.
+    try:
+        log_tamper(
+            "cancel_attempt",
+            name=getattr(doc, "name", "?"),
+            details={"docstatus": int(getattr(doc, "docstatus", 0) or 0)},
+        )
+    except Exception:
+        pass
     _throw(MSG_CANCEL)
 
 
@@ -27,6 +45,14 @@ def on_trash(doc, method=None):
     # Allow deleting drafts only (docstatus=0). Block submitted/cancelled.
     if int(getattr(doc, "docstatus", 0) or 0) == 0:
         return
+    try:
+        log_tamper(
+            "trash_attempt",
+            name=getattr(doc, "name", "?"),
+            details={"docstatus": int(getattr(doc, "docstatus", 0) or 0)},
+        )
+    except Exception:
+        pass
     _throw(MSG_DELETE)
 
 
@@ -98,8 +124,6 @@ def check_db_triggers() -> dict:
 
 
 def smoke_legal04(name: str):
-    import frappe
-
     out = {"name": name}
 
     # 1) raw db set_value (should be blocked by trigger)
@@ -121,7 +145,7 @@ def smoke_legal04(name: str):
         out["doc_db_set_blocked"] = True
         out["doc_db_set_error"] = str(e)
 
-    # 3) cancel (should be blocked by trigger)
+    # 3) cancel (should be blocked by hook)
     try:
         doc = frappe.get_doc("BH Legal Output", name)
         doc.cancel()

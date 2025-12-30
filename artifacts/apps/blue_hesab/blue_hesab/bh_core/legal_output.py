@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from contextlib import contextmanager
 import hashlib
 import datetime as _dt
 from typing import Any, Dict, Optional
@@ -8,6 +9,17 @@ from typing import Any, Dict, Optional
 import frappe
 
 from blue_hesab.bh_core.legal_meta import get_schema_version, get_generator_build
+
+
+@contextmanager
+def bh_legal_emit_context():
+    """Allow internal creation/submit of BH Legal Output."""
+    prev = getattr(frappe.flags, "bh_legal_emit", False)
+    frappe.flags.bh_legal_emit = True
+    try:
+        yield
+    finally:
+        frappe.flags.bh_legal_emit = prev
 
 
 def _json_default(o: Any):
@@ -169,15 +181,16 @@ def create_legal_output(
     for f in ("payload_json", "payload", "payload_data"):
         _set_if_field(doc, f, pay_json)
 
-    doc.insert(ignore_permissions=True)
+    with bh_legal_emit_context():
+        doc.insert(ignore_permissions=True)
 
-    # submit if doctype is submittable (immutability)
-    try:
-        if getattr(doc.meta, "is_submittable", 0) and doc.docstatus == 0:
-            doc.submit()
-    except Exception:
-        # if not submittable or submit blocked, leave inserted (docstatus=0)
-        pass
+        # submit if doctype is submittable (immutability)
+        try:
+            if getattr(doc.meta, "is_submittable", 0) and doc.docstatus == 0:
+                doc.submit()
+        except Exception:
+            # if not submittable or submit blocked, leave inserted (docstatus=0)
+            pass
 
     return doc.name
 
