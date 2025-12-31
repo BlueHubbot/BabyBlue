@@ -6,16 +6,16 @@
 > **Releases (immutable per tag):** `releases/`
 
 ## Current Baseline
-- Date (local): **2025-12-30**
+- Date (local): **2025-12-31**
 - Repo: `BlueHubbot/BabyBlue`
 - Branch: `nightly/baba`
-- Current schema_version (tag): **BH-20251230.3**
-- generator_build: **BH-20251230.3@c1148929**
+- Current schema_version (tag): **BH-20251231**
+- generator_build: **BH-20251231@7303c7da**
 
 > Reminder: Schema Version = Git Tag (BH-YYYYMMDD.N) و Release Note الزامی است. (طبق README)
 
 ## Today (Latest Daily Delta)
-- 📌 **Today log:** `status/daily/2025-12-30.md`
+- 📌 **Today log:** `status/daily/2025-12-31.md`
 
 ## Status Boards (Summary)
 
