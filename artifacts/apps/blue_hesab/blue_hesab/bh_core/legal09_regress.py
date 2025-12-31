@@ -39,6 +39,9 @@ def run_legal09_regress(*, company: str = "BlueAPi") -> Dict[str, Any]:
         "results": [],
     }
 
+    sinv = None  # sales invoice name (prereq for cancel/amend)
+    pinv = None  # purchase invoice name
+
     def ok(name: str, **kw):
         out["passed"] += 1
         out["results"].append({"name": name, "pass": True, **kw})
@@ -75,6 +78,8 @@ def run_legal09_regress(*, company: str = "BlueAPi") -> Dict[str, Any]:
 
     # 2) CANCEL: cancel must emit CANCEL outputs for all enabled types
     try:
+        if not sinv:
+            raise Exception("prereq failed: LEGAL09-SI-ISSUE-EMIT+PAYLOAD did not produce a Sales Invoice")
         smoke_invoices.cancel_doc(doctype="Sales Invoice", name=sinv)
         rows = _get_outputs("Sales Invoice", sinv)
         have = sorted({r["output_type"] for r in rows if r.get("correction_reason") == "CANCEL"})
@@ -87,6 +92,8 @@ def run_legal09_regress(*, company: str = "BlueAPi") -> Dict[str, Any]:
 
     # 3) AMEND: create amendment and submit => must emit AMEND outputs for all enabled types
     try:
+        if not sinv:
+            raise Exception("prereq failed: LEGAL09-SI-ISSUE-EMIT+PAYLOAD did not produce a Sales Invoice")
         original = frappe.get_doc("Sales Invoice", sinv)
         amended = frappe.copy_doc(original)
         amended.amended_from = original.name

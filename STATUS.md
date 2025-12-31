@@ -34,3 +34,8 @@
   1) یک فایل روزانه در `status/daily/YYYY-MM-DD.md`
   2) آپدیت این فایل (`STATUS.md`) به آخرین روز
   3) Release note همان Tag داخل `releases/<TAG>.md` (immutable)
+
+## BH-20251231.1 (2025-12-31)
+- LEGAL07 ✅
+- LEGAL08 ✅
+- LEGAL09 ✅

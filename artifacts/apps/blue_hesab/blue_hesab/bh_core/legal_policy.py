@@ -1,76 +1,67 @@
 # -*- coding: utf-8 -*-
 """
-BlueHesab Legal Output policy (minimal, regression-friendly).
-
-Goals:
-- Per-Company boundary
-- Versioned outputs (schema_version) + generator_build marker
-- Deterministic enablement list (VAT_INVOICE, TTMS_EXPORT, MODIAN_PAYLOAD)
-
-This module is intentionally tiny and defensive (no guesswork, no "..." placeholders).
+BlueHesab Legal Outputs — Policy (BH Legal Output)
+Authoritative, stable API surface for regress suites:
+- LEGAL_SCHEMA_VERSION_DEFAULT
+- get_schema_version(), get_generator_build()
+- enabled_output_types() / _enabled_output_types()
 """
+
 from __future__ import annotations
 
-from typing import Dict, List, Optional
+from typing import List, Optional
 
-# Stable identifiers (used in logs/regress)
+import frappe
+
+
+# ---- Stable constants (do NOT rename; regress imports rely on these) ----
 LEGAL_SCHEMA_VERSION_DEFAULT = "LEGAL-V1"
 LEGAL_GENERATOR_BUILD_DEFAULT = "BH-DEV"
 
-# Output types (string constants)
-OUT_VAT_INVOICE = "VAT_INVOICE"
-OUT_TTMS_EXPORT = "TTMS_EXPORT"
-OUT_MODIAN_PAYLOAD = "MODIAN_PAYLOAD"
-
-ALL_OUTPUT_TYPES: List[str] = [OUT_VAT_INVOICE, OUT_TTMS_EXPORT, OUT_MODIAN_PAYLOAD]
-
-# Correction reasons (string constants)
-CORR_CANCEL = "CANCEL"
-CORR_AMEND = "AMEND"
+OUTPUT_VAT_INVOICE = "VAT_INVOICE"
+OUTPUT_TTMS_EXPORT = "TTMS_EXPORT"
+OUTPUT_MODIAN_PAYLOAD = "MODIAN_PAYLOAD"
 
 
-def normalize_output_type(value: str) -> str:
-    v = (value or "").strip().upper()
-    # keep canonical names
-    for x in ALL_OUTPUT_TYPES:
-        if v == x:
-            return x
-    # allow legacy lowercase etc
-    mapping = {
-        "VAT": OUT_VAT_INVOICE,
-        "VAT_INVOICE": OUT_VAT_INVOICE,
-        "TTMS": OUT_TTMS_EXPORT,
-        "TTMS_EXPORT": OUT_TTMS_EXPORT,
-        "MODIAN": OUT_MODIAN_PAYLOAD,
-        "MODIAN_PAYLOAD": OUT_MODIAN_PAYLOAD,
-    }
-    return mapping.get(v, value)
+def _get_bh_settings() -> "frappe._dict":
+    """Singleton settings. Keep minimal; per-company boundary stays in output rows."""
+    try:
+        return frappe.get_single("BH Settings")  # type: ignore
+    except Exception:
+        return frappe._dict({})
 
 
-def get_enabled_outputs(company: str, reference_doctype: str) -> List[str]:
+def enabled_output_types(company: Optional[str] = None) -> List[str]:
     """
-    Minimal policy: always enable all 3 outputs (regress expects this).
-    In future, read from BH Settings / Company legal profile.
+    Returns enabled legal output types based on BH Settings toggles.
+    `company` is accepted for future per-company overrides (but currently settings are singleton).
     """
-    _ = company, reference_doctype
-    return list(ALL_OUTPUT_TYPES)
+    s = _get_bh_settings()
+
+    out: List[str] = []
+    try:
+        if int(getattr(s, "enable_vat", 0) or 0) == 1:
+            out.append(OUTPUT_VAT_INVOICE)
+        if int(getattr(s, "enable_ttms", 0) or 0) == 1:
+            out.append(OUTPUT_TTMS_EXPORT)
+        if int(getattr(s, "enable_modian", 0) or 0) == 1:
+            out.append(OUTPUT_MODIAN_PAYLOAD)
+    except Exception:
+        # safest fallback: keep VAT enabled by default if settings read fails
+        out = [OUTPUT_VAT_INVOICE]
+
+    # make deterministic ordering for regress outputs
+    order = {OUTPUT_VAT_INVOICE: 10, OUTPUT_TTMS_EXPORT: 20, OUTPUT_MODIAN_PAYLOAD: 30}
+    out.sort(key=lambda x: order.get(x, 999))
+    return out
 
 
-def get_schema_version(company: str, reference_doctype: str) -> str:
-    _ = company, reference_doctype
+def get_schema_version(company: Optional[str] = None, output_type: Optional[str] = None) -> str:
+    """Schema version for legal outputs. Keep stable unless you bump DB schema intentionally."""
+    # Future: per-company legal profile override
     return LEGAL_SCHEMA_VERSION_DEFAULT
 
 
-def get_generator_build(company: str) -> str:
-    _ = company
+def get_generator_build(company: Optional[str] = None) -> str:
+    """Build identifier for audit. Override later from CI tag if needed."""
     return LEGAL_GENERATOR_BUILD_DEFAULT
-
-
-def as_policy(company: str, reference_doctype: str) -> Dict[str, object]:
-    return {
-        "company": company,
-        "reference_doctype": reference_doctype,
-        "schema_version": get_schema_version(company, reference_doctype),
-        "generator_build": get_generator_build(company),
-        "enabled_outputs": get_enabled_outputs(company, reference_doctype),
-    }

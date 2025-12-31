@@ -1,255 +1,171 @@
+# -*- coding: utf-8 -*-
+"""
+BH Legal Output creation + hashing + audit logging.
+
+Key requirement: must pass both UI-level and DB-level policy locks:
+- sets frappe.flags.bh_legal_emit
+- sets DB session var @bh_legal_emit=1
+
+Public API:
+- hash_obj(obj)
+- create_legal_output(...)
+"""
+
 from __future__ import annotations
 
-import json
-import hashlib
 import datetime as _dt
+import hashlib
+import json
+import os
 from typing import Any, Dict, Optional
 
 import frappe
-from contextlib import contextmanager
 
-from blue_hesab.bh_core.legal_meta import get_schema_version, get_generator_build
-
-
-def _json_default(o: Any):
-    if isinstance(o, (_dt.datetime, _dt.date)):
-        return o.isoformat()
-    if hasattr(o, "as_dict"):
-        try:
-            return o.as_dict()
-        except Exception:
-            pass
-    return str(o)
+from blue_hesab.bh_core import legal_policy
+from blue_hesab.bh_core.legal_immutability import legal_emit_session
+from blue_hesab.bh_core.legal_repo import find_last_output_for_ref
 
 
-def _stable_dumps(obj: Any) -> str:
-    return json.dumps(
-        obj,
-        ensure_ascii=False,
-        sort_keys=True,
-        separators=(",", ":"),
-        default=_json_default,
-    )
-
-
-def _sha256_hex(s: str) -> str:
-    return hashlib.sha256(s.encode("utf-8")).hexdigest()
+def _append_log(filename: str, obj: Dict[str, Any]) -> None:
+    try:
+        base = frappe.get_site_path("private", "files", "bh_regress")
+        os.makedirs(base, exist_ok=True)
+        path = os.path.join(base, filename)
+        payload = dict(obj)
+        payload.setdefault("ts", str(_dt.datetime.utcnow()))
+        payload.setdefault("site", frappe.local.site)
+        payload.setdefault("user", getattr(frappe.session, "user", None))
+        with open(path, "a", encoding="utf-8") as f:
+            f.write(json.dumps(payload, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
 
 
 def hash_obj(obj: Any) -> str:
-    return _sha256_hex(_stable_dumps(obj))
+    """
+    Stable sha256 hash of an object after canonical JSON serialization.
+    """
+    s = json.dumps(obj, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(s.encode("utf-8")).hexdigest()
 
 
-def _now_ts() -> str:
-    return frappe.utils.now()
-
-
-def _session_user() -> str:
-    try:
-        u = getattr(frappe, "session", None) and frappe.session.user
-        return u or "Administrator"
-    except Exception:
-        return "Administrator"
-
-
-def build_source_minimal(
-    *,
-    reference_doctype: str,
-    reference_name: str,
-    company: str,
-    output_type: str,
-    event: Optional[str] = None,
-    correction_reason: Optional[str] = None,
-    previous_output: Optional[str] = None,
-    amended_from: Optional[str] = None,
-    docstatus: Optional[int] = None,
-) -> Dict[str, Any]:
-    return {
-        "reference_doctype": reference_doctype,
-        "reference_name": reference_name,
-        "company": company,
-        "output_type": output_type,
-        "event": event,
-        "correction_reason": correction_reason,
-        "previous_output": previous_output,
-        "amended_from": amended_from,
-        "docstatus": docstatus,
-    }
-def _bh_set_db_emit(on: bool) -> None:
-    """Set per-connection DB session variable used by DB triggers."""
-    try:
-        frappe.db.sql(f"SET @bh_legal_emit = {1 if on else 0}")
-    except Exception:
-        pass
-
-
-class _BhLegalEmitCtx:
-    def __enter__(self):
-        self._prev_flag = getattr(frappe.flags, "bh_legal_emit", None)
+def _coerce_dict(v: Any) -> Dict[str, Any]:
+    if v is None:
+        return {}
+    if isinstance(v, dict):
+        return v
+    if isinstance(v, str):
+        v = v.strip()
+        if not v:
+            return {}
         try:
-            frappe.flags.bh_legal_emit = True
+            parsed = json.loads(v)
+            return parsed if isinstance(parsed, dict) else {"value": parsed}
         except Exception:
-            pass
-        _bh_set_db_emit(True)
-        return self
-
-    def __exit__(self, exc_type, exc, tb):
-        try:
-            _bh_set_db_emit(False)
-        except Exception:
-            pass
-        try:
-            frappe.flags.bh_legal_emit = self._prev_flag
-        except Exception:
-            pass
-        return False  # don't swallow exceptions
+            return {"value": v}
+    # fallback
+    return {"value": v}
 
 
-def _bh_legal_emit_ctx() -> _BhLegalEmitCtx:
-    return _BhLegalEmitCtx()
+def create_legal_output(*args, **kwargs) -> str:
+    """
+    Backward/forward compatible creator.
 
+    Accepts either:
+      - reference_doctype/reference_name
+      - ref_doctype/ref_name
+    plus:
+      - company, output_type
+      - correction_reason (None | 'CANCEL' | 'AMEND' | ...)
+      - previous_output (optional)
+      - source (dict | json str)
+      - payload (dict | json str)
+      - schema_version (optional)
+      - generator_build (optional)
+      - submit (bool, default True)
+    Returns: created output `name`
+    """
+    company = kwargs.get("company")
+    output_type = kwargs.get("output_type")
 
-def _set_if_field(doc, fieldname: str, value: Any):
-    if not value and value not in (0, False):
-        return
-    try:
-        if doc.meta.has_field(fieldname):
-            setattr(doc, fieldname, value)
-    except Exception:
-        return
+    # Aliases
+    reference_doctype = kwargs.get("reference_doctype") or kwargs.get("ref_doctype")
+    reference_name = kwargs.get("reference_name") or kwargs.get("ref_name")
 
+    if not company or not output_type or not reference_doctype or not reference_name:
+        raise frappe.ValidationError("create_legal_output: missing required arguments")
 
-def create_legal_output(
-    *,
-    reference_doctype: str,
-    reference_name: str,
-    company: str,
-    output_type: str,
-    correction_reason: Optional[str] = None,
-    previous_output: Optional[str] = None,
-    # LEGAL-06 introduced source kw-only; keep it OPTIONAL for backward compatibility
-    source: Optional[Dict[str, Any]] = None,
-    payload: Optional[Dict[str, Any]] = None,
-    # legacy callers used event=...; accept it (ignored if not needed)
-    event: Optional[str] = None,
-    # allow explicit override; otherwise derive from VERSION/git
-    schema_version: Optional[str] = None,
-    generator_build: Optional[str] = None,
-    generated_at: Optional[str] = None,
-    generated_by: Optional[str] = None,
-    # ignore any historical/stray kwargs safely
-    **_ignored,
-) -> str:
-    # tolerate callers passing JSON strings
-    if isinstance(source, str):
-        try:
-            source = json.loads(source)
-        except Exception:
-            source = {"raw": source}
-    if isinstance(payload, str):
-        try:
-            payload = json.loads(payload)
-        except Exception:
-            payload = {"raw": payload}
+    correction_reason = kwargs.get("correction_reason")
+    previous_output = kwargs.get("previous_output")
 
-    schema_version = schema_version or get_schema_version()
-    generator_build = generator_build or get_generator_build()
-    generated_at = generated_at or _now_ts()
-    generated_by = generated_by or _session_user()
+    source = _coerce_dict(kwargs.get("source"))
+    payload = _coerce_dict(kwargs.get("payload"))
 
-    if source is None:
-        # minimum stable source (so we never crash because source is missing)
-        amended_from = None
-        docstatus = None
-        try:
-            if reference_doctype and reference_name:
-                docstatus = frappe.db.get_value(reference_doctype, reference_name, "docstatus")
-                amended_from = frappe.db.get_value(reference_doctype, reference_name, "amended_from")
-        except Exception:
-            pass
+    schema_version = kwargs.get("schema_version") or legal_policy.get_schema_version(company=company, output_type=output_type)
+    generator_build = kwargs.get("generator_build") or legal_policy.get_generator_build(company=company)
 
-        source = build_source_minimal(
-            reference_doctype=reference_doctype,
-            reference_name=reference_name,
-            company=company,
-            output_type=output_type,
-            event=event,
-            correction_reason=correction_reason,
-            previous_output=previous_output,
-            amended_from=amended_from,
-            docstatus=docstatus,
+    generated_by = kwargs.get("generated_by") or getattr(frappe.session, "user", None) or "Administrator"
+    generated_at = kwargs.get("generated_at") or frappe.utils.now_datetime()
+
+    # auto-link previous output if not supplied:
+    if previous_output is None:
+        # default: link to last output of same type for same ref
+        previous_output = find_last_output_for_ref(
+            company, reference_doctype, reference_name, output_type, correction_reason=None
         )
 
-    if payload is None:
-        # until we formalize VAT payload v1, keep payload deterministic (at least)
-        payload = {"type": output_type, "ref": {"doctype": reference_doctype, "name": reference_name}, "company": company}
+    src_hash = hash_obj(source)
+    pay_hash = hash_obj(payload)
 
-    source_hash = hash_obj(source)
-    payload_hash = hash_obj(payload)
+    submit = bool(kwargs.get("submit", True))
 
-    doc = frappe.new_doc("BH Legal Output")
-
-    _set_if_field(doc, "company", company)
-    _set_if_field(doc, "reference_doctype", reference_doctype)
-    _set_if_field(doc, "reference_name", reference_name)
-    _set_if_field(doc, "output_type", output_type)
-
-    _set_if_field(doc, "correction_reason", correction_reason)
-    _set_if_field(doc, "previous_output", previous_output)
-
-    _set_if_field(doc, "schema_version", schema_version)
-    _set_if_field(doc, "generator_build", generator_build)
-    _set_if_field(doc, "generated_at", generated_at)
-    _set_if_field(doc, "generated_by", generated_by)
-
-    _set_if_field(doc, "source_hash", source_hash)
-    _set_if_field(doc, "payload_hash", payload_hash)
-
-    # optional storage fields (depending on doctype schema)
-    src_json = _stable_dumps(source)
-    pay_json = _stable_dumps(payload)
-
-    for f in ("source_json", "source", "source_payload", "source_data"):
-        _set_if_field(doc, f, src_json)
-    for f in ("payload_json", "payload", "payload_data"):
-        _set_if_field(doc, f, pay_json)
-
-    with _bh_legal_emit_ctx():
-        doc.insert(ignore_permissions=True)
-        # submit if doctype is submittable (immutability)
-        try:
-            if getattr(doc.meta, "is_submittable", 0) and doc.docstatus == 0:
-                doc.submit()
-        except Exception:
-            # if not submittable or submit blocked, leave inserted (docstatus=0)
-            pass
-        return doc.name
-
-
-def get_latest_output_for_ref(
-    *,
-    reference_doctype: str,
-    reference_name: str,
-    company: str,
-    output_type: str,
-    correction_reason: Optional[str] = None,
-) -> Optional[Dict[str, Any]]:
-    filters = {
-        "reference_doctype": reference_doctype,
-        "reference_name": reference_name,
-        "company": company,
-        "output_type": output_type,
-    }
-    if correction_reason is None:
-        pass
-    else:
-        filters["correction_reason"] = correction_reason
-
-    rows = frappe.get_all(
-        "BH Legal Output",
-        filters=filters,
-        fields=["name", "output_type", "correction_reason", "previous_output", "schema_version", "generator_build", "modified", "generated_at"],
-        order_by="modified desc",
-        limit=1,
+    doc = frappe.get_doc(
+        {
+            "doctype": "BH Legal Output",
+            "company": company,
+            "output_type": output_type,
+            "reference_doctype": reference_doctype,
+            "reference_name": reference_name,
+            "schema_version": schema_version,
+            "generator_build": generator_build,
+            "generated_by": generated_by,
+            "generated_at": generated_at,
+            "source_hash": src_hash,
+            "payload_hash": pay_hash,
+            "source_json": json.dumps(source, ensure_ascii=False, sort_keys=True),
+            "payload_json": json.dumps(payload, ensure_ascii=False, sort_keys=True),
+            "previous_output": previous_output,
+            "correction_reason": correction_reason,
+        }
     )
-    return rows[0] if rows else None
+
+
+    # Forward-compat: some installs have extra audit fields.
+    if doc.meta.has_field("payload_schema_version") and not doc.get("payload_schema_version"):
+        doc.set("payload_schema_version", schema_version)
+    with legal_emit_session():
+        doc.insert(ignore_permissions=True)
+        if submit and int(getattr(doc, "docstatus", 0) or 0) == 0:
+            doc.submit()
+
+    _append_log(
+        "legal_chain.log",
+        {
+            "event": "LEGAL-EMIT",
+            "action": "emit",
+            "company": company,
+            "ref_doctype": reference_doctype,
+            "ref_name": reference_name,
+            "out_name": doc.name,
+            "details": {
+                "output_type": output_type,
+                "schema_version": schema_version,
+                "generator_build": generator_build,
+                "correction_reason": correction_reason,
+                "previous_output": previous_output,
+                "source_hash": src_hash,
+                "payload_hash": pay_hash,
+            },
+        },
+    )
+    return doc.name

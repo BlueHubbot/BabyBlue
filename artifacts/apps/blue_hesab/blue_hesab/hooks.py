@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # BlueHesab - Frappe hooks
 
 app_name = "blue_hesab"
@@ -26,6 +27,10 @@ doc_events = {
     "before_cancel": [
       "blue_hesab.bh_core.legal_hooks.before_cancel_sales_invoice",
     ],
+    # ✅ حیاتی: بدون این، Cancel هیچ خروجی قانونی تولید نمی‌کند (have=[])
+    "on_cancel": [
+      "blue_hesab.bh_core.legal_hooks.on_cancel_sales_invoice",
+    ],
   },
 
   "Purchase Invoice": {
@@ -41,6 +46,10 @@ doc_events = {
     ],
     "before_cancel": [
       "blue_hesab.bh_core.legal_hooks.before_cancel_purchase_invoice",
+    ],
+    # ✅ حیاتی
+    "on_cancel": [
+      "blue_hesab.bh_core.legal_hooks.on_cancel_purchase_invoice",
     ],
   },
 
