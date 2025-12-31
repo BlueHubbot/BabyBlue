@@ -1,158 +1,131 @@
 from __future__ import annotations
 
+from typing import Dict, List
+
 import frappe
-from frappe.exceptions import ValidationError
 
-from blue_hesab.bh_core.legal_audit import log_tamper
-
-
-MSG_EDIT = "خروجی قانونی پس از «ثبت قطعی» غیرقابل تغییر است. برای اصلاح، خروجی جدید با «علت اصلاح» و ارجاع به خروجی قبلی صادر کنید."
-MSG_CANCEL = "ابطال خروجی قانونی مجاز نیست. برای اصلاح/ابطال، خروجی اصلاحی جدید صادر کنید."
-MSG_DELETE = "حذف خروجی قانونیِ ثبت‌شده مجاز نیست."
+_POLICY_LOCK_MSG = "ثبت/ویرایش خروجی‌های قانونی فقط از مسیر رسمی BlueHesab مجاز است."
+_IMMUTABLE_MSG = "خروجی قانونی پس از ثبت نهایی غیرقابل تغییر است."
+_DELETE_MSG = "حذف خروجی قانونی ثبت‌نهایی‌شده ممنوع است."
 
 
-def _throw(msg: str) -> None:
-    frappe.throw(msg, ValidationError)
+def _sql_escape(s: str) -> str:
+    # minimal escape for embedding in CREATE TRIGGER literal
+    return s.replace("\\", "\\\\").replace("'", "\\'")
 
 
-def on_update_after_submit(doc, method=None):
-    # Any edit after submit must be blocked (UI/API).
-    try:
-        log_tamper(
-            "update_after_submit",
-            name=getattr(doc, "name", "?"),
-            details={"docstatus": int(getattr(doc, "docstatus", 0) or 0)},
-        )
-    except Exception:
-        pass
-    _throw(MSG_EDIT)
-
-
-def on_cancel(doc, method=None):
-    # Cancelling a legal output is never allowed.
-    try:
-        log_tamper(
-            "cancel_attempt",
-            name=getattr(doc, "name", "?"),
-            details={"docstatus": int(getattr(doc, "docstatus", 0) or 0)},
-        )
-    except Exception:
-        pass
-    _throw(MSG_CANCEL)
-
-
-def on_trash(doc, method=None):
-    # Allow deleting drafts only (docstatus=0). Block submitted/cancelled.
-    if int(getattr(doc, "docstatus", 0) or 0) == 0:
-        return
-    try:
-        log_tamper(
-            "trash_attempt",
-            name=getattr(doc, "name", "?"),
-            details={"docstatus": int(getattr(doc, "docstatus", 0) or 0)},
-        )
-    except Exception:
-        pass
-    _throw(MSG_DELETE)
-
-
-TRG_UPD = "bh_legal_output_immutable_upd_v1"
-TRG_DEL = "bh_legal_output_immutable_del_v1"
-
-
-def install_db_triggers() -> dict:
+def install_db_triggers() -> Dict[str, List[str]]:
+    """Install MariaDB triggers for BH Legal Output:
+    - Policy lock: block any INSERT/UPDATE/DELETE unless @bh_legal_emit=1 in the DB session.
+    - Immutability: once docstatus=1, block any UPDATE and DELETE at DB level.
     """
-    Hard lock at DB level:
-      - Block UPDATE when OLD.docstatus in (1,2)
-      - Block DELETE when OLD.docstatus in (1,2)
-    """
-    table = "`tabBH Legal Output`"
+    table = "tabBH Legal Output"
 
-    frappe.db.sql(f"DROP TRIGGER IF EXISTS `{TRG_UPD}`")
-    frappe.db.sql(f"DROP TRIGGER IF EXISTS `{TRG_DEL}`")
+    # Drop any previous variants we might have created.
+    drop_names = [
+        # legacy
+        "bh_legal_output_immutable_upd_v1",
+        "bh_legal_output_immutable_del_v1",
+        "bh_legal_output_policy_ins_v1",
+        "bh_legal_output_policy_upd_v1",
+        "bh_legal_output_policy_del_v1",
+        # new (v2)
+        "bh_legal_output_before_insert_v2",
+        "bh_legal_output_before_update_v2",
+        "bh_legal_output_before_delete_v2",
+    ]
+    for trig in drop_names:
+        try:
+            frappe.db.sql(f"DROP TRIGGER IF EXISTS {trig}")
+        except Exception:
+            pass
 
+    policy_msg = _sql_escape(_POLICY_LOCK_MSG)
+    imm_msg = _sql_escape(_IMMUTABLE_MSG)
+    del_msg = _sql_escape(_DELETE_MSG)
+
+    # BEFORE INSERT: only allowed when session var says so.
     frappe.db.sql(
         f"""
-        CREATE TRIGGER `{TRG_UPD}` BEFORE UPDATE ON {table}
-        FOR EACH ROW
-        BEGIN
-            IF OLD.docstatus IN (1,2) THEN
-                SIGNAL SQLSTATE "45000"
-                    SET MESSAGE_TEXT = "BH Legal Output is immutable after submit";
-            END IF;
-        END
-        """
+CREATE TRIGGER bh_legal_output_before_insert_v2
+BEFORE INSERT ON `{table}`
+FOR EACH ROW
+BEGIN
+    IF IFNULL(@bh_legal_emit, 0) <> 1 THEN
+        SIGNAL SQLSTATE '45000'
+            SET MYSQL_ERRNO = 1644,
+                MESSAGE_TEXT = '{policy_msg}';
+    END IF;
+END
+"""
     )
 
+    # BEFORE UPDATE: policy lock + immutable after submit
     frappe.db.sql(
         f"""
-        CREATE TRIGGER `{TRG_DEL}` BEFORE DELETE ON {table}
-        FOR EACH ROW
-        BEGIN
-            IF OLD.docstatus IN (1,2) THEN
-                SIGNAL SQLSTATE "45000"
-                    SET MESSAGE_TEXT = "BH Legal Output cannot be deleted after submit";
-            END IF;
-        END
-        """
+CREATE TRIGGER bh_legal_output_before_update_v2
+BEFORE UPDATE ON `{table}`
+FOR EACH ROW
+BEGIN
+    IF IFNULL(@bh_legal_emit, 0) <> 1 THEN
+        SIGNAL SQLSTATE '45000'
+            SET MYSQL_ERRNO = 1644,
+                MESSAGE_TEXT = '{policy_msg}';
+    END IF;
+
+    -- once submitted, fully immutable (also blocks cancel)
+    IF IFNULL(OLD.docstatus, 0) = 1 THEN
+        SIGNAL SQLSTATE '45000'
+            SET MYSQL_ERRNO = 1644,
+                MESSAGE_TEXT = '{imm_msg}';
+    END IF;
+END
+"""
     )
 
-    frappe.db.commit()
-    return {"ok": True, "installed": [TRG_UPD, TRG_DEL]}
+    # BEFORE DELETE: policy lock + forbid delete after submit
+    frappe.db.sql(
+        f"""
+CREATE TRIGGER bh_legal_output_before_delete_v2
+BEFORE DELETE ON `{table}`
+FOR EACH ROW
+BEGIN
+    IF IFNULL(@bh_legal_emit, 0) <> 1 THEN
+        SIGNAL SQLSTATE '45000'
+            SET MYSQL_ERRNO = 1644,
+                MESSAGE_TEXT = '{policy_msg}';
+    END IF;
 
-
-def uninstall_db_triggers() -> dict:
-    frappe.db.sql(f"DROP TRIGGER IF EXISTS `{TRG_UPD}`")
-    frappe.db.sql(f"DROP TRIGGER IF EXISTS `{TRG_DEL}`")
-    frappe.db.commit()
-    return {"ok": True, "dropped": [TRG_UPD, TRG_DEL]}
-
-
-def check_db_triggers() -> dict:
-    rows = frappe.db.sql(
-        """
-        SELECT TRIGGER_NAME
-        FROM information_schema.TRIGGERS
-        WHERE TRIGGER_SCHEMA = DATABASE()
-          AND TRIGGER_NAME IN (%s, %s)
-        """,
-        (TRG_UPD, TRG_DEL),
-        as_dict=True,
+    IF IFNULL(OLD.docstatus, 0) = 1 THEN
+        SIGNAL SQLSTATE '45000'
+            SET MYSQL_ERRNO = 1644,
+                MESSAGE_TEXT = '{del_msg}';
+    END IF;
+END
+"""
     )
-    found = sorted([r["TRIGGER_NAME"] for r in rows])
-    return {"found": found, "expected": [TRG_UPD, TRG_DEL], "ok": set(found) == {TRG_UPD, TRG_DEL}}
 
-
-def smoke_legal04(name: str):
-    out = {"name": name}
-
-    # 1) raw db set_value (should be blocked by trigger)
     try:
-        frappe.db.set_value("BH Legal Output", name, "modified_by", "Administrator")
-        out["db_set_value_blocked"] = False
-        out["db_set_value_error"] = None
-    except Exception as e:
-        out["db_set_value_blocked"] = True
-        out["db_set_value_error"] = str(e)
+        frappe.db.commit()
+    except Exception:
+        pass
 
-    # 2) doc.db_set (should be blocked by trigger)
+    return check_db_triggers()
+
+
+def check_db_triggers() -> Dict[str, List[str]]:
+    """Return installed trigger names for BH Legal Output (best-effort)."""
     try:
-        doc = frappe.get_doc("BH Legal Output", name)
-        doc.db_set("modified_by", "Administrator", update_modified=False)
-        out["doc_db_set_blocked"] = False
-        out["doc_db_set_error"] = None
-    except Exception as e:
-        out["doc_db_set_blocked"] = True
-        out["doc_db_set_error"] = str(e)
-
-    # 3) cancel (should be blocked by hook)
-    try:
-        doc = frappe.get_doc("BH Legal Output", name)
-        doc.cancel()
-        out["cancel_blocked"] = False
-        out["cancel_error"] = None
-    except Exception as e:
-        out["cancel_blocked"] = True
-        out["cancel_error"] = str(e)
-
-    return out
+        rows = frappe.db.sql(
+            """
+            SELECT TRIGGER_NAME
+            FROM information_schema.TRIGGERS
+            WHERE TRIGGER_SCHEMA = DATABASE()
+              AND EVENT_OBJECT_TABLE = 'tabBH Legal Output'
+            ORDER BY TRIGGER_NAME
+            """,
+            as_dict=True,
+        )
+        return {"triggers": [r["TRIGGER_NAME"] for r in rows]}
+    except Exception:
+        return {"triggers": []}

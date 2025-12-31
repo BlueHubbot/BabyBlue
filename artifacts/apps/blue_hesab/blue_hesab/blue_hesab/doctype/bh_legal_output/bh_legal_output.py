@@ -8,7 +8,6 @@ from typing import Any, Dict
 import frappe
 from frappe.model.document import Document
 
-
 _POLICY_LOCK_MSG = "ثبت/ویرایش خروجی‌های قانونی فقط از مسیر رسمی BlueHesab مجاز است."
 _IMMUTABLE_MSG = "خروجی قانونی پس از ثبت نهایی غیرقابل تغییر است."
 _TAMPER_MSG = "خروجی قانونی دستکاری شده است. (عدم تطابق هش منبع/پیلود)"
@@ -30,6 +29,9 @@ def _append_log(filename: str, obj: Dict[str, Any]) -> None:
 
 
 def _emit_allowed() -> bool:
+    """
+    Official emit path sets `frappe.flags.bh_legal_emit = True`.
+    """
     try:
         if bool(getattr(frappe.flags, "bh_legal_emit", False)):
             return True
@@ -42,7 +44,7 @@ def _emit_allowed() -> bool:
 
 class BHLegalOutput(Document):
     def validate(self):
-        # LEGAL-08: policy lock (blocks manual/UI writes)
+        # Policy lock (UI/Frappe-path). DB triggers enforce SQL-path too.
         if not _emit_allowed():
             _append_log("legal_policy.log", {"action": "BLOCK_WRITE", "doctype": self.doctype, "name": self.name})
             frappe.throw(_POLICY_LOCK_MSG, frappe.ValidationError)
@@ -75,7 +77,13 @@ class BHLegalOutput(Document):
                 if getattr(prev, f, None) != getattr(self, f, None):
                     _append_log(
                         "legal_policy.log",
-                        {"action": "BLOCK_IMMUTABLE_EDIT", "name": self.name, "field": f, "before": getattr(prev, f, None), "after": getattr(self, f, None)},
+                        {
+                            "action": "BLOCK_IMMUTABLE_EDIT",
+                            "name": self.name,
+                            "field": f,
+                            "before": getattr(prev, f, None),
+                            "after": getattr(self, f, None),
+                        },
                     )
                     frappe.throw(_IMMUTABLE_MSG, frappe.ValidationError)
 

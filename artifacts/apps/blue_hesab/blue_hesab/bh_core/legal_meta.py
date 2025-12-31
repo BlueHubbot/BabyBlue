@@ -1,57 +1,77 @@
 from __future__ import annotations
 
-from pathlib import Path
-import subprocess
-import datetime as _dt
+import os
+from contextlib import contextmanager
+
+import frappe
+
+# LEGAL schema and generator build identifiers (auditable + reproducible)
+DEFAULT_SCHEMA_VERSION = os.environ.get("BH_LEGAL_SCHEMA_VERSION", "LEGAL-V1")
+DEFAULT_GENERATOR_BUILD = os.environ.get("BH_LEGAL_GENERATOR_BUILD", "BH-DEV")
 
 
-def _app_root() -> Path:
-    # .../apps/blue_hesab/blue_hesab/bh_core/legal_meta.py -> parents[2] == .../apps/blue_hesab
-    return Path(__file__).resolve().parents[2]
+def get_schema_version(explicit: str | None = None) -> str:
+    return (explicit or DEFAULT_SCHEMA_VERSION).strip()
 
 
-def get_schema_version(default: str = "BH-DEV") -> str:
-    p = _app_root() / "VERSION"
-    try:
-        v = p.read_text(encoding="utf-8").strip()
-        return v or default
-    except Exception:
-        return default
+def get_generator_build(explicit: str | None = None) -> str:
+    return (explicit or DEFAULT_GENERATOR_BUILD).strip()
 
 
 def get_git_head_short() -> str | None:
-    root = _app_root()
     try:
-        out = subprocess.check_output(
+        # best-effort: works if bench is a git clone
+        from subprocess import check_output  # nosec
+
+        out = check_output(
             ["git", "rev-parse", "--short", "HEAD"],
-            cwd=str(root),
-            stderr=subprocess.DEVNULL,
-        )
-        s = out.decode("utf-8", "ignore").strip()
-        return s or None
+            cwd=frappe.get_app_path("blue_hesab"),
+        )  # nosec
+        return out.decode("utf-8", "ignore").strip() or None
     except Exception:
         return None
 
 
-def get_generator_build() -> str:
-    sv = get_schema_version()
-    head = get_git_head_short()
-    return f"{sv}@{head}" if head else sv
+def _set_db_emit_flag(on: bool) -> None:
+    """Session-scoped DB flag for MariaDB triggers (policy lock)."""
+    try:
+        frappe.db.sql(f"SET @bh_legal_emit = {1 if on else 0}")
+    except Exception:
+        pass
 
-def get_legal_meta(*, schema_version: str | None = None, generator_build: str | None = None) -> dict:
-    """
-    LEGAL meta helper used by legal_output.create_legal_output
-    Returns: {schema_version, generator_build, generated_at}
-    """
-    sv = (schema_version or "").strip() or get_schema_version()
-    if generator_build and str(generator_build).strip():
-        gb = str(generator_build).strip()
-    else:
-        head = get_git_head_short()
-        gb = f"{sv}@{head}" if head else sv
 
-    return {
-        "schema_version": sv,
-        "generator_build": gb,
-        "generated_at": str(_dt.datetime.utcnow()),
-    }
+@contextmanager
+def legal_emit_scope():
+    """Allow creating BH Legal Output only inside this scope.
+
+    - Python-level guard: frappe.flags.bh_legal_emit
+    - DB-level guard: @bh_legal_emit (used by BEFORE INSERT trigger)
+    - Supports nesting safely.
+    """
+    flags = frappe.flags
+    n = int(getattr(flags, "_bh_legal_emit_nesting", 0) or 0)
+
+    if n == 0:
+        # store previous state (avoid leaking bh_legal_emit=True into later code)
+        setattr(flags, "_bh_legal_emit_prev", bool(getattr(flags, "bh_legal_emit", False)))
+        flags.bh_legal_emit = True
+        _set_db_emit_flag(True)
+
+    setattr(flags, "_bh_legal_emit_nesting", n + 1)
+    try:
+        yield
+    finally:
+        # unwind nesting
+        n2 = int(getattr(flags, "_bh_legal_emit_nesting", 1) or 1) - 1
+        if n2 < 0:
+            n2 = 0
+        setattr(flags, "_bh_legal_emit_nesting", n2)
+
+        if n2 == 0:
+            _set_db_emit_flag(False)
+            prev = bool(getattr(flags, "_bh_legal_emit_prev", False))
+            flags.bh_legal_emit = prev
+            try:
+                delattr(flags, "_bh_legal_emit_prev")
+            except Exception:
+                pass

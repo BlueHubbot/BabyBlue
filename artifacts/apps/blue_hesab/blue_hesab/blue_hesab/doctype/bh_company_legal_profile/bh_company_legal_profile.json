@@ -18,6 +18,12 @@
     "default_sales_vat_rate",
     "default_purchase_vat_account",
     "default_purchase_vat_rate",
+    "enable_ttms",
+    "auto_ttms_on_sales",
+    "auto_ttms_on_purchase",
+    "enable_modian",
+    "auto_modian_on_sales",
+    "auto_modian_on_purchase",
     "auto_vat_on_sales",
     "auto_vat_on_purchase",
     "notes"
@@ -89,6 +95,48 @@
       "label": "Auto VAT on Purchase Invoice",
       "fieldtype": "Check",
       "default": "1"
+    },
+    {
+      "fieldname": "enable_ttms",
+      "fieldtype": "Check",
+      "label": "فعال‌سازی TTMS",
+      "default": "0",
+      "insert_after": "auto_vat_on_purchase"
+    },
+    {
+      "fieldname": "auto_ttms_on_sales",
+      "fieldtype": "Check",
+      "label": "TTMS خودکار برای فروش",
+      "default": "0",
+      "insert_after": "enable_ttms"
+    },
+    {
+      "fieldname": "auto_ttms_on_purchase",
+      "fieldtype": "Check",
+      "label": "TTMS خودکار برای خرید",
+      "default": "0",
+      "insert_after": "auto_ttms_on_sales"
+    },
+    {
+      "fieldname": "enable_modian",
+      "fieldtype": "Check",
+      "label": "فعال‌سازی مودیان",
+      "default": "0",
+      "insert_after": "auto_ttms_on_purchase"
+    },
+    {
+      "fieldname": "auto_modian_on_sales",
+      "fieldtype": "Check",
+      "label": "مودیان خودکار برای فروش",
+      "default": "0",
+      "insert_after": "enable_modian"
+    },
+    {
+      "fieldname": "auto_modian_on_purchase",
+      "fieldtype": "Check",
+      "label": "مودیان خودکار برای خرید",
+      "default": "0",
+      "insert_after": "auto_modian_on_sales"
     },
     {
       "fieldname": "notes",

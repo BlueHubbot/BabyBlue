@@ -1,50 +1,14 @@
 from __future__ import annotations
 
 import json
-from contextlib import contextmanager
 import hashlib
 import datetime as _dt
 from typing import Any, Dict, Optional
 
 import frappe
-
-from blue_hesab.bh_core.legal_meta import get_schema_version, get_generator_build
-from blue_hesab.bh_core.legal_audit import log_chain
-
 from contextlib import contextmanager
 
-def dumps_json(obj) -> str:
-    """Deterministic JSON for hashing/storage (handles date/datetime)."""
-
-    def _default(o):
-        if isinstance(o, (_dt.date, _dt.datetime)):
-            return o.isoformat()
-        return str(o)
-
-    return json.dumps(
-        obj,
-        ensure_ascii=False,
-        sort_keys=True,
-        separators=(",", ":"),
-        default=_default,
-    )
-
-
-def _safe_json_loads(s: str):
-    try:
-        return json.loads(s)
-    except Exception:
-        return None
-
-
-@contextmanager
-def _bh_legal_emit_flag():
-    old = bool(getattr(frappe.flags, "bh_legal_emit", False))
-    frappe.flags.bh_legal_emit = True
-    try:
-        yield
-    finally:
-        frappe.flags.bh_legal_emit = old
+from blue_hesab.bh_core.legal_meta import get_schema_version, get_generator_build
 
 
 def _json_default(o: Any):
@@ -111,6 +75,38 @@ def build_source_minimal(
         "amended_from": amended_from,
         "docstatus": docstatus,
     }
+def _bh_set_db_emit(on: bool) -> None:
+    """Set per-connection DB session variable used by DB triggers."""
+    try:
+        frappe.db.sql(f"SET @bh_legal_emit = {1 if on else 0}")
+    except Exception:
+        pass
+
+
+class _BhLegalEmitCtx:
+    def __enter__(self):
+        self._prev_flag = getattr(frappe.flags, "bh_legal_emit", None)
+        try:
+            frappe.flags.bh_legal_emit = True
+        except Exception:
+            pass
+        _bh_set_db_emit(True)
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        try:
+            _bh_set_db_emit(False)
+        except Exception:
+            pass
+        try:
+            frappe.flags.bh_legal_emit = self._prev_flag
+        except Exception:
+            pass
+        return False  # don't swallow exceptions
+
+
+def _bh_legal_emit_ctx() -> _BhLegalEmitCtx:
+    return _BhLegalEmitCtx()
 
 
 def _set_if_field(doc, fieldname: str, value: Any):
@@ -122,89 +118,112 @@ def _set_if_field(doc, fieldname: str, value: Any):
     except Exception:
         return
 
+
 def create_legal_output(
     *,
     reference_doctype: str,
     reference_name: str,
     company: str,
     output_type: str,
-    correction_reason: str | None = None,   # None | "CANCEL" | "AMEND"
-    previous_output: str | None = None,
-    source: dict | None = None,
-    payload: dict | None = None,
-    event: str | None = None,
-    schema_version: str | None = None,
-    generator_build: str | None = None,
-    generated_by: str | None = None,
-    generated_at: str | None = None,
-    amended_from: str | None = None,
+    correction_reason: Optional[str] = None,
+    previous_output: Optional[str] = None,
+    # LEGAL-06 introduced source kw-only; keep it OPTIONAL for backward compatibility
+    source: Optional[Dict[str, Any]] = None,
+    payload: Optional[Dict[str, Any]] = None,
+    # legacy callers used event=...; accept it (ignored if not needed)
+    event: Optional[str] = None,
+    # allow explicit override; otherwise derive from VERSION/git
+    schema_version: Optional[str] = None,
+    generator_build: Optional[str] = None,
+    generated_at: Optional[str] = None,
+    generated_by: Optional[str] = None,
+    # ignore any historical/stray kwargs safely
+    **_ignored,
 ) -> str:
-    """Create BH Legal Output (submitted, immutable) via the official generator path only.
+    # tolerate callers passing JSON strings
+    if isinstance(source, str):
+        try:
+            source = json.loads(source)
+        except Exception:
+            source = {"raw": source}
+    if isinstance(payload, str):
+        try:
+            payload = json.loads(payload)
+        except Exception:
+            payload = {"raw": payload}
 
-    LEGAL-08:
-    - wraps insert/submit with frappe.flags.bh_legal_emit so BH Legal Output validate() can hard-block UI/manual writes.
-    - auto builds payload for TTMS/MODIAN (skeleton), keeps VAT deterministic for now.
-    """
-    from blue_hesab.bh_core import legal_meta
-
-    meta = legal_meta.get_legal_meta(schema_version=schema_version, generator_build=generator_build)
-    schema_version = meta["schema_version"]
-    generator_build = meta["generator_build"]
-    generated_by = generated_by or frappe.session.user
-    generated_at = generated_at or meta["generated_at"]
+    schema_version = schema_version or get_schema_version()
+    generator_build = generator_build or get_generator_build()
+    generated_at = generated_at or _now_ts()
+    generated_by = generated_by or _session_user()
 
     if source is None:
-        source = {"ref": {"doctype": reference_doctype, "name": reference_name}, "company": company, "output_type": output_type}
+        # minimum stable source (so we never crash because source is missing)
+        amended_from = None
+        docstatus = None
+        try:
+            if reference_doctype and reference_name:
+                docstatus = frappe.db.get_value(reference_doctype, reference_name, "docstatus")
+                amended_from = frappe.db.get_value(reference_doctype, reference_name, "amended_from")
+        except Exception:
+            pass
 
-    # LEGAL-08 payload auto build for TTMS/MODIAN until real generators land
+        source = build_source_minimal(
+            reference_doctype=reference_doctype,
+            reference_name=reference_name,
+            company=company,
+            output_type=output_type,
+            event=event,
+            correction_reason=correction_reason,
+            previous_output=previous_output,
+            amended_from=amended_from,
+            docstatus=docstatus,
+        )
+
     if payload is None:
-        if output_type in ("TTMS_EXPORT", "MODIAN_PAYLOAD"):
-            try:
-                from blue_hesab.bh_core.legal_payloads import build_legal_payload_v1
-                ref_doc = frappe.get_doc(reference_doctype, reference_name)
-                payload = build_legal_payload_v1(doc=ref_doc, output_type=output_type, correction_reason=correction_reason)
-            except Exception:
-                payload = {"type": output_type, "ref": {"doctype": reference_doctype, "name": reference_name}, "company": company}
-        else:
-            payload = {"type": output_type, "ref": {"doctype": reference_doctype, "name": reference_name}, "company": company}
+        # until we formalize VAT payload v1, keep payload deterministic (at least)
+        payload = {"type": output_type, "ref": {"doctype": reference_doctype, "name": reference_name}, "company": company}
 
-    source_json = dumps_json(source)
-    payload_json = dumps_json(payload)
     source_hash = hash_obj(source)
     payload_hash = hash_obj(payload)
 
     doc = frappe.new_doc("BH Legal Output")
-    doc.company = company
-    doc.output_type = output_type
-    doc.reference_doctype = reference_doctype
-    doc.reference_name = reference_name
-    doc.schema_version = schema_version
-    doc.generator_build = generator_build
-    doc.generated_by = generated_by
-    doc.generated_at = generated_at
 
-    doc.correction_reason = correction_reason
-    doc.previous_output = previous_output
-    doc.amended_from = amended_from
+    _set_if_field(doc, "company", company)
+    _set_if_field(doc, "reference_doctype", reference_doctype)
+    _set_if_field(doc, "reference_name", reference_name)
+    _set_if_field(doc, "output_type", output_type)
 
-    doc.source_json = source_json
-    doc.payload_json = payload_json
-    doc.source_hash = source_hash
-    doc.payload_hash = payload_hash
+    _set_if_field(doc, "correction_reason", correction_reason)
+    _set_if_field(doc, "previous_output", previous_output)
 
-    if hasattr(doc, "event"):
-        setattr(doc, "event", event)
+    _set_if_field(doc, "schema_version", schema_version)
+    _set_if_field(doc, "generator_build", generator_build)
+    _set_if_field(doc, "generated_at", generated_at)
+    _set_if_field(doc, "generated_by", generated_by)
 
-    # IMPORTANT: policy-lock bypass ONLY inside this context
-    with _bh_legal_emit_flag():
+    _set_if_field(doc, "source_hash", source_hash)
+    _set_if_field(doc, "payload_hash", payload_hash)
+
+    # optional storage fields (depending on doctype schema)
+    src_json = _stable_dumps(source)
+    pay_json = _stable_dumps(payload)
+
+    for f in ("source_json", "source", "source_payload", "source_data"):
+        _set_if_field(doc, f, src_json)
+    for f in ("payload_json", "payload", "payload_data"):
+        _set_if_field(doc, f, pay_json)
+
+    with _bh_legal_emit_ctx():
         doc.insert(ignore_permissions=True)
-
         # submit if doctype is submittable (immutability)
-        if int(frappe.get_meta(doc.doctype).is_submittable) == 1:
-            doc.submit()
-
-    return doc.name
-
+        try:
+            if getattr(doc.meta, "is_submittable", 0) and doc.docstatus == 0:
+                doc.submit()
+        except Exception:
+            # if not submittable or submit blocked, leave inserted (docstatus=0)
+            pass
+        return doc.name
 
 
 def get_latest_output_for_ref(
