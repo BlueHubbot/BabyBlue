@@ -1,0 +1,54 @@
+{
+  "doctype": "DocType",
+  "name": "BH VAT Period",
+  "module": "Blue Hesab",
+  "custom": 0,
+  "is_submittable": 1,
+  "autoname": "naming_series:",
+  "naming_rule": "Set by user",
+  "title_field": "company",
+  "track_changes": 1,
+  "fields": [
+    { "fieldname": "naming_series", "fieldtype": "Select", "label": "سری نام‌گذاری", "options": "BH-VATP-.YYYY.-.####", "reqd": 1, "default": "BH-VATP-.YYYY.-.####" },
+
+    { "fieldname": "company", "fieldtype": "Link", "label": "شرکت", "options": "Company", "reqd": 1 },
+    { "fieldname": "status", "fieldtype": "Select", "label": "وضعیت", "options": "Draft\nClosed\nCancelled", "default": "Draft", "read_only": 1 },
+    { "fieldname": "period_start_date", "fieldtype": "Date", "label": "شروع دوره", "reqd": 1 },
+    { "fieldname": "period_end_date", "fieldtype": "Date", "label": "پایان دوره", "reqd": 1 },
+
+    { "fieldname": "sec_accounts", "fieldtype": "Section Break", "label": "حساب‌ها" },
+    { "fieldname": "sales_vat_account", "fieldtype": "Link", "label": "حساب VAT فروش", "options": "Account" },
+    { "fieldname": "purchase_vat_account", "fieldtype": "Link", "label": "حساب VAT خرید", "options": "Account" },
+    { "fieldname": "payable_account", "fieldtype": "Link", "label": "حساب تسویه پرداختنی (سازمان مالیاتی)", "options": "Account", "reqd": 1 },
+    { "fieldname": "receivable_account", "fieldtype": "Link", "label": "حساب تسویه بستانکار (قابل استرداد/انتقال)", "options": "Account", "reqd": 1 },
+    { "fieldname": "auto_create_settlement", "fieldtype": "Check", "label": "ساخت خودکار سند تسویه", "default": 1 },
+    { "fieldname": "settlement_journal_entry", "fieldtype": "Link", "label": "سند تسویه", "options": "Journal Entry", "read_only": 1 },
+
+    { "fieldname": "sec_totals", "fieldtype": "Section Break", "label": "تجمیع دوره" },
+    { "fieldname": "currency", "fieldtype": "Link", "label": "واحد پول", "options": "Currency", "read_only": 1 },
+
+    { "fieldname": "sales_doc_count", "fieldtype": "Int", "label": "تعداد فروش", "read_only": 1 },
+    { "fieldname": "sales_net_total", "fieldtype": "Currency", "label": "جمع خالص فروش", "options": "currency", "read_only": 1 },
+    { "fieldname": "sales_vat_total", "fieldtype": "Currency", "label": "VAT فروش", "options": "currency", "read_only": 1 },
+
+    { "fieldname": "col_p", "fieldtype": "Column Break" },
+    { "fieldname": "purchase_doc_count", "fieldtype": "Int", "label": "تعداد خرید", "read_only": 1 },
+    { "fieldname": "purchase_net_total", "fieldtype": "Currency", "label": "جمع خالص خرید", "options": "currency", "read_only": 1 },
+    { "fieldname": "purchase_vat_total", "fieldtype": "Currency", "label": "VAT خرید", "options": "currency", "read_only": 1 },
+
+    { "fieldname": "sec_net", "fieldtype": "Section Break", "label": "خلاصه" },
+    { "fieldname": "net_payable", "fieldtype": "Currency", "label": "پرداختنی", "options": "currency", "read_only": 1 },
+    { "fieldname": "net_receivable", "fieldtype": "Currency", "label": "بستانکار/قابل استرداد", "options": "currency", "read_only": 1 },
+
+    { "fieldname": "sec_audit", "fieldtype": "Section Break", "label": "ممیزی" },
+    { "fieldname": "schema_version", "fieldtype": "Data", "label": "Schema Version", "read_only": 1 },
+    { "fieldname": "generator_build", "fieldtype": "Data", "label": "Generator Build", "read_only": 1 },
+    { "fieldname": "source_hash", "fieldtype": "Data", "label": "Source Hash", "read_only": 1 },
+    { "fieldname": "payload_hash", "fieldtype": "Data", "label": "Payload Hash", "read_only": 1 },
+    { "fieldname": "snapshot_json", "fieldtype": "Long Text", "label": "Snapshot JSON", "read_only": 1 }
+  ],
+  "permissions": [
+    { "role": "System Manager", "read": 1, "write": 1, "create": 1, "submit": 1, "cancel": 1, "delete": 0, "report": 1, "export": 1, "print": 1, "email": 1 },
+    { "role": "Accounts Manager", "read": 1, "write": 1, "create": 1, "submit": 1, "cancel": 0, "delete": 0, "report": 1, "export": 1, "print": 1, "email": 1 }
+  ]
+}

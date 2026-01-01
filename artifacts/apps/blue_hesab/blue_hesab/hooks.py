@@ -11,6 +11,7 @@ app_license = "MIT"
 # VAT pipeline (single source of truth)
 # - intent/mode enforcement: before_validate (vat_pipeline)
 # - calculations: validate (vat_pipeline/vat_hooks)
+
 doc_events = {
   "Sales Invoice": {
     "before_validate": [
@@ -20,14 +21,24 @@ doc_events = {
     "validate": [
       "blue_hesab.bh_core.vat_pipeline.bh_validate_sales_invoice",
     ],
+
+    # ✅ VAT-16: Period Lock + VAT final enforcement on submit
+    "before_submit": [
+      "blue_hesab.bh_core.vat_period_lock.bh_before_submit_sales_invoice",
+      "blue_hesab.bh_core.vat_pipeline.bh_before_submit_sales_invoice",
+    ],
+
     "on_submit": [
       "blue_hesab.bh_core.legal_hooks.on_submit_sales_invoice",
       "blue_hesab.bh_core.dimensions_hook_adapter.apply_gl_dimensions_from_invoice",
     ],
+
+    # ✅ VAT-16: must run BEFORE legal side effects
     "before_cancel": [
+      "blue_hesab.bh_core.vat_period_lock.bh_before_cancel_sales_invoice",
       "blue_hesab.bh_core.legal_hooks.before_cancel_sales_invoice",
     ],
-    # ✅ حیاتی: بدون این، Cancel هیچ خروجی قانونی تولید نمی‌کند (have=[])
+
     "on_cancel": [
       "blue_hesab.bh_core.legal_hooks.on_cancel_sales_invoice",
     ],
@@ -40,17 +51,33 @@ doc_events = {
     "validate": [
       "blue_hesab.bh_core.vat_pipeline.bh_validate_purchase_invoice",
     ],
+
+    # ✅ VAT-16: Period Lock + VAT final enforcement on submit
+    "before_submit": [
+      "blue_hesab.bh_core.vat_period_lock.bh_before_submit_purchase_invoice",
+      "blue_hesab.bh_core.vat_pipeline.bh_before_submit_purchase_invoice",
+    ],
+
     "on_submit": [
       "blue_hesab.bh_core.legal_hooks.on_submit_purchase_invoice",
       "blue_hesab.bh_core.dimensions_hook_adapter.apply_gl_dimensions_from_invoice",
     ],
+
+    # ✅ VAT-16: must run BEFORE legal side effects
     "before_cancel": [
+      "blue_hesab.bh_core.vat_period_lock.bh_before_cancel_purchase_invoice",
       "blue_hesab.bh_core.legal_hooks.before_cancel_purchase_invoice",
     ],
-    # ✅ حیاتی
+
     "on_cancel": [
       "blue_hesab.bh_core.legal_hooks.on_cancel_purchase_invoice",
     ],
+  },
+
+  "BH Legal Output": {
+    "on_update_after_submit": "blue_hesab.bh_core.legal_immutability.on_update_after_submit",
+    "on_cancel": "blue_hesab.bh_core.legal_immutability.on_cancel",
+    "on_trash": "blue_hesab.bh_core.legal_immutability.on_trash",
   },
 
   # BH Legal Output immutability (NNG-02)
