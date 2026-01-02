@@ -67,3 +67,10 @@ def before_validate_purchase_invoice(doc, method=None):
         return
     _copy_field(doc, original, "bh_vat_price_mode")
     _sync_return_item_templates(doc, original)
+
+# --- BlueHesab hook wrappers (bh_* naming) ---
+def bh_before_validate_sales_invoice(doc, method=None):
+    return before_validate_sales_invoice(doc, method)
+
+def bh_before_validate_purchase_invoice(doc, method=None):
+    return before_validate_purchase_invoice(doc, method)

@@ -61,29 +61,3 @@ def get_schema_version(company: Optional[str] = None, output_type: Optional[str]
 def get_generator_build(company: Optional[str] = None) -> str:
     """Build identifier for audit. Override later from CI tag if needed."""
     return LEGAL_GENERATOR_BUILD_DEFAULT
-
-
-# === BH HOTFIX: enabled_output_types(company=...) compat + canonical codes ===
-# هدف: جلوگیری از TypeError و برگرداندن کدهای واقعی خروجی‌ها:
-# VAT_INVOICE / TTMS_EXPORT / MODIAN_PAYLOAD
-def enabled_output_types(*args, company=None, **kwargs):
-    ctx = kwargs.get("ctx")
-    if company is None:
-        company = kwargs.get("company")
-    if company is None and isinstance(ctx, dict):
-        company = ctx.get("company")
-
-    from .bh_settings import get_bh_settings  # shim -> bh_settings_core
-    try:
-        s = get_bh_settings(company=company) if company else get_bh_settings()
-    except TypeError:
-        s = get_bh_settings()
-
-    out = []
-    if getattr(s, "enable_vat", 0):
-        out.append("VAT_INVOICE")
-    if getattr(s, "enable_ttms", 0):
-        out.append("TTMS_EXPORT")
-    if getattr(s, "enable_modian", 0):
-        out.append("MODIAN_PAYLOAD")
-    return out
