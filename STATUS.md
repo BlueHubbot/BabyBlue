@@ -1,41 +1,7 @@
-# BlueHesab — STATUS (nightly/baba)
+# STATUS (Pointer)
 
-> **Master Roadmap / Spec:** `README.md` (نقشه اصلی و Non-Negotiables و Policyها آنجاست)
-> **Daily Logs:** `status/daily/`
-> **Legal Board:** `roadmaps/LEGAL_STATUS_BOARD.md`
-> **Releases (immutable per tag):** `releases/`
+**Source of Truth**
 
-## Current Baseline
-- Date (local): **2026-01-03**
-- Repo: `BlueHubbot/BabyBlue`
-- Branch: `nightly/baba`
-- Current schema_version (tag): **BH-20260103.1**
-- generator_build: **BH-20260103.1@5945cc0c**
-
-> Reminder: Schema Version = Git Tag (BH-YYYYMMDD.N) و Release Note الزامی است. (طبق README)
-
-## Today (Latest Daily Delta)
-- 📌 **Today log:** `status/daily/2026-01-03.md`
-
-## Status Boards (Summary)
-
-### LEGAL (Legal Outputs)
-- ✅ LEGAL-05 Smoke PASS (Sales+Purchase chain: ISSUE → CANCEL → AMEND)
-- ✅ LEGAL-06.1 PASS (Fix reference_name fieldtype + migrate OK)
-- 🟡 LEGAL-07 NEXT: Hardening + “close manipulation paths” + new regressions
-
-### VAT (high-level)
-- ✅ VAT Core (Mixed + intent guard + base regress): PASS (BH-EP01 v0.3 per prior status)
-- ✅ VAT Legal Output (Legal05 chain): PASS
-- 🟡 VAT/Legal Hardening: در صف (هم‌راستا با LEGAL-07)
-
-## Update Rule (Non-Negotiable)
-- هر شب بعد از Nightly Sync + Tag:
-  1) یک فایل روزانه در `status/daily/YYYY-MM-DD.md`
-  2) آپدیت این فایل (`STATUS.md`) به آخرین روز
-  3) Release note همان Tag داخل `releases/<TAG>.md` (immutable)
-
-## BH-20251231.1 (2025-12-31)
-- LEGAL07 ✅
-- LEGAL08 ✅
-- LEGAL09 ✅
+- Status Board: `STATUS_BOARD.md`
+- Changelog: `CHANGELOG.md`
+- Roadmap: `ROADMAP.md` و نسخهٔ کامل: `roadmaps/BLUEHESAB_IRAN_ROADMAP.md`
