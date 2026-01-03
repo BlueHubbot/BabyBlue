@@ -16,14 +16,25 @@ from blue_hesab.bh_core.legal_hooks import _emit_issue, _emit_cancel, _emit_amen
 
 
 def _enabled_output_types(company: str) -> list[str]:
-    # ساده‌ترین حالت: از BH Settings بخوان. اگر قبلاً helper داری، همان را صدا بزن.
+    """
+    Expected BH Legal Output output_type values for current BH Settings.
+
+    NOTE:
+      - TTMS uses output_type = TTMS_EXPORT
+      - Modian uses output_type = MODIAN_PAYLOAD
+      - VAT invoice uses output_type = VAT_INVOICE
+    """
     s = frappe.get_cached_doc("BH Settings")
-    out = []
-    if getattr(s, "enable_ttms", 0):
-        out.append("TTMS")
+
+    out: list[str] = []
     if getattr(s, "enable_modian", 0):
-        out.append("MODIAN")
-    return out or ["TTMS"]
+        out.append("MODIAN_PAYLOAD")
+    if getattr(s, "enable_ttms", 0):
+        out.append("TTMS_EXPORT")
+    if getattr(s, "enable_vat", 0):
+        out.append("VAT_INVOICE")
+
+    return out
 
 
 def _cleanup(company: str, ref_doctype: str, ref_name: str) -> None:

@@ -3,6 +3,7 @@ from __future__ import annotations
 import frappe
 
 from blue_hesab.bh_core.regress.reporting import run_cases, write_report, console_summary
+from ..legal09_regress import run_legal09_regress 
 
 # LEGAL07 already has proper case-functions:
 from blue_hesab.bh_core.legal07_regress import (

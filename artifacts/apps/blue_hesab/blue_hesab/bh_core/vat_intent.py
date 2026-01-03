@@ -79,3 +79,38 @@ def vat26_enforce_inclusive_intent(
         no_autofix=no_autofix,
         is_submit=is_submit,
     )
+
+def vat11_resolve_price_mode(doctype: str, doc, company: str | None = None) -> str:
+    """
+    Backward-compat helper for older regress tests (VAT-12 INTENT REGRESS).
+
+    Current production logic relies on doc.bh_vat_price_mode, but regress tests
+    may pass only is_pos / taxes_and_charges. We resolve as:
+
+      - If bh_vat_price_mode is present -> normalize & return it
+      - Else Sales Invoice real POS -> Inclusive
+      - Else -> Exclusive
+    """
+
+    def _get(key, default=None):
+        try:
+            if hasattr(doc, "get"):
+                return doc.get(key, default)
+        except Exception:
+            pass
+        return getattr(doc, key, default)
+
+    # 1) explicit mode on doc wins
+    raw = (_get("bh_vat_price_mode") or "").strip()
+    low = raw.lower()
+    if low.startswith("incl"):
+        return "Inclusive"
+    if low.startswith("excl"):
+        return "Exclusive"
+
+    # 2) infer for regress
+    if doctype == "Sales Invoice":
+        if bool(_get("is_pos")) or bool(_get("pos_profile")):
+            return "Inclusive"
+
+    return "Exclusive"

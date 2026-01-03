@@ -162,3 +162,10 @@ def run_v01_cli(company: str = "BlueAPi") -> Dict[str, Any]:
     except Exception:
         pass
     return out
+
+# Back-compat aliases (older runners used VAT-12 naming)
+def run_vat12_intent_regress(company: str = "BlueAPi") -> dict:
+    return run_v01(company=company)
+
+def run_vat12_intent_regress_cli(company: str = "BlueAPi") -> dict:
+    return run_v01_cli(company=company)

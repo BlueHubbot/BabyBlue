@@ -92,6 +92,37 @@ def _kind_label(kind: str) -> str:
         return "Purchase"
     return "Sales"
 
+def norm(s):
+    """Normalize user input for internal comparisons."""
+    if s is None:
+        return ""
+    return str(s).strip()
+
+
+def label_for_kind(kind: str) -> str:
+    """Human label used in template naming: Sales / Purchase"""
+    k = norm(kind).lower()
+    if k in ("sales", "sale", "si", "sales_invoice", "sales invoice"):
+        return "Sales"
+    if k in ("purchase", "buy", "pi", "purchase_invoice", "purchase invoice"):
+        return "Purchase"
+    return (norm(kind) or "").title()
+
+
+def doctype_for_kind(kind: str) -> str:
+    """
+    MUST return the TEMPLATE doctype (not the invoice doctype).
+    This is used by infer_mixed_template_name() to check template existence.
+    """
+    k = norm(kind).lower()
+    if k in ("sales", "sale", "si", "sales_invoice", "sales invoice"):
+        return "Sales Taxes and Charges Template"
+    if k in ("purchase", "buy", "pi", "purchase_invoice", "purchase invoice"):
+        return "Purchase Taxes and Charges Template"
+    # safe fallback
+    return "Sales Taxes and Charges Template"
+
+
 
 def infer_mixed_template_name(
     *,

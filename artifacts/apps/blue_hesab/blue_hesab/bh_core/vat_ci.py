@@ -227,6 +227,20 @@ def run_ep01_v03_cli(rate: int = 1_000_000, **kwargs):
         "ok": bool(out.get("ok")),
     }
 
+def run_vat12_intent_regress(company: str = "BlueAPi") -> dict:
+    """VAT-12 INTENT REGRESS (back-compat wrapper)."""
+    from . import vat_regress_intent_v01
+    return vat_regress_intent_v01.run_v01(company=company)
+
+def run_vat12_intent_regress_cli(company: str = "BlueAPi") -> dict:
+    """CLI-friendly wrapper (prints and returns)."""
+    from . import vat_regress_intent_v01
+    return vat_regress_intent_v01.run_v01_cli(company=company)
+
+def run_vat13_regress(company: str = "BlueAPi", **kwargs):
+    # thin wrapper for bench execute compatibility
+    from .vat_regress_vat13_guard import run_vat13_guard
+    return run_vat13_guard(company=company, **kwargs)
 
 def run_error_policy_smoke(**kwargs):
     try:
@@ -238,3 +252,6 @@ def run_error_policy_smoke(**kwargs):
     assert_vat_error_codes_sane()
     print("[CI] error policy smoke PASS")
     return {"ok": True}
+
+
+
