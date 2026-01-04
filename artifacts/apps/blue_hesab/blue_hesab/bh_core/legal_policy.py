@@ -13,10 +13,12 @@ from typing import List, Optional
 
 import frappe
 
+from . import versioning as _bh_ver
+
 
 # ---- Stable constants (do NOT rename; regress imports rely on these) ----
-LEGAL_SCHEMA_VERSION_DEFAULT = "LEGAL-V1"
-LEGAL_GENERATOR_BUILD_DEFAULT = "BH-DEV"
+LEGAL_SCHEMA_VERSION_DEFAULT = _bh_ver.get_schema_version()
+LEGAL_GENERATOR_BUILD_DEFAULT = _bh_ver.get_generator_build()
 
 OUTPUT_VAT_INVOICE = "VAT_INVOICE"
 OUTPUT_TTMS_EXPORT = "TTMS_EXPORT"
@@ -32,35 +34,35 @@ def _get_bh_settings() -> "frappe._dict":
 
 
 def enabled_output_types(settings: dict) -> tuple[list[str], dict[str, int]]:
-    enabled: list[str] = []
-
-    if settings.get("enable_vat"):
-        enabled.append(OUTPUT_VAT_INVOICE)
-
-    if settings.get("enable_ttms"):
-        enabled.append(OUTPUT_TTMS_EXPORT)
-
-    if settings.get("enable_modian"):
-        enabled.append(OUTPUT_MODIAN_PAYLOAD)
-
-    order = {
-        OUTPUT_VAT_INVOICE: 10,
-        OUTPUT_TTMS_EXPORT: 20,
-        OUTPUT_MODIAN_PAYLOAD: 30,
-    }
-    return enabled, order
-
+    """
+    Legacy signature (kept): enabled_output_types(settings_dict) -> (list[str], flags)
+    """
+    out: list[str] = []
+    flags: dict[str, int] = {}
+    if int(settings.get("enable_vat", 0) or 0):
+        out.append(OUTPUT_VAT_INVOICE)
+        flags[OUTPUT_VAT_INVOICE] = 1
+    if int(settings.get("enable_ttms", 0) or 0):
+        out.append(OUTPUT_TTMS_EXPORT)
+        flags[OUTPUT_TTMS_EXPORT] = 1
+    if int(settings.get("enable_modian", 0) or 0):
+        out.append(OUTPUT_MODIAN_PAYLOAD)
+        flags[OUTPUT_MODIAN_PAYLOAD] = 1
+    return out, flags
 
 
 def get_schema_version(company: Optional[str] = None, output_type: Optional[str] = None) -> str:
-    """Schema version for legal outputs. Keep stable unless you bump DB schema intentionally."""
-    # Future: per-company legal profile override
-    return LEGAL_SCHEMA_VERSION_DEFAULT
+    """schema_version MUST match Git tag (apps/blue_hesab/VERSION)."""
+    return _bh_ver.get_schema_version()
 
 
 def get_generator_build(company: Optional[str] = None) -> str:
-    """Build identifier for audit. Override later from CI tag if needed."""
-    return LEGAL_GENERATOR_BUILD_DEFAULT
+    """generator_build default == schema_version (tag)."""
+    return _bh_ver.get_generator_build()
+
+# Backwards-compat alias (some older code/tests imported these)
+SCHEMA_VERSION = LEGAL_SCHEMA_VERSION_DEFAULT
+GENERATOR_BUILD = LEGAL_GENERATOR_BUILD_DEFAULT
 
 
 # === BH HOTFIX: enabled_output_types(company=...) compat + canonical codes ===

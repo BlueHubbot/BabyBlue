@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import Any, Dict, Optional
+from blue_hesab.bh_core.dim_testkit import apply_required_dims
 
 import frappe
 from frappe.utils import nowdate, nowtime
@@ -183,8 +184,11 @@ def create_sales_invoice_and_submit(
             si.set("bh_vat_price_mode", intent)
     except Exception:
         pass
-
+    from blue_hesab.bh_core.dim_testkit import apply_invoice_dimensions
+    apply_invoice_dimensions(si, company=company)
+    apply_required_dims(si, company=company)
     si.insert(ignore_permissions=True)
+
     si.submit()
 
     lo = frappe.db.get_value(
@@ -260,7 +264,9 @@ def create_purchase_invoice_and_submit(
             pi.set("bh_vat_price_mode", intent)
     except Exception:
         pass
-
+    from blue_hesab.bh_core.dim_testkit import apply_invoice_dimensions
+    apply_invoice_dimensions(pi, company=company)
+    apply_required_dims(pi, company=company)
     pi.insert(ignore_permissions=True)
     pi.submit()
 

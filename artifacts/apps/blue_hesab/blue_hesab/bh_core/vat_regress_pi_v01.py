@@ -1,3 +1,5 @@
+from blue_hesab.bh_core.dim_testkit import apply_required_dims
+
 class RegressResult(list):
     """
     Hybrid list+dict result:
@@ -293,7 +295,9 @@ def _run_one(label, builder_fn, company, supplier, expense_account, vat_account)
                     "VAT-25 lock: regress must set taxes_and_charges explicitly (no auto-apply)."
                 )
 
+        apply_required_dims(pi, company=company)
         pi.submit()
+
 
         vat_amt, _ = _vat_amount_from_pi(pi, vat_account)
         gl_rows, gl_agg = _gl_snapshot(company, pi.name)

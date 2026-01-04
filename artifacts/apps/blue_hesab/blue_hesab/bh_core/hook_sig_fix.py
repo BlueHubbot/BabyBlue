@@ -4,11 +4,13 @@ import re
 from pathlib import Path
 from datetime import datetime
 import py_compile
+import inspect
+
 import frappe
 
 
 def _as_list(v):
-    if not v:
+    if v is None:
         return []
     if isinstance(v, (list, tuple)):
         return list(v)
@@ -30,32 +32,48 @@ def _map_pyc_to_py(p: Path) -> Path:
 
 
 def patch_apply_gl_dimensions_hook() -> dict:
+    """
+    Finds the hooked handler(s) that resolve to apply_gl_dimensions_from_invoice and
+    forces signature to: (doc, method=None, *args, **kwargs)
+    Only patches source files that are actually referenced by hooks.
+    """
+
     doc_events = frappe.get_hooks("doc_events") or {}
-    targets = []
+
+    # Collect handler paths from Sales/Purchase Invoice on_submit
+    handler_paths: list[str] = []
     for dt in ("Sales Invoice", "Purchase Invoice"):
-        handlers = _as_list((doc_events.get(dt) or {}).get("on_submit"))
+        ev = (doc_events.get(dt) or {})
+        handlers = _as_list(ev.get("on_submit"))
         for h in handlers:
-            try:
-                fn = frappe.get_attr(h)
-            except Exception:
-                continue
-            if callable(fn) and getattr(fn, "__name__", "") == "apply_gl_dimensions_from_invoice":
-                cf = getattr(getattr(fn, "__code__", None), "co_filename", None)
-                targets.append({"doctype": dt, "handler": h, "co_filename": cf})
+            if isinstance(h, str) and "apply_gl_dimensions_from_invoice" in h:
+                handler_paths.append(h)
 
-    if not targets:
-        frappe.throw("apply_gl_dimensions_from_invoice hook not found on Sales/Purchase Invoice on_submit")
+    handler_paths = sorted(set(handler_paths))
+    if not handler_paths:
+        frappe.throw("apply_gl_dimensions_from_invoice handler not found in doc_events for Sales/Purchase Invoice on_submit")
 
-    uniq_files = []
+    targets = []
+    uniq_files: list[str] = []
     seen = set()
-    for t in targets:
-        cf = t.get("co_filename") or ""
-        if cf and cf not in seen:
-            seen.add(cf)
-            uniq_files.append(cf)
+
+    for h in handler_paths:
+        try:
+            fn = frappe.get_attr(h)
+            src = inspect.getsourcefile(fn) or getattr(getattr(fn, "__code__", None), "co_filename", None)
+        except Exception as e:
+            targets.append({"handler": h, "error": str(e), "file": None})
+            continue
+
+        targets.append({"handler": h, "file": src})
+
+        if src and src not in seen:
+            seen.add(src)
+            uniq_files.append(src)
 
     ts = datetime.now().strftime("%Y-%m-%d-%H%M%S")
-    pat = re.compile(r"(?m)^(?P<indent>\\s*)def\\s+apply_gl_dimensions_from_invoice\\s*\\((?P<args>[^)]*)\\)\\s*:")
+    # match the def line
+    pat = re.compile(r"(?m)^(?P<indent>\s*)def\s+apply_gl_dimensions_from_invoice\s*\([^)]*\)\s*:")
 
     patched = []
     skipped = []
@@ -74,32 +92,20 @@ def patch_apply_gl_dimensions_hook() -> dict:
                 errors.append({"file": str(p), "error": "def_not_found"})
                 continue
 
-            args = (m.group("args") or "").strip()
-            # already ok?
-            if re.search(r"(^|,)\\s*method\\s*(=|,|$)", args):
+            new_def = f"{m.group('indent')}def apply_gl_dimensions_from_invoice(doc, method=None, *args, **kwargs):"
+            txt2 = pat.sub(new_def, txt, count=1)
+
+            if txt2 == txt:
                 skipped.append(str(p))
                 continue
-
-            parts = [a.strip() for a in args.split(",")] if args else []
-            if not parts:
-                new_args = "doc, method=None"
-            else:
-                # insert after first positional
-                if parts[0] == "*":
-                    parts.insert(1, "method=None")
-                else:
-                    parts.insert(1, "method=None")
-                new_args = ", ".join([x for x in parts if x])
-
-            new_def = f"{m.group(indent)}def apply_gl_dimensions_from_invoice({new_args}):"
-            txt2 = pat.sub(new_def, txt, count=1)
 
             bk = p.with_name(p.name + f".bak.hook_sig_fix.{ts}")
             bk.write_text(txt, encoding="utf-8")
             p.write_text(txt2, encoding="utf-8")
-            py_compile.compile(str(p), doraise=True)
 
+            py_compile.compile(str(p), doraise=True)
             patched.append({"file": str(p), "backup": str(bk)})
+
         except Exception as e:
             errors.append({"file": cf, "error": str(e)})
 

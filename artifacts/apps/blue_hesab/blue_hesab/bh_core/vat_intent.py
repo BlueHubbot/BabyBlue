@@ -114,3 +114,51 @@ def vat11_resolve_price_mode(doctype: str, doc, company: str | None = None) -> s
             return "Inclusive"
 
     return "Exclusive"
+
+def vat11_enforce_inclusive_intent_on_submit(doc, kind: str):
+    """
+    VAT-11: Inclusive Intent must be explicit and consistent on SUBMIT.
+    - Draft is free.
+    - If taxes_and_charges indicates INCL but doc intent is not Inclusive => block.
+    - If doc intent is Inclusive but template is EXCL => block (unless POS rule allows).
+    """
+    intent = (doc.get("bh_vat_price_mode") or "").strip()  # "Exclusive" / "Inclusive"
+    if not intent:
+        # No intent: we allow only EXCL on submit (safe default)
+        intent = "Exclusive"
+
+    tpl = (doc.get("taxes_and_charges") or "").strip()
+
+    # heuristic: detect INCL/EXCL from template name (your templates already use this convention)
+    tpl_is_incl = ("(INCL)" in tpl) or ("INCL" in tpl)
+    tpl_is_excl = ("(EXCL)" in tpl) or ("EXCL" in tpl)
+
+    # If template doesn't encode, don't guess; block only if intent says Inclusive and we can't prove template is INCL.
+    if intent == "Inclusive":
+        if tpl_is_excl:
+            raise_bh_vat_error(
+                BH_VAT_E_GENERIC,
+                "BH VAT: نوع قیمت‌گذاری «شامل مالیات» انتخاب شده اما قالب مالیات «غیرشامل» است. لطفاً قالب صحیح (INCL) را انتخاب کنید.",
+                context={"doctype": doc.doctype, "name": doc.name, "template": tpl, "intent": intent},
+            )
+        if not tpl_is_incl:
+            raise_bh_vat_error(
+                BH_VAT_E_GENERIC,
+                "BH VAT: نوع قیمت‌گذاری «شامل مالیات» انتخاب شده اما قالب مالیات قابل تشخیص نیست. لطفاً قالب MIXED (INCL) را انتخاب کنید.",
+                context={"doctype": doc.doctype, "name": doc.name, "template": tpl, "intent": intent},
+            )
+
+    # intent Exclusive
+    if intent == "Exclusive":
+        if tpl_is_incl:
+            raise_bh_vat_error(
+                BH_VAT_E_GENERIC,
+                "BH VAT: نوع قیمت‌گذاری «غیرشامل مالیات» است اما قالب مالیات «شامل» انتخاب شده. لطفاً قالب صحیح (EXCL) را انتخاب کنید.",
+                context={"doctype": doc.doctype, "name": doc.name, "template": tpl, "intent": intent},
+            )
+
+def bh_before_submit_sales_invoice(doc, method=None):
+    return vat11_enforce_inclusive_intent_on_submit(doc, kind="sales")
+
+def bh_before_submit_purchase_invoice(doc, method=None):
+    return vat11_enforce_inclusive_intent_on_submit(doc, kind="purchase")

@@ -1,3 +1,5 @@
+from blue_hesab.bh_core.dim_testkit import apply_required_dims
+
 class RegressResult(list):
     """
     Hybrid list+dict result:
@@ -242,7 +244,9 @@ def _run_one(label, builder_fn, company, customer, vat_account):
 
 
         # Save triggers VAT MIXED hooks (this is what we want to test)
+        apply_required_dims(si, company=company)
         si.save(ignore_permissions=True)
+
 
         # Hard sanity: a Sales Invoice MUST NOT point to a Purchase template
         tac = (si.get("taxes_and_charges") or "").strip()

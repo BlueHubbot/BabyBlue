@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from typing import Any, Dict, List, Optional, Tuple
+from blue_hesab.bh_core.dim_testkit import apply_required_dims
 
 import frappe
 from frappe.utils import add_days, nowdate
@@ -319,6 +320,7 @@ def intent_regress_v08(company: str, rate: Optional[float] = None, **kwargs) -> 
 
     def _insert_then_try_submit(doc) -> Tuple[bool, bool, str, Optional[str]]:
         try:
+            apply_required_dims(doc, company=getattr(doc, "company", None))
             doc.insert(ignore_permissions=True)
         except Exception as e:
             return False, False, str(e), None

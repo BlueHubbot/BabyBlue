@@ -151,8 +151,18 @@ def bh_before_validate_sales_invoice(doc, method=None):
 def bh_before_submit_sales_invoice(doc, method=None):
     company = doc.get("company")
     posting_date = doc.get("posting_date")
+
     _lock_amend_if_needed(doc=doc, company=company, doctype="Sales Invoice", doctype_fa="فاکتور فروش")
-    _lock_doc_if_period_closed(company=company, posting_date=posting_date, doctype_fa="فاکتور فروش", action_fa="ارسال (Submit)")
+    _lock_doc_if_period_closed(
+        company=company,
+        posting_date=posting_date,
+        doctype_fa="فاکتور فروش",
+        action_fa="ارسال (Submit)",
+    )
+
+    # P0.5: Enforce mandatory dimensions on SUBMIT (draft is free)
+    from .dimensions_policy import enforce_invoice_dimensions
+    enforce_invoice_dimensions(doc, method="before_submit")
 
 
 def bh_before_cancel_sales_invoice(doc, method=None):
@@ -171,8 +181,18 @@ def bh_before_validate_purchase_invoice(doc, method=None):
 def bh_before_submit_purchase_invoice(doc, method=None):
     company = doc.get("company")
     posting_date = doc.get("posting_date")
+
     _lock_amend_if_needed(doc=doc, company=company, doctype="Purchase Invoice", doctype_fa="فاکتور خرید")
-    _lock_doc_if_period_closed(company=company, posting_date=posting_date, doctype_fa="فاکتور خرید", action_fa="ارسال (Submit)")
+    _lock_doc_if_period_closed(
+        company=company,
+        posting_date=posting_date,
+        doctype_fa="فاکتور خرید",
+        action_fa="ارسال (Submit)",
+    )
+
+    # P0.5: Enforce mandatory dimensions on SUBMIT (draft is free)
+    from .dimensions_policy import enforce_invoice_dimensions
+    enforce_invoice_dimensions(doc, method="before_submit")
 
 
 def bh_before_cancel_purchase_invoice(doc, method=None):
@@ -211,3 +231,26 @@ def bh_before_cancel_payment_entry(doc, method=None):
     vat_accounts = _get_vat_accounts(company)
     touches = _touches_vat_accounts_in_payment_entry(doc, vat_accounts)
     _vat_affecting_guard(doc=doc, company=company, posting_date=posting_date, doctype_fa="ثبت پرداخت", touches_vat=touches, allow_if_settlement=False)
+
+# -------------------------------------------------------------------
+# BH DIM ENFORCEMENT (append-only wrapper)
+# Goal: guarantee dimensions enforcement runs on SUBMIT for SI/PI,
+# even if hooks/pipeline are overwritten elsewhere.
+# -------------------------------------------------------------------
+
+try:
+    from .dimensions_policy import enforce_invoice_dimensions as _bh_enforce_dims
+
+    _bh__orig_before_submit_si = bh_before_submit_sales_invoice
+    def bh_before_submit_sales_invoice(doc, method=None):
+        _bh__orig_before_submit_si(doc, method=method)
+        _bh_enforce_dims(doc, method="before_submit")
+
+    _bh__orig_before_submit_pi = bh_before_submit_purchase_invoice
+    def bh_before_submit_purchase_invoice(doc, method=None):
+        _bh__orig_before_submit_pi(doc, method=method)
+        _bh_enforce_dims(doc, method="before_submit")
+
+except Exception:
+    # never break submit flow due to wrapper import error
+    pass

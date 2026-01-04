@@ -310,8 +310,6 @@ def _apply_mixed_layer(doc, *, kind: str) -> None:
 def bh_before_validate_sales_invoice(doc, method=None):
     _bh_capture_pre_pipeline_snapshot(doc)
 
-    # NNG-03: mandatory dimensions (Branch/Cost Center/Project + Tafsili)\n    enforce_invoice_dimensions(doc)
-
     company = getattr(doc, "company", None) or (doc.get("company") if hasattr(doc, "get") else None)
     axis = _axis_from_doc(doc)
 
@@ -319,19 +317,16 @@ def bh_before_validate_sales_invoice(doc, method=None):
     from .vat_intent import vat26_enforce_inclusive_intent
     vat26_enforce_inclusive_intent(doc, kind=KIND_SALES, axis=axis)
 
-
     # Legal lock: reject non-BH templates (draft safe: empty is allowed)
     _server_reject_non_bh_template(doc, kind=KIND_SALES, axis=axis)
 
     # VAT-25: NEVER auto-fill/auto-flip taxes_and_charges on draft/refresh.
-    # Applying the expected template is an explicit UI action (modal button).
     _apply_mixed_layer(doc, kind=KIND_SALES)
     _safe_recalc(doc)
 
+
 def bh_before_validate_purchase_invoice(doc, method=None):
     _bh_capture_pre_pipeline_snapshot(doc)
-
-    # NNG-03: mandatory dimensions (Branch/Cost Center/Project + Tafsili)\n    enforce_invoice_dimensions(doc)
 
     company = getattr(doc, "company", None) or (doc.get("company") if hasattr(doc, "get") else None)
     axis = _axis_from_doc(doc)
@@ -340,12 +335,13 @@ def bh_before_validate_purchase_invoice(doc, method=None):
     from .vat_intent import vat26_enforce_inclusive_intent
     vat26_enforce_inclusive_intent(doc, kind=KIND_PURCHASE, axis=axis)
 
-
+    # Legal lock: reject non-BH templates (draft safe: empty is allowed)
     _server_reject_non_bh_template(doc, kind=KIND_PURCHASE, axis=axis)
 
     # VAT-25: NEVER auto-fill/auto-flip taxes_and_charges on draft/refresh.
     _apply_mixed_layer(doc, kind=KIND_PURCHASE)
     _safe_recalc(doc)
+
 
 def bh_validate_sales_invoice(doc, method=None):
     company = getattr(doc, "company", None) or doc.get("company")
@@ -516,11 +512,20 @@ def _enforce_mixed_tpl_matches_mode_on_submit(doc, kind: str) -> None:
             frappe.throw(msg, title="BH VAT", exc=ValidationError)
 
 def bh_before_submit_sales_invoice(doc, method=None):
+    from .dimensions_policy import enforce_invoice_dimensions
+    enforce_invoice_dimensions(doc, method="before_submit")
+    # NNG-03: mandatory dimensions on SUBMIT (not on draft)
+
     _enforce_mixed_tpl_matches_mode_on_submit(doc, kind=KIND_SALES)
 
 
 def bh_before_submit_purchase_invoice(doc, method=None):
+    from .dimensions_policy import enforce_invoice_dimensions
+    enforce_invoice_dimensions(doc, method="before_submit")
+    # NNG-03: mandatory dimensions on SUBMIT (not on draft)
+
     _enforce_mixed_tpl_matches_mode_on_submit(doc, kind=KIND_PURCHASE)
+
 
 
 def before_submit_sales_invoice(doc, method=None):
