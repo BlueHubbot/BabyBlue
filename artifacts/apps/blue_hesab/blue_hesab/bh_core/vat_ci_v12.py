@@ -9,11 +9,29 @@ from blue_hesab.bh_core import vat_ci
 from blue_hesab.bh_core.vat_regress_intent_v01 import run_v01 as run_intent
 
 
-def _summarize(rows: list[dict]) -> dict:
-    total = len(rows or [])
-    passed = sum(1 for r in (rows or []) if r.get("ok") and r.get("pass"))
+def _summarize(rows_or_result):
+    """
+    Robust summarizer.
+
+    Accepts:
+      - list[dict]  (old style)
+      - dict with {"rows": list[dict], ...}  (current intent regress output)
+    """
+    if rows_or_result is None:
+        rows = []
+    elif isinstance(rows_or_result, dict):
+        rows = rows_or_result.get("rows") or []
+    else:
+        rows = rows_or_result or []
+
+    # only count dict rows to avoid crashes
+    safe_rows = [r for r in rows if isinstance(r, dict)]
+
+    total = len(safe_rows)
+    passed = sum(1 for r in safe_rows if r.get("ok") and r.get("pass"))
     failed = total - passed
     return {"total": total, "passed": passed, "failed": failed}
+
 
 
 def run_ep01_v03_cli_v12(rate: int = 1000000, company: str = "BlueAPi", **kwargs):

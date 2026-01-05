@@ -1,12 +1,15 @@
 from __future__ import annotations
 
-# این فایل آداپتر رسمی هوک‌هاست؛
-# هر چیزی که در hooks.py صدا زده می‌شود باید اینجا import/export شود.
+# آداپتر رسمی هوک‌ها:
+# هر چیزی که در hooks.py صدا زده می‌شود باید از اینجا export شود.
 
-from blue_hesab.bh_core.dimensions_policy import enforce_invoice_dimensions  # <-- مهم
+from blue_hesab.bh_core.dimensions_policy import (
+    enforce_invoice_dimensions,
+    enforce_journal_entry_dimensions,
+    enforce_payment_entry_dimensions,
+)
 
-# اگر قبلاً این فایل فقط apply_gl_dimensions_from_invoice داشت و نمی‌خوای از دست بره،
-# همینجا نگهش دار (اگر وجود داشت).
+# invoice-only (فعلاً JE/PE بهش وصل نمی‌کنیم)
 try:
     from blue_hesab.bh_core.dimensions_policy import apply_gl_dimensions_from_invoice  # type: ignore
 except Exception:
@@ -15,5 +18,7 @@ except Exception:
 
 __all__ = [
     "enforce_invoice_dimensions",
+    "enforce_journal_entry_dimensions",
+    "enforce_payment_entry_dimensions",
     "apply_gl_dimensions_from_invoice",
 ]

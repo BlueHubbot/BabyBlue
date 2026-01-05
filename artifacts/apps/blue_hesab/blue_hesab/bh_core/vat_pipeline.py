@@ -20,17 +20,6 @@ AXIS_INCL = "INCL"
 
 from .vat_intent import vat11_is_real_pos_sales_invoice
 
-def _axis_from_doc(doc) -> str:
-    pm = (doc.get("bh_vat_price_mode") or "").strip()
-    if pm:
-        return _axis_from_price_mode(pm)
-
-    # VAT-11: only POS may implicitly be INCL
-    if getattr(doc, "doctype", None) == "Sales Invoice" and vat11_is_real_pos_sales_invoice(doc):
-        return AXIS_INCL
-
-    return AXIS_EXCL
-
 def _norm(s: Optional[str]) -> str:
     return (s or "").strip()
 
@@ -306,61 +295,77 @@ def _apply_mixed_layer(doc, *, kind: str) -> None:
     else:
         vat_mixed.bh_before_validate_purchase_invoice(doc, None)
 
+def _bh_vat_run(doc, *, kind: str, stage: str, method=None) -> None:
+    """
+    VAT-10.B (Stage Runner v1)
+    Single entrypoint for VAT pipeline stages (no logic change, just deterministic ordering).
+    """
+
+    if stage == "before_validate":
+        _bh_capture_pre_pipeline_snapshot(doc)
+
+        # VAT-10.A: POS default fix (moved into pipeline; hook removed)
+        if kind == KIND_SALES:
+            try:
+                from .vat_pos_intent import bh_before_validate_sales_invoice_pos_intent
+                bh_before_validate_sales_invoice_pos_intent(doc)
+            except Exception:
+                pass
+
+        axis = _axis_from_doc(doc)
+
+        # VAT-26: block INCL unless explicit intent (Sales has POS exception inside intent resolver)
+        from .vat_intent import vat26_enforce_inclusive_intent
+        vat26_enforce_inclusive_intent(doc, kind=kind, axis=axis)
+
+        # Legal lock: reject non-BH templates (draft safe: empty is allowed)
+        _server_reject_non_bh_template(doc, kind=kind, axis=axis)
+
+        # VAT-25: NEVER auto-fill/auto-flip taxes_and_charges on draft/refresh.
+        _apply_mixed_layer(doc, kind=kind)
+        _safe_recalc(doc)
+        return
+
+    if stage == "validate":
+        company = getattr(doc, "company", None) or (doc.get("company") if hasattr(doc, "get") else None)
+        axis = _axis_from_doc(doc)
+
+        if company:
+            _reject_if_non_bh_template(doc, kind=kind, company=company, axis=axis)
+
+        from blue_hesab.bh_core import vat_hooks
+        if kind == KIND_SALES:
+            vat_hooks.apply_sales_invoice_vat(doc, method)
+        else:
+            vat_hooks.apply_purchase_invoice_vat(doc, method)
+        return
+
+    if stage == "before_submit":
+        from .dimensions_policy import enforce_invoice_dimensions
+        enforce_invoice_dimensions(doc, method="before_submit")
+
+        _enforce_mixed_tpl_matches_mode_on_submit(doc, kind=kind)
+        return
+
 
 def bh_before_validate_sales_invoice(doc, method=None):
-    _bh_capture_pre_pipeline_snapshot(doc)
+    return _bh_vat_run(doc, kind=KIND_SALES, stage="before_validate", method=method)
 
-    company = getattr(doc, "company", None) or (doc.get("company") if hasattr(doc, "get") else None)
-    axis = _axis_from_doc(doc)
-
-    # VAT-26: block INCL on non-POS unless explicit intent
-    from .vat_intent import vat26_enforce_inclusive_intent
-    vat26_enforce_inclusive_intent(doc, kind=KIND_SALES, axis=axis)
-
-    # Legal lock: reject non-BH templates (draft safe: empty is allowed)
-    _server_reject_non_bh_template(doc, kind=KIND_SALES, axis=axis)
-
-    # VAT-25: NEVER auto-fill/auto-flip taxes_and_charges on draft/refresh.
-    _apply_mixed_layer(doc, kind=KIND_SALES)
-    _safe_recalc(doc)
 
 
 def bh_before_validate_purchase_invoice(doc, method=None):
-    _bh_capture_pre_pipeline_snapshot(doc)
+    return _bh_vat_run(doc, kind=KIND_PURCHASE, stage="before_validate", method=method)
 
-    company = getattr(doc, "company", None) or (doc.get("company") if hasattr(doc, "get") else None)
-    axis = _axis_from_doc(doc)
-
-    # VAT-26: block INCL unless explicit intent
-    from .vat_intent import vat26_enforce_inclusive_intent
-    vat26_enforce_inclusive_intent(doc, kind=KIND_PURCHASE, axis=axis)
-
-    # Legal lock: reject non-BH templates (draft safe: empty is allowed)
-    _server_reject_non_bh_template(doc, kind=KIND_PURCHASE, axis=axis)
-
-    # VAT-25: NEVER auto-fill/auto-flip taxes_and_charges on draft/refresh.
-    _apply_mixed_layer(doc, kind=KIND_PURCHASE)
-    _safe_recalc(doc)
 
 
 def bh_validate_sales_invoice(doc, method=None):
-    company = getattr(doc, "company", None) or doc.get("company")
-    axis = _axis_from_doc(doc)
-    if company:
-        _reject_if_non_bh_template(doc, kind=KIND_SALES, company=company, axis=axis)
+    return _bh_vat_run(doc, kind=KIND_SALES, stage="validate", method=method)
 
-    from blue_hesab.bh_core import vat_hooks
-    vat_hooks.apply_sales_invoice_vat(doc, method)
 
 
 def bh_validate_purchase_invoice(doc, method=None):
-    company = getattr(doc, "company", None) or doc.get("company")
-    axis = _axis_from_doc(doc)
-    if company:
-        _reject_if_non_bh_template(doc, kind=KIND_PURCHASE, company=company, axis=axis)
+    return _bh_vat_run(doc, kind=KIND_PURCHASE, stage="validate", method=method)
 
-    from blue_hesab.bh_core import vat_hooks
-    vat_hooks.apply_purchase_invoice_vat(doc, method)
 
 
 # -------------------------
@@ -512,19 +517,12 @@ def _enforce_mixed_tpl_matches_mode_on_submit(doc, kind: str) -> None:
             frappe.throw(msg, title="BH VAT", exc=ValidationError)
 
 def bh_before_submit_sales_invoice(doc, method=None):
-    from .dimensions_policy import enforce_invoice_dimensions
-    enforce_invoice_dimensions(doc, method="before_submit")
-    # NNG-03: mandatory dimensions on SUBMIT (not on draft)
+    return _bh_vat_run(doc, kind=KIND_SALES, stage="before_submit", method=method)
 
-    _enforce_mixed_tpl_matches_mode_on_submit(doc, kind=KIND_SALES)
 
 
 def bh_before_submit_purchase_invoice(doc, method=None):
-    from .dimensions_policy import enforce_invoice_dimensions
-    enforce_invoice_dimensions(doc, method="before_submit")
-    # NNG-03: mandatory dimensions on SUBMIT (not on draft)
-
-    _enforce_mixed_tpl_matches_mode_on_submit(doc, kind=KIND_PURCHASE)
+    return _bh_vat_run(doc, kind=KIND_PURCHASE, stage="before_submit", method=method)
 
 
 
