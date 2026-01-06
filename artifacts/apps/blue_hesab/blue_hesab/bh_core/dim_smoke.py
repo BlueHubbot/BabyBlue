@@ -189,6 +189,10 @@ def run_dim_smoke(company: str = "BlueAPi") -> str:
     """
     hooks = _hooks_has_dim_enforce()
 
+    # DIM smoke expects row.project to be mandatory
+    frappe.local.bh_dim_require_project = True
+
+
     src = _pick_source_si(company)
     if not src:
         res = {"ok": False, "company": company, "error": "No submitted Sales Invoice found to clone.", "hooks": hooks}

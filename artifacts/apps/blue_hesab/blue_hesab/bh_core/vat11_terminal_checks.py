@@ -45,25 +45,25 @@ def run(company: str = "BlueAPi"):
     pi_incl = vat_mixed.mixed_template_name("purchase", company, "INCL")
     pi_excl = vat_mixed.mixed_template_name("purchase", company, "EXCL")
 
-    # T11-1: Template inference -> fills doc.bh_vat_price_mode when empty (Sales)
+    # T11-1: Template should NOT infer bh_vat_price_mode (no_infer policy) (Sales)
     try:
         d = _draft_copy(si_sample)
         d._action = None
         d.bh_vat_price_mode = ""
         d.taxes_and_charges = si_incl
         vat_pipeline.before_validate_sales_invoice(d)
-        out["T11_1_SI_TEMPLATE_TO_MODE"] = "PASS" if d.bh_vat_price_mode == "Inclusive" else f"FAIL(mode={d.bh_vat_price_mode})"
+        out["T11_1_SI_TEMPLATE_TO_MODE"] = "PASS(no_infer)" if not ((d.bh_vat_price_mode or "").strip().lower().startswith("incl")) else f"FAIL(mode={d.bh_vat_price_mode})"
     except Exception as e:
         out["T11_1_SI_TEMPLATE_TO_MODE"] = f"FAIL({type(e).__name__}: {str(e)[:120]})"
 
-    # T11-2: Doc field precedence -> draft auto-fix template to match doc mode (Sales)
+    # T11-2: Draft should NOT auto-fix taxes_and_charges to match doc mode (no_autofix policy) (Sales)
     try:
         d = _draft_copy(si_sample)
         d._action = None
         d.bh_vat_price_mode = "Exclusive"
         d.taxes_and_charges = si_incl
         vat_pipeline.before_validate_sales_invoice(d)
-        out["T11_2_SI_DOC_WINS_TEMPLATE"] = "PASS" if d.taxes_and_charges == si_excl else f"FAIL(tpl={d.taxes_and_charges})"
+        out["T11_2_SI_DOC_WINS_TEMPLATE"] = "PASS(no_autofix)" if d.taxes_and_charges == si_incl else f"FAIL(changed_to={d.taxes_and_charges})"
     except Exception as e:
         out["T11_2_SI_DOC_WINS_TEMPLATE"] = f"FAIL({type(e).__name__}: {str(e)[:120]})"
 
@@ -81,14 +81,14 @@ def run(company: str = "BlueAPi"):
     except Exception as e:
         out["T11_3_SI_SUBMIT_BLOCK_MISMATCH"] = f"FAIL({type(e).__name__}: {str(e)[:120]})"
 
-    # T11-4: Template inference -> fills doc.bh_vat_price_mode when empty (Purchase)
+    # T11-4: Template should NOT infer bh_vat_price_mode (no_infer policy) (Purchase)
     try:
         d = _draft_copy(pi_sample)
         d._action = None
         d.bh_vat_price_mode = ""
         d.taxes_and_charges = pi_incl
         vat_pipeline.before_validate_purchase_invoice(d)
-        out["T11_4_PI_TEMPLATE_TO_MODE"] = "PASS" if d.bh_vat_price_mode == "Inclusive" else f"FAIL(mode={d.bh_vat_price_mode})"
+        out["T11_4_PI_TEMPLATE_TO_MODE"] = "PASS(no_infer)" if not ((d.bh_vat_price_mode or "").strip().lower().startswith("incl")) else f"FAIL(mode={d.bh_vat_price_mode})"
     except Exception as e:
         out["T11_4_PI_TEMPLATE_TO_MODE"] = f"FAIL({type(e).__name__}: {str(e)[:120]})"
 

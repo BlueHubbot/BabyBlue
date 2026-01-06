@@ -98,6 +98,77 @@ def _ensure_cost_center(company: str) -> Optional[str]:
     except Exception:
         return None
 
+def _ensure_tafsili(company: str) -> str:
+    """
+    Return an existing BH Tafsili (per company if the DocType has that field).
+    Tolerant to schema variations between versions and even partial migrations.
+    """
+    import frappe
+
+    meta = frappe.get_meta("BH Tafsili")
+
+    # Build the most compatible filters we can.
+    filters = {}
+    if meta.has_field("company") and company:
+        filters["company"] = company
+
+    # Prefer an "active" flag if present.
+    if meta.has_field("is_active"):
+        filters["is_active"] = 1
+    elif meta.has_field("enabled"):
+        filters["enabled"] = 1
+    elif meta.has_field("disabled"):
+        filters["disabled"] = 0
+    elif meta.has_field("is_disabled"):
+        filters["is_disabled"] = 0
+
+    # Try with filters, then without, to survive mismatched columns.
+    try:
+        name = frappe.db.get_value("BH Tafsili", filters or {}, "name")
+    except Exception:
+        name = frappe.db.get_value("BH Tafsili", {}, "name")
+
+    if name:
+        return name
+
+    # None exists -> create a minimal one (best-effort).
+    data = {"doctype": "BH Tafsili"}
+
+    if meta.has_field("title"):
+        data["title"] = f"BH-DIM-AUTO ({company})"
+    elif meta.has_field("tafsili_title"):
+        data["tafsili_title"] = f"BH-DIM-AUTO ({company})"
+
+    if meta.has_field("company") and company:
+        data["company"] = company
+
+    # Best-effort flags (only if fields exist in DocType)
+    if meta.has_field("is_active"):
+        data["is_active"] = 1
+    elif meta.has_field("enabled"):
+        data["enabled"] = 1
+    elif meta.has_field("disabled"):
+        data["disabled"] = 0
+    elif meta.has_field("is_disabled"):
+        data["is_disabled"] = 0
+
+    doc = frappe.get_doc(data)
+
+    try:
+        doc.insert(ignore_permissions=True)
+    except Exception:
+        # If schema is partially migrated (meta says field exists but DB column missing),
+        # retry without any "active" flags.
+        for k in ("is_active", "enabled", "disabled", "is_disabled"):
+            if hasattr(doc, k):
+                try:
+                    setattr(doc, k, None)
+                except Exception:
+                    pass
+        doc.insert(ignore_permissions=True)
+
+    return doc.name
+
 
 def _ensure_branch(company: str) -> Optional[str]:
     b = frappe.db.sql("""SELECT name FROM `tabBranch` ORDER BY name ASC LIMIT 1""", as_list=True)
@@ -272,52 +343,99 @@ def check_custom_fields() -> Dict[str, Any]:
 
 
 def run_dim04_gl_stamp_je(company: str = "BlueAPi") -> Dict[str, Any]:
-    """DIM-04 smoke: JE with bh_branch should stamp GL Entry bh_branch (if fields exist)."""
+    """DIM-04 smoke: JE header dims should not break submit and must stamp GL custom dims.
+
+    Current DIM policy requires (for Journal Entry submit):
+      - cost_center (standard)
+      - bh_branch (BH)
+      - bh_tafsili_1 (BH)
+    """
     cc = _ensure_cost_center(company)
     br = _ensure_branch(company)
+    t1 = _ensure_tafsili(company)
+
+    if not cc:
+        return {"ok": False, "error": "No Cost Center available", "company": company}
+    if not br:
+        return {"ok": False, "error": "No Branch available", "company": company}
+    if not t1:
+        return {"ok": False, "error": "No BH Tafsili available", "company": company}
+
     a1 = _find_any_leaf_account(company)
-    a2 = _find_any_leaf_account(company, root_types=["Income", "Expense"]) or _find_any_leaf_account(company)
-    if not (cc and br and a1 and a2):
-        res = {"ok": False, "note": "missing prereqs", "company": company, "cc": cc, "branch": br, "a1": a1, "a2": a2}
-        print(json.dumps(res, ensure_ascii=False, indent=2))
-        return res
+    a2 = _find_any_leaf_account(company, root_types=["Income", "Expense"])
+    if not a1 or not a2:
+        return {"ok": False, "error": "No suitable leaf accounts found", "a1": a1, "a2": a2}
 
-    # ensure JE has bh_branch field (after DIM-02.B patch)
-    try:
-        if not frappe.get_meta("Journal Entry").has_field("bh_branch"):
-            res = {"ok": False, "note": "Journal Entry.bh_branch not installed (run patch/migrate first)"}
-            print(json.dumps(res, ensure_ascii=False, indent=2))
-            return res
-    except Exception as e:
-        res = {"ok": False, "error": str(e)}
-        print(json.dumps(res, ensure_ascii=False, indent=2))
-        return res
-
-    je = frappe.get_doc({
-        "doctype": "Journal Entry",
-        "company": company,
-        "posting_date": nowdate(),
-        "bh_branch": br,
-        "accounts": [
-            {"account": a1, "debit_in_account_currency": 1000, "cost_center": cc},
-            {"account": a2, "credit_in_account_currency": 1000, "cost_center": cc},
-        ],
-    })
+    # Ensure JE has required BH header fields (if custom fields exist)
+    je = frappe.get_doc(
+        {
+            "doctype": "Journal Entry",
+            "company": company,
+            "posting_date": nowdate(),
+            "voucher_type": "Journal Entry",
+            "user_remark": "BH DIM04 GL stamp (JE header)",
+            "cost_center": cc,
+            "bh_branch": br,
+            "bh_tafsili_1": t1,
+            "accounts": [
+                {
+                    "account": a1,
+                    "debit_in_account_currency": 1000,
+                    "credit_in_account_currency": 0,
+                    "cost_center": cc,
+                    "bh_branch": br,
+                    "bh_tafsili_1": t1,
+                },
+                {
+                    "account": a2,
+                    "debit_in_account_currency": 0,
+                    "credit_in_account_currency": 1000,
+                    "cost_center": cc,
+                    "bh_branch": br,
+                    "bh_tafsili_1": t1,
+                },
+            ],
+        }
+    )
     je.insert(ignore_permissions=True)
     je.submit()
 
     rows = frappe.db.sql(
-        """SELECT name, bh_branch FROM `tabGL Entry`
-           WHERE voucher_type=%s AND voucher_no=%s AND company=%s
-           ORDER BY posting_date, creation""",
-        (je.doctype, je.name, company),
-        as_list=True,
-    ) or []
+        """
+        SELECT name, bh_branch, bh_tafsili_1
+        FROM `tabGL Entry`
+        WHERE voucher_type='Journal Entry' AND voucher_no=%s
+        ORDER BY name
+        """,
+        (je.name,),
+        as_dict=True,
+    )
 
-    ok = bool(rows) and all((r[1] or "").strip() == br for r in rows)
-    res = {"ok": ok, "je": je.name, "branch": br, "gl_rows": rows[:5], "gl_count": len(rows)}
-    print(json.dumps(res, ensure_ascii=False, indent=2))
-    return res
+    ok = True
+    errors = []
+
+    if len(rows) < 2:
+        ok = False
+        errors.append(f"Expected >=2 GL Entry rows, got {len(rows)}")
+
+    for r in rows:
+        if (r.get("bh_branch") or "") != br:
+            ok = False
+            errors.append(f"GL {r.get('name')} bh_branch mismatch: {r.get('bh_branch')} != {br}")
+        if (r.get("bh_tafsili_1") or "") != t1:
+            ok = False
+            errors.append(f"GL {r.get('name')} bh_tafsili_1 mismatch: {r.get('bh_tafsili_1')} != {t1}")
+
+    return {
+        "ok": ok,
+        "company": company,
+        "journal_entry": je.name,
+        "bh_branch": br,
+        "bh_tafsili_1": t1,
+        "gl_rows": rows,
+        "errors": errors,
+    }
+
 
 def _ensure_branch_named(company: str, name: str) -> str:
     b = frappe.db.get_value("Branch", {"name": name}, "name")

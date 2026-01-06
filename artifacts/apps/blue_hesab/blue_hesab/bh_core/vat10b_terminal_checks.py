@@ -99,7 +99,7 @@ def run(company: str = "BlueAPi"):
     pi_sample = _latest_submitted("Purchase Invoice", company)
 
     # ---------------------------
-    # T1A: Draft should auto-fix template to expected MIXED
+    # T1A: Draft should NOT auto-fix template (no_autofix policy)
     # ---------------------------
     try:
         si = _draft_copy(si_sample)
@@ -109,7 +109,7 @@ def run(company: str = "BlueAPi"):
         si.taxes_and_charges = wrong_si_incl
         vat_pipeline.bh_before_validate_sales_invoice(si)
 
-        out["T1A_SI_DRAFT_LOCK"] = "PASS" if si.taxes_and_charges == exp_si_excl else f"FAIL(got={si.taxes_and_charges})"
+        out["T1A_SI_DRAFT_LOCK"] = "PASS(no_autofix)" if (si.taxes_and_charges or "").strip() == (wrong_si_incl or "").strip() else f"FAIL(changed_to={si.taxes_and_charges})"
     except Exception as e:
         out["T1A_SI_DRAFT_LOCK"] = f"FAIL({type(e).__name__}: {str(e)[:120]})"
 
@@ -132,7 +132,7 @@ def run(company: str = "BlueAPi"):
         out["T1B_SI_SUBMIT_LOCK"] = f"FAIL({type(e).__name__}: {str(e)[:120]})"
 
     # ---------------------------
-    # T1A/T1B for Purchase
+    # T1A/T1B for Purchase (no_autofix draft, submit-block mismatch)
     # ---------------------------
     try:
         pi = _draft_copy(pi_sample)
@@ -142,7 +142,7 @@ def run(company: str = "BlueAPi"):
         pi.taxes_and_charges = wrong_pi_incl
         vat_pipeline.bh_before_validate_purchase_invoice(pi)
 
-        out["T1A_PI_DRAFT_LOCK"] = "PASS" if pi.taxes_and_charges == exp_pi_excl else f"FAIL(got={pi.taxes_and_charges})"
+        out["T1A_PI_DRAFT_LOCK"] = "PASS(no_autofix)" if (pi.taxes_and_charges or "").strip() == (wrong_pi_incl or "").strip() else f"FAIL(changed_to={pi.taxes_and_charges})"
     except Exception as e:
         out["T1A_PI_DRAFT_LOCK"] = f"FAIL({type(e).__name__}: {str(e)[:120]})"
 

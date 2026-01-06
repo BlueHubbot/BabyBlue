@@ -57,6 +57,14 @@ def is_vat_globally_enabled() -> bool:
 
 
 def is_vat_enabled_for_company(company: Optional[str]) -> bool:
+    """
+    VAT enforcement scope:
+
+    - Global switches must be on.
+    - If company is None/empty: behave as before (True) because caller may be in generic context.
+    - If company has a legal profile: follow that profile.
+    - If company has NO legal profile: enforce ONLY for BH Settings default_company (scope guard).
+    """
     # Global switch
     if not is_iran_mode_enabled():
         return False
@@ -66,17 +74,40 @@ def is_vat_enabled_for_company(company: Optional[str]) -> bool:
     if not company:
         return True
 
+    # If profile exists: obey it
     p = get_company_legal_profile(company)
-    if not p:
-        # In HARD mode, treat missing profile as enforced (so code raises explicit config errors).
-        return True
+    if p:
+        try:
+            # support both dict/doc style
+            if hasattr(p, "vat_enabled"):
+                return bool(p.vat_enabled)
+            if hasattr(p, "enable_vat"):
+                return bool(p.enable_vat)
+            if isinstance(p, dict):
+                if "vat_enabled" in p:
+                    return bool(p.get("vat_enabled"))
+                if "enable_vat" in p:
+                    return bool(p.get("enable_vat"))
+            # fallback: if profile exists but field unknown, be conservative
+            return True
+        except Exception:
+            return True
+
+    # NO profile => enforce only for default_company
     try:
-        return bool(int(getattr(p, "enable_vat", 0) or 0) == 1)
+        s = frappe.get_single("BH Settings")
+        default_company = getattr(s, "default_company", None) or getattr(s, "company", None)
     except Exception:
-        return True
+        default_company = None
+
+    return bool(default_company) and (company == default_company)
+
 
 
 def should_enforce_dimensions(company: Optional[str]) -> bool:
+    """
+    Dimensions enforcement scope should match VAT scope guard.
+    """
     if not is_iran_mode_enabled():
         return False
 
@@ -84,13 +115,30 @@ def should_enforce_dimensions(company: Optional[str]) -> bool:
         return True
 
     p = get_company_legal_profile(company)
-    if not p:
-        return True
+    if p:
+        try:
+            if hasattr(p, "enforce_dimensions"):
+                return bool(p.enforce_dimensions)
+            if hasattr(p, "dimensions_enforced"):
+                return bool(p.dimensions_enforced)
+            if isinstance(p, dict):
+                if "enforce_dimensions" in p:
+                    return bool(p.get("enforce_dimensions"))
+                if "dimensions_enforced" in p:
+                    return bool(p.get("dimensions_enforced"))
+            return True
+        except Exception:
+            return True
 
+    # NO profile => enforce only for default_company
     try:
-        return bool(int(getattr(p, "enforce_dimensions", 0) or 0) == 1)
+        s = frappe.get_single("BH Settings")
+        default_company = getattr(s, "default_company", None) or getattr(s, "company", None)
     except Exception:
-        return True
+        default_company = None
+
+    return bool(default_company) and (company == default_company)
+
 
 
 def get_vat_account_and_rate(company: Optional[str], *, kind: str) -> Tuple[Optional[str], float]:

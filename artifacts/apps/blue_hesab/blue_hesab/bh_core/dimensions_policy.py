@@ -1,10 +1,98 @@
+# -*- coding: utf-8 -*-
+
 from __future__ import annotations
 
 from typing import Optional, Iterable, Any, Dict, Tuple
 
 import frappe
+import os
 
 from blue_hesab.bh_core.company_legal import should_enforce_dimensions
+
+
+def _fieldname_by_label(meta, label: str) -> str | None:
+    label = (label or "").strip()
+    for df in (meta.fields or []):
+        if (df.label or "").strip() == label and df.fieldname:
+            return df.fieldname
+    return None
+
+
+def _pick_first_record(doctype: str, company: str | None = None) -> str | None:
+    # Prefer enabled records if doctype has `disabled`
+    filters = {}
+    try:
+        if frappe.db.has_column(doctype, "disabled"):
+            filters["disabled"] = 0
+    except Exception:
+        pass
+
+    # Prefer company-scoped masters if the doctype has `company`
+    if company:
+        try:
+            if frappe.db.has_column(doctype, "company"):
+                filters["company"] = company
+        except Exception:
+            pass
+
+    name = frappe.db.get_value(doctype, filters, "name")
+    if name:
+        return name
+    return frappe.db.get_value(doctype, {}, "name")
+
+
+def bh_autofill_min_invoice_dims(doc, labels=("شعبه", "تفصیلی ۱")):
+    """
+    Used by smoke/regress scripts so they don't fail on DIM enforcement.
+    Does NOT weaken enforcement; just fills required header dims if possible.
+    """
+    meta = doc.meta
+    company = getattr(doc, "company", None)
+
+    for label in labels:
+        fieldname = _fieldname_by_label(meta, label)
+        if not fieldname:
+            continue
+
+        if doc.get(fieldname):
+            continue
+
+        df = meta.get_field(fieldname)
+        if not df:
+            continue
+
+        if df.fieldtype == "Link" and df.options:
+            val = _pick_first_record(df.options, company=company)
+            if val:
+                doc.set(fieldname, val)
+
+    return doc
+
+
+def _bh_dim_require_project() -> bool:
+    # default: OFF to avoid breaking existing VAT regressions; can be enabled per-process
+    try:
+        if bool(getattr(frappe.local, "bh_dim_require_project", False)):
+            return True
+    except Exception:
+        pass
+
+    try:
+        v = os.environ.get("BH_DIM_REQUIRE_PROJECT", "")
+        if str(v).strip().lower() in ("1", "true", "yes", "on"):
+            return True
+    except Exception:
+        pass
+
+    try:
+        v = getattr(frappe, "conf", {}).get("bh_dim_require_project", "")
+        if str(v).strip().lower() in ("1", "true", "yes", "on"):
+            return True
+    except Exception:
+        pass
+
+    return False
+
 from blue_hesab.bh_core.errors import BH_VAT_E_GENERIC
 from blue_hesab.bh_core.exc import raise_bh_vat_error
 
@@ -132,61 +220,93 @@ def _bh_get_company_default_cost_center(company: str) -> str | None:
 
 def enforce_invoice_dimensions(doc, method=None, *args, **kwargs) -> None:
     """
-    Minimal, production-safe enforcement for Sales/Purchase Invoice:
-    - Header: bh_branch + bh_tafsili_1 are mandatory (block submit).
-    - Items: cost_center is mandatory BUT we auto-fill from header/company if missing.
-    - Project is NOT mandatory (for now).
+    Enforce mandatory BH dimensions on Sales/Purchase Invoice before submit/save.
+    - Prevents crashes due to unbound require_* flags.
+    - Keeps Project optional by default (unless policy overrides it).
+    - Best-effort fills item-level bh_* from header if item has those fields.
     """
-    company = (getattr(doc, "company", None) or "").strip() or None
+    company = (getattr(doc, "company", None) or "").strip()
     if not company:
         return
 
-    if doc.doctype not in ("Sales Invoice", "Purchase Invoice"):
+    # if you have a company switch/flag, keep it
+    try:
+        if not should_enforce_dimensions(company):
+            return
+    except Exception:
+        # if should_enforce_dimensions is not available or fails, do NOT crash submit
         return
 
-    # اگر policy switch دارید، اینجا نگهش دار:
+    # --- Defensive defaults (no UnboundLocalError)
+    require_cost_center = True
+    require_branch = True
+    require_tafsili_1 = True
+    require_project = False
+
+    # Optional: override from a policy dict if you already have one
+    # (If you don't, this block harmlessly does nothing.)
     try:
-        if "should_enforce_dimensions" in globals() and not should_enforce_dimensions(company):
-            return
+        # any existing function name you might have; wrapped to avoid hard dependency
+        policy = None
+        try:
+            policy = get_dimensions_policy(company=company, doctype=getattr(doc, "doctype", ""))  # type: ignore
+        except Exception:
+            policy = None
+
+        if isinstance(policy, dict):
+            require_cost_center = bool(policy.get("require_cost_center", require_cost_center))
+            require_branch = bool(policy.get("require_branch", require_branch))
+            require_tafsili_1 = bool(policy.get("require_tafsili_1", require_tafsili_1))
+            require_project = bool(policy.get("require_project", require_project))
     except Exception:
         pass
 
+    hdr_branch = (getattr(doc, "bh_branch", None) or "").strip()
+    hdr_t1 = (getattr(doc, "bh_tafsili_1", None) or "").strip()
+    hdr_project = (getattr(doc, "project", None) or "").strip()
+
     missing = []
 
-    hdr_branch = (getattr(doc, "bh_branch", None) or "").strip() or None
-    hdr_t1 = (getattr(doc, "bh_tafsili_1", None) or "").strip() or None
-
-    if not hdr_branch:
+    if require_branch and not hdr_branch:
         missing.append("سربرگ: شعبه")
-    if not hdr_t1:
+
+    if require_tafsili_1 and not hdr_t1:
         missing.append("سربرگ: تفصیلی ۱")
 
-    # cost center autofill for items
-    default_cc = (getattr(doc, "cost_center", None) or "").strip() or None
-    if not default_cc:
-        default_cc = _bh_get_company_default_cost_center(company)
+    if require_project and not hdr_project:
+        missing.append("سربرگ: پروژه")
+
+    # Default company cost center (best-effort autofill)
+    default_cc = ""
+    if require_cost_center:
+        try:
+            default_cc = (frappe.db.get_value("Company", company, "cost_center") or "").strip()
+        except Exception:
+            default_cc = ""
 
     items = getattr(doc, "items", None) or []
     for i, it in enumerate(items, start=1):
-        cc = (it.get("cost_center") or "").strip() if hasattr(it, "get") else (getattr(it, "cost_center", "") or "").strip()
-        if not cc:
-            if default_cc:
-                try:
-                    it.cost_center = default_cc
-                except Exception:
+        if require_cost_center:
+            cc = (getattr(it, "cost_center", None) or "").strip()
+            if not cc:
+                if default_cc:
                     try:
-                        it["cost_center"] = default_cc
+                        it.cost_center = default_cc
                     except Exception:
                         pass
-            else:
-                missing.append(f"ردیف {i}: مرکز هزینه")
+                else:
+                    missing.append(f"ردیف {i}: مرکز هزینه")
 
-        # best-effort: اگر روی آیتم فیلدهای ابعاد دارید، از سربرگ پرش کن
+        # Best-effort: stamp item dims from header if those fields exist on item
         try:
-            if hasattr(it, "meta") and it.meta and it.meta.has_field("bh_branch") and not (it.get("bh_branch") or "").strip():
-                it.bh_branch = hdr_branch
-            if hasattr(it, "meta") and it.meta and it.meta.has_field("bh_tafsili_1") and not (it.get("bh_tafsili_1") or "").strip():
-                it.bh_tafsili_1 = hdr_t1
+            meta = getattr(it, "meta", None)
+            if meta and getattr(meta, "has_field", None):
+                if meta.has_field("bh_branch") and not (getattr(it, "bh_branch", "") or "").strip():
+                    it.bh_branch = hdr_branch
+                if meta.has_field("bh_tafsili_1") and not (getattr(it, "bh_tafsili_1", "") or "").strip():
+                    it.bh_tafsili_1 = hdr_t1
+                if meta.has_field("project") and not (getattr(it, "project", "") or "").strip() and hdr_project:
+                    it.project = hdr_project
         except Exception:
             pass
 
@@ -194,7 +314,7 @@ def enforce_invoice_dimensions(doc, method=None, *args, **kwargs) -> None:
         msg = "BH DIM: برای ثبت سند، ابعاد مالی اجباری هستند. موارد ناقص:\n- " + "\n- ".join(missing)
         raise_bh_vat_error(
             msg,
-            context={"company": company, "doctype": doc.doctype, "name": doc.name},
+            context={"company": company, "doctype": getattr(doc, "doctype", ""), "name": getattr(doc, "name", "")},
         )
 
 

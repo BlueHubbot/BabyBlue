@@ -161,18 +161,59 @@ try:
     _d["before_submit"] = _as_list(_d.get("before_submit"))
     if _GL_ROWMAP_JE not in _d["before_submit"]:
         _d["before_submit"].append(_GL_ROWMAP_JE)
-    # JE: enforce dims on submit (DIM-02.B)
-    doc_events.setdefault("Journal Entry", {})
-    _d = doc_events["Journal Entry"]
-    _d["before_submit"] = _as_list(_d.get("before_submit"))
-    if _DIM_ENFORCE_JE not in _d["before_submit"]:
-        _d["before_submit"].insert(0, _DIM_ENFORCE_JE)  # enforce first
-    # PE: enforce dims on submit (DIM-02.B)
-    doc_events.setdefault("Payment Entry", {})
-    _d = doc_events["Payment Entry"]
-    _d["before_submit"] = _as_list(_d.get("before_submit"))
-    if _DIM_ENFORCE_PE not in _d["before_submit"]:
-        _d["before_submit"].insert(0, _DIM_ENFORCE_PE)
+    # JE/PE: dimensions must run on submit, BUT VAT period lock must stay first (LEGAL boundary)
+    def _reorder_before_submit(_dt: str, _first: str, _wants: list[str], _drops: list[str]) -> None:
+        doc_events.setdefault(_dt, {})
+        _d = doc_events[_dt]
+        lst = _as_list(_d.get("before_submit"))
+
+        drop_set = set(_drops or [])
+        if drop_set:
+            lst = [x for x in lst if x not in drop_set]
+
+        # keep everything else but pull required handlers to a stable order
+        rest = [x for x in lst if x != _first and x not in _wants]
+
+        # ensure first exists
+        if _first not in lst:
+            pass  # will be inserted
+
+        # ensure wants exist
+        wants = []
+        for w in (_wants or []):
+            if w and w not in wants:
+                wants.append(w)
+
+        for w in wants:
+            if w not in lst:
+                rest.append(w)  # append missing ones at the end before ordering
+
+        ordered = [_first] + wants + [x for x in rest if x != _first and x not in wants]
+
+        # dedupe keep order
+        seen = set()
+        out = []
+        for x in ordered:
+            if not x or x in seen:
+                continue
+            seen.add(x)
+            out.append(x)
+
+        _d["before_submit"] = out
+
+    _reorder_before_submit(
+        "Journal Entry",
+        "blue_hesab.bh_core.vat_period_lock.bh_before_submit_journal_entry",
+        [_GL_ROWMAP_JE, _DIM_JE_ENFORCE],
+        [_DIM_ENFORCE_JE],
+    )
+
+    _reorder_before_submit(
+        "Payment Entry",
+        "blue_hesab.bh_core.vat_period_lock.bh_before_submit_payment_entry",
+        [_DIM_PE_ENFORCE],
+        [_DIM_ENFORCE_PE],
+    )
 
 except Exception:
     pass

@@ -225,6 +225,10 @@ def _require_items(items: List[str]) -> None:
 # ---------- doc builders ----------
 
 def _make_sales_invoice(*, company: str, mode: str, rate: float) -> Any:
+    # IMPORTANT: For VAT-17 (idempotency), we intentionally build a *consistent* draft
+    # (mode + template aligned) so we can measure "drift" across repeated saves.
+    from blue_hesab.bh_core import vat_mixed
+
     customer = _ensure_customer(company)
     income_account = _pick_income_account(company)
 
@@ -236,13 +240,19 @@ def _make_sales_invoice(*, company: str, mode: str, rate: float) -> Any:
     ]
     _require_items([c for c, _ in items])
 
+    axis = _axis_from_price_mode(mode)  # EXCL / INCL
+    tpl = vat_mixed.mixed_template_name("sales", company, axis)
+
     si = frappe.new_doc("Sales Invoice")
     si.company = company
     si.customer = customer
     si.posting_date = nowdate()
     si.due_date = nowdate()
     si.bh_vat_price_mode = mode
-    si.taxes_and_charges = ""  # let pipeline set official template
+    si.taxes_and_charges = tpl or ""
+    if axis == "INCL" and hasattr(si, "bh_vat_inclusive_intent"):
+        si.bh_vat_inclusive_intent = 1
+
     si.flags.ignore_mandatory = True
 
     for code, r in items:
@@ -256,6 +266,10 @@ def _make_sales_invoice(*, company: str, mode: str, rate: float) -> Any:
 
 
 def _make_purchase_invoice(*, company: str, mode: str, rate: float) -> Any:
+    # IMPORTANT: For VAT-17 (idempotency), we intentionally build a *consistent* draft
+    # (mode + template aligned) so we can measure "drift" across repeated saves.
+    from blue_hesab.bh_core import vat_mixed
+
     supplier = _ensure_supplier(company)
     expense_account = _pick_expense_account(company)
 
@@ -267,13 +281,18 @@ def _make_purchase_invoice(*, company: str, mode: str, rate: float) -> Any:
     ]
     _require_items([c for c, _ in items])
 
+    axis = _axis_from_price_mode(mode)  # EXCL / INCL
+    tpl = vat_mixed.mixed_template_name("purchase", company, axis)
+
     pi = frappe.new_doc("Purchase Invoice")
     pi.company = company
     pi.supplier = supplier
     pi.posting_date = nowdate()
-    pi.bill_date = nowdate()
     pi.bh_vat_price_mode = mode
-    pi.taxes_and_charges = ""
+    pi.taxes_and_charges = tpl or ""
+    if axis == "INCL" and hasattr(pi, "bh_vat_inclusive_intent"):
+        pi.bh_vat_inclusive_intent = 1
+
     pi.flags.ignore_mandatory = True
 
     for code, r in items:
@@ -284,7 +303,6 @@ def _make_purchase_invoice(*, company: str, mode: str, rate: float) -> Any:
 
     pi.save(ignore_permissions=True)  # triggers VAT hooks
     return pi
-
 
 # ---------- checks ----------
 

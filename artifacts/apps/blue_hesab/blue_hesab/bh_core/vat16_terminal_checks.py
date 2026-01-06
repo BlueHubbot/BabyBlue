@@ -10,6 +10,7 @@ from typing import Any, Dict, List, Optional, Tuple
 import frappe
 from frappe.exceptions import ValidationError
 from .vat_pipe_templates import infer_mixed_template_name
+from blue_hesab.bh_core.dimensions_policy import bh_autofill_min_invoice_dims
 
 
 # --- helpers --------------------------------------------------------------
@@ -194,15 +195,37 @@ class Vat16Case:
     expected_std_tax: float
 
 
-def _make_sales_invoice(company: str, mode: str, items: List[Tuple[str, float]], income_account: Optional[str], taxes_and_charges: Optional[str] = None) -> Any:
+def _make_sales_invoice(
+    company: str,
+    mode: str,
+    items: List[Tuple[str, float]],
+    income_account: Optional[str],
+    taxes_and_charges: Optional[str] = None,
+) -> Any:
+    from frappe.utils import nowdate
+
     customer = _ensure_customer(company)
-    si = frappe.get_doc({
-        "doctype": "Sales Invoice",
-        "company": company,
-        "customer": customer,
-        "bh_vat_price_mode": mode,
-        "items": [],
-    })
+
+    si = frappe.new_doc("Sales Invoice")
+    si.company = company
+    si.customer = customer
+    si.posting_date = nowdate()
+    si.due_date = nowdate()
+
+    try:
+        si.bh_vat_price_mode = mode
+    except Exception:
+        pass
+
+    if str(mode).strip().lower().startswith("incl"):
+        try:
+            si.set("bh_vat_inclusive_intent", 1)
+        except Exception:
+            pass
+
+    if not taxes_and_charges:
+        tpl_name, _dt = infer_mixed_template_name(kind="sales", company=company, axis=None, mode=mode)
+        taxes_and_charges = tpl_name
 
     if taxes_and_charges:
         si.taxes_and_charges = taxes_and_charges
@@ -211,26 +234,61 @@ def _make_sales_invoice(company: str, mode: str, items: List[Tuple[str, float]],
         except Exception:
             pass
 
+    si.flags.ignore_mandatory = True
+
     for item_code, rate in items:
         row = {"item_code": item_code, "qty": 1, "rate": rate}
         if income_account:
             row["income_account"] = income_account
         si.append("items", row)
 
+    bh_autofill_min_invoice_dims(si)
+
+    # hard fill required DIMs if present on this site/schema
+    try:
+        if hasattr(si, "bh_branch") and not si.get("bh_branch"):
+            si.set("bh_branch", _pick_required_link_value(si.doctype, "bh_branch", company))
+        if hasattr(si, "bh_tafsili_1") and not si.get("bh_tafsili_1"):
+            si.set("bh_tafsili_1", _pick_required_link_value(si.doctype, "bh_tafsili_1", company))
+    except Exception:
+        pass
+
     si.insert(ignore_permissions=True)
     si.submit()
     return si
 
 
-def _make_purchase_invoice(company: str, mode: str, items: List[Tuple[str, float]], expense_account: Optional[str], taxes_and_charges: Optional[str] = None) -> Any:
+def _make_purchase_invoice(
+    company: str,
+    mode: str,
+    items: List[Tuple[str, float]],
+    expense_account: Optional[str],
+    taxes_and_charges: Optional[str] = None,
+) -> Any:
+    from frappe.utils import nowdate
+
     supplier = _ensure_supplier(company)
-    pi = frappe.get_doc({
-        "doctype": "Purchase Invoice",
-        "company": company,
-        "supplier": supplier,
-        "bh_vat_price_mode": mode,
-        "items": [],
-    })
+
+    pi = frappe.new_doc("Purchase Invoice")
+    pi.company = company
+    pi.supplier = supplier
+    pi.posting_date = nowdate()
+    pi.bill_date = nowdate()
+
+    try:
+        pi.bh_vat_price_mode = mode
+    except Exception:
+        pass
+
+    if str(mode).strip().lower().startswith("incl"):
+        try:
+            pi.set("bh_vat_inclusive_intent", 1)
+        except Exception:
+            pass
+
+    if not taxes_and_charges:
+        tpl_name, _dt = infer_mixed_template_name(kind="purchase", company=company, axis=None, mode=mode)
+        taxes_and_charges = tpl_name
 
     if taxes_and_charges:
         pi.taxes_and_charges = taxes_and_charges
@@ -239,11 +297,24 @@ def _make_purchase_invoice(company: str, mode: str, items: List[Tuple[str, float
         except Exception:
             pass
 
+    pi.flags.ignore_mandatory = True
+
     for item_code, rate in items:
         row = {"item_code": item_code, "qty": 1, "rate": rate}
         if expense_account:
             row["expense_account"] = expense_account
         pi.append("items", row)
+
+    bh_autofill_min_invoice_dims(pi)
+
+    # hard fill required DIMs if present on this site/schema
+    try:
+        if hasattr(pi, "bh_branch") and not pi.get("bh_branch"):
+            pi.set("bh_branch", _pick_required_link_value(pi.doctype, "bh_branch", company))
+        if hasattr(pi, "bh_tafsili_1") and not pi.get("bh_tafsili_1"):
+            pi.set("bh_tafsili_1", _pick_required_link_value(pi.doctype, "bh_tafsili_1", company))
+    except Exception:
+        pass
 
     pi.insert(ignore_permissions=True)
     pi.submit()
