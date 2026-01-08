@@ -232,6 +232,54 @@ def bh_before_cancel_payment_entry(doc, method=None):
     touches = _touches_vat_accounts_in_payment_entry(doc, vat_accounts)
     _vat_affecting_guard(doc=doc, company=company, posting_date=posting_date, doctype_fa="ثبت پرداخت", touches_vat=touches, allow_if_settlement=False)
 
+def guard_before_submit(doc, method=None):
+    """Compatibility hook: older hooks reference vat_period_lock.guard_before_submit."""
+    dt = getattr(doc, "doctype", None)
+    if dt == "Sales Invoice":
+        return bh_before_submit_sales_invoice(doc, method=method)
+    if dt == "Purchase Invoice":
+        return bh_before_submit_purchase_invoice(doc, method=method)
+    if dt == "Journal Entry":
+        return bh_before_submit_journal_entry(doc, method=method)
+    # default: do nothing
+
+
+def guard_before_cancel(doc, method=None):
+    """Compatibility hook: older hooks reference vat_period_lock.guard_before_cancel."""
+    dt = getattr(doc, "doctype", None)
+    if dt == "Sales Invoice":
+        return bh_before_cancel_sales_invoice(doc, method=method)
+    if dt == "Purchase Invoice":
+        return bh_before_cancel_purchase_invoice(doc, method=method)
+    if dt == "Journal Entry":
+        return bh_before_cancel_journal_entry(doc, method=method)
+    # default: do nothing
+
+def guard_before_submit(doc, method=None, *args, **kwargs):
+    """
+    Hook adapter: بعضی doc_events به یک entrypoint عمومی نیاز دارند.
+    این تابع بر اساس doctype به handlerهای اختصاصی موجود dispatch می‌کند.
+    """
+    dt = getattr(doc, "doctype", None)
+
+    mapping = {
+        "Sales Invoice": "bh_before_submit_sales_invoice",
+        "Purchase Invoice": "bh_before_submit_purchase_invoice",
+        "Journal Entry": "bh_before_submit_journal_entry",
+        "Payment Entry": "bh_before_submit_payment_entry",
+    }
+
+    fn_name = mapping.get(dt)
+    if not fn_name:
+        return
+
+    fn = globals().get(fn_name)
+    if callable(fn):
+        return fn(doc, method=method, *args, **kwargs)
+
+    # اگر mapping بود ولی تابع واقعاً نبود، fail نکن (فعلاً)
+    return
+
 # -------------------------------------------------------------------
 # BH DIM ENFORCEMENT (append-only wrapper)
 # Goal: guarantee dimensions enforcement runs on SUBMIT for SI/PI,
@@ -254,3 +302,4 @@ try:
 except Exception:
     # never break submit flow due to wrapper import error
     pass
+

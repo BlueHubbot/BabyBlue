@@ -615,3 +615,17 @@ def enforce_payment_entry_dimensions(doc, method=None, *args, **kwargs) -> None:
             msg,
             context={"company": company, "doctype": getattr(doc, "doctype", None), "name": getattr(doc, "name", None)},
         )
+
+# === Aliases for backward compatibility / audit hooks ===
+
+def enforce_sales_invoice_dimensions(doc, method=None):
+    """Alias → redirect to enforce_invoice_dimensions"""
+    return enforce_invoice_dimensions(doc, method=method)
+
+def enforce_purchase_invoice_dimensions(doc, method=None):
+    """Alias → redirect to enforce_invoice_dimensions"""
+    return enforce_invoice_dimensions(doc, method=method)
+
+def enforce_journal_entry_dimensions(doc, method=None):
+    """Alias → redirect to enforce_invoice_dimensions"""
+    return enforce_invoice_dimensions(doc, method=method)

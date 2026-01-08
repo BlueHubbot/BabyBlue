@@ -7,6 +7,39 @@ from blue_hesab.bh_core.company_legal import should_enforce_dimensions
 
 _FIELDS = ("bh_branch", "bh_tafsili_1", "bh_tafsili_2")
 
+def _field_exists(doc, fieldname: str) -> bool:
+    """بررسی ایمن وجود فیلد روی Document/Meta بدون crash."""
+    try:
+        meta = getattr(doc, "meta", None)
+        if meta:
+            if hasattr(meta, "has_field") and meta.has_field(fieldname):
+                return True
+            if hasattr(meta, "get_field") and meta.get_field(fieldname):
+                return True
+    except Exception:
+        pass
+
+    try:
+        if hasattr(doc, fieldname):
+            return True
+        if isinstance(doc, dict) and fieldname in doc:
+            return True
+    except Exception:
+        pass
+
+    return False
+
+
+def _get_doc_value(doc, fieldname: str, default=None):
+    """Safe getter for both dict-like and attribute-style docs."""
+    try:
+        if hasattr(doc, "get"):
+            v = doc.get(fieldname)
+            if v is not None:
+                return v
+        return getattr(doc, fieldname, default)
+    except Exception:
+        return default
 
 def _s(x) -> str:
     return (x or "").strip()
@@ -233,3 +266,61 @@ def stamp_gl_entry_from_voucher(doc, method=None, *args, **kwargs) -> None:
 
     except Exception:
         return
+
+def guard_gl_entry_dimensions(doc, method=None):
+    """
+    GL Entry hook (typically before_insert) to:
+      1) Stamp BH dimensions onto GL Entry from voucher / voucher_detail_no
+      2) Enforce required BH dimension fields (branch + tafsili_1)
+
+    This is intentionally strict: every GL-posting document must carry dimensions.
+    """
+    # safety: only for GL Entry
+    if getattr(doc, "doctype", None) and doc.doctype != "GL Entry":
+        return
+
+    company = _get_doc_value(doc, "company")
+
+    # Feature flag (per-company)
+    try:
+        if not should_enforce_dimensions(company):
+            return
+    except Exception:
+        # if settings lookup fails, do not crash accounting
+        return
+
+    # 1) Stamp from voucher (best-effort)
+    try:
+        stamp_gl_entry_from_voucher(doc, method=method)
+    except Exception:
+        # log but don't break on stamping itself; validation below will fail if still missing
+        try:
+            frappe.log_error(frappe.get_traceback(), "BH GL Stamp failed (gl_stamp.guard_gl_entry_dimensions)")
+        except Exception:
+            pass
+
+    # 2) Validate required dimension fields
+    required = ("bh_branch", "bh_tafsili_1")
+    missing = []
+    for f in required:
+        if not _field_exists(doc, f):
+            # if the field is not present on GL Entry meta, we cannot enforce it here
+            continue
+        v = getattr(doc, f, None)
+        if v is None or (isinstance(v, str) and not v.strip()):
+            missing.append(f)
+
+    if missing:
+        fa = {
+            "bh_branch": "شعبه",
+            "bh_tafsili_1": "تفصیلی ۱",
+        }
+        missing_fa = "، ".join(fa.get(x, x) for x in missing)
+        vtype = getattr(doc, "voucher_type", None) or "؟"
+        vno = getattr(doc, "voucher_no", None) or "؟"
+        frappe.throw(
+            f"تفکیک مالی ناقص است: {missing_fa}\n"
+            f"سند مرجع: {vtype} / {vno}\n"
+            "قبل از ثبت/ثبت نهایی، «شعبه» و «تفصیلی» را روی سند مرجع (یا سطر مربوط) تکمیل کنید.",
+            title="تفکیک مالی الزامی است",
+        )

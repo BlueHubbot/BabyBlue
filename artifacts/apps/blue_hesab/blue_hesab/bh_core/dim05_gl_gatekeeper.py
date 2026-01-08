@@ -1,4 +1,18 @@
+
+
+
+# apps/blue_hesab/blue_hesab/bh_core/dim05_gl_gatekeeper.py
 from __future__ import annotations
+
+"""
+DIM-05 gatekeeper for GL Entry.
+This module exists because multiple suites (LEGAL08/09, DIM04, VAT CI)
+expect a stable API:
+    - enforce_gl_entry_dimensions(doc, method=None)
+
+Implementation delegates to the existing GL stamping/guard logic
+to keep behavior consistent.
+"""
 
 import frappe
 
@@ -6,45 +20,42 @@ from .company_legal import should_enforce_dimensions
 from .exc import raise_bh_vat_error
 
 REQ = ("bh_branch", "bh_tafsili_1")
+from typing import Any
+
+import frappe
 
 
-def guard_gl_entry_dimensions(doc, method=None, *args, **kwargs) -> None:
+def enforce_gl_entry_dimensions(doc: Any, method: str | None = None) -> None:
     """
-    DIM-05 hard gate:
-    Never allow a GL Entry to be inserted without required BH dimensions.
-    Must run AFTER GL stamp.
-    """
-    company = (getattr(doc, "company", None) or "").strip()
-    if not company:
-        return
+    Hook-compatible function expected by regress suites.
+    It should:
+      1) Try to stamp GL dims from voucher context (when possible)
+      2) Enforce required dimension presence (guard)
 
+    Safe to call in validate/after_insert.
+    """
+    # Import locally to avoid circular import at boot.
+    from . import gl_stamp
+
+    # If doc is already inserted, we can attempt stamping using voucher context.
+    # (stamp_gl_entry_from_voucher internally handles missing context safely.)
     try:
-        if not should_enforce_dimensions(company):
-            return
+        if getattr(doc, "name", None):
+            gl_stamp.stamp_gl_entry_from_voucher(doc, method=method)
     except Exception:
-        return
+        # stamping is best-effort; enforcement will still run
+        pass
 
-    missing = [f for f in REQ if not (getattr(doc, f, None) or "").strip()]
-    if not missing:
-        return
+    # Always enforce/guard
+    gl_stamp.guard_gl_entry_dimensions(doc, method=method)
 
-    vt = getattr(doc, "voucher_type", None)
-    vn = getattr(doc, "voucher_no", None)
-    acc = getattr(doc, "account", None)
 
-    msg = (
-        "BH DIM: اجازه ثبت سند حسابداری بدون ابعاد مالی وجود ندارد.\n"
-        f"سند مرجع: {vt} / {vn}\n"
-        f"حساب: {acc}\n"
-        "ابعاد ناقص:\n- " + "\n- ".join(missing)
-    )
-    raise_bh_vat_error(
-        msg,
-        context={
-            "company": company,
-            "gl_entry": getattr(doc, "name", None),
-            "voucher_type": vt,
-            "voucher_no": vn,
-            "account": acc,
-        },
-    )
+# Backward/compat alias (some places may reference guard name)
+guard_gl_entry_dimensions = enforce_gl_entry_dimensions
+# Backward-compat aliases (older hooks/tests might call these)
+# Backward-compat: some hooks still call dim05_gl_gatekeeper.gatekeeper
+gatekeeper = enforce_gl_entry_dimensions
+
+def gatekeeper(gl_entry, method=None):
+    # hooks.py expects dim05_gl_gatekeeper.gatekeeper
+    return enforce_gl_entry_dimensions(gl_entry, method=method)

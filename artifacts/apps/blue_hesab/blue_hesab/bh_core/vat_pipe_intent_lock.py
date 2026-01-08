@@ -80,14 +80,28 @@ def _build_mismatch_reason(expected: str) -> str:
 
 def vat11_lock_intent_guard(
     doc,
-    *,
-    kind: str,
-    axis: Optional[str] = None,
+    method: Optional[str] = None,       # ← Hook passes (doc, method)
+    *args,                              # ← future-proof (ignore extra positional)
+    kind: Optional[str] = None,         # ← allow missing kind when called as hook
+    axis: Optional[str] = None,         # ← if called as hook, axis can be method
     allow_pos_implicit: bool = True,
     real_pos: Optional[bool] = None,
     no_autofix: bool = True,
     is_submit: Optional[bool] = None,
+    **_ignored,                         # ← swallow unexpected kwargs safely
 ) -> Dict[str, Any]:
+    # --- compat layer (DO NOT remove) ---
+    if axis is None and isinstance(method, str):
+        axis = method
+    if is_submit is None:
+        is_submit = (axis == "before_submit")
+    if kind is None:
+        dt = getattr(doc, "doctype", None)
+        if dt == "Sales Invoice":
+            kind = KIND_SALES
+        elif dt == "Purchase Invoice":
+            kind = KIND_PURCHASE
+    # ------------------------------------
     company = _get_company(doc)
     if not bh_vat_enforced(company):
         return {"ver": VAT11_POLICY_VER, "skipped": True, "reason": "out_of_scope"}
