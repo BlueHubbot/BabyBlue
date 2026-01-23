@@ -4,6 +4,7 @@
 - **Current Status:** `../STATUS.md`
 
 ## Daily Logs
+- 2026-01-23 → `daily/2026-01-23.md`
 - 2026-01-22 → `daily/2026-01-22.md`
 - 2026-01-21 → `daily/2026-01-21.md`
 - 2026-01-20 → `daily/2026-01-20.md`
